@@ -9,7 +9,7 @@ const BOOT_LINES = [
   { text: "Detecting hardware...", delay: 300 },
   { text: "  CPU: Neural Processing Unit [OK]", delay: 500 },
   { text: "  MEM: 384-dim Embedding Space [OK]", delay: 700 },
-  { text: "  GPU: HNSW Vector Index [OK]", delay: 900 },
+  { text: "  GPU: Vamana Vector Index [OK]", delay: 900 },
   { text: "", delay: 1000 },
   { text: "Loading cognitive modules...", delay: 1100 },
   { text: "  [====                ] 20% Hebbian synapses", delay: 1300 },
