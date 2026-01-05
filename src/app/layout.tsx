@@ -55,9 +55,9 @@ export const metadata: Metadata = {
       "Memory that learns with use. Hebbian learning, runs offline, single binary. Not another vector database.",
     images: [
       {
-        url: "https://raw.githubusercontent.com/varun29ankuS/shodh-memory/main/shodh_logo_nobackground.png",
-        width: 512,
-        height: 512,
+        url: "https://raw.githubusercontent.com/varun29ankuS/shodh-memory/main/assets/splash.jpg",
+        width: 1200,
+        height: 630,
         alt: "shodh-memory - Cognitive Memory for AI Agents",
       },
     ],
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
     title: "shodh-memory | Cognitive Memory for AI Agents",
     description:
       "Memory that learns with use. Hebbian learning, runs offline, single binary.",
-    images: ["https://raw.githubusercontent.com/varun29ankuS/shodh-memory/main/shodh_logo_nobackground.png"],
+    images: ["https://raw.githubusercontent.com/varun29ankuS/shodh-memory/main/assets/splash.jpg"],
     creator: "@shodh_memory",
   },
   alternates: {
