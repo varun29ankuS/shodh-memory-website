@@ -63,6 +63,28 @@ body {
 }
 .glow { animation: glow 2s ease-in-out infinite; }
 
+/* CRT TV Effects */
+
+/* Static horizontal scanlines across entire screen */
+.scanline::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 999;
+}
+
+/* Moving scanline beam */
 @keyframes scanline {
   0% { transform: translateY(-100%); }
   100% { transform: translateY(100vh); }
@@ -73,11 +95,49 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: linear-gradient(to bottom, transparent, rgba(240, 136, 62, 0.1), transparent);
-  animation: scanline 8s linear infinite;
+  height: 8px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(200, 200, 200, 0.03),
+    rgba(255, 255, 255, 0.05),
+    rgba(200, 200, 200, 0.03),
+    transparent
+  );
+  animation: scanline 6s linear infinite;
   pointer-events: none;
   z-index: 1000;
+}
+
+/* CRT screen vignette - darker edges like old TVs */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 0%,
+    transparent 60%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
+  pointer-events: none;
+  z-index: 998;
+}
+
+/* Subtle screen flicker */
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.98; }
+  94% { opacity: 1; }
+  97% { opacity: 0.97; }
+  98% { opacity: 1; }
+}
+.scanline {
+  animation: flicker 5s infinite;
 }
 
 .terminal-window {
