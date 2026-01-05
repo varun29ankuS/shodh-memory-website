@@ -84,6 +84,40 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              name: "shodh-memory",
+              applicationCategory: "DeveloperApplication",
+              operatingSystem: "Windows, macOS, Linux",
+              description:
+                "Persistent cognitive memory for AI agents. Hebbian learning, runs offline, single binary.",
+              url: "https://www.shodh-memory.com",
+              downloadUrl: "https://www.npmjs.com/package/@shodh/memory-mcp",
+              softwareVersion: "0.2.0",
+              author: {
+                "@type": "Organization",
+                name: "Shodh",
+                url: "https://www.shodh-rag.com",
+              },
+              offers: {
+                "@type": "Offer",
+                price: "0",
+                priceCurrency: "USD",
+              },
+              aggregateRating: {
+                "@type": "AggregateRating",
+                ratingValue: "5",
+                ratingCount: "1",
+              },
+            }),
+          }}
+        />
+      </head>
       <body className={`${jetbrainsMono.className} scanline`}>
         {children}
         <Analytics />
