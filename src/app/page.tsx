@@ -6,6 +6,7 @@ import { Durability } from "@/components/Durability";
 import { Installation } from "@/components/Installation";
 import { Architecture } from "@/components/Architecture";
 import { Demo } from "@/components/Demo";
+import { FAQ } from "@/components/FAQ";
 import { Footer } from "@/components/Footer";
 
 export default function Home() {
@@ -20,6 +21,7 @@ export default function Home() {
         <Architecture />
         <Installation />
         <Demo />
+        <FAQ />
       </main>
       <Footer />
     </div>
