@@ -194,7 +194,7 @@ export function InteractiveTerminal() {
   };
 
   return (
-    <div className="terminal-window max-w-2xl mx-auto">
+    <div className="shadow-window max-w-2xl mx-auto">
       <div className="terminal-header">
         <div className="terminal-dot terminal-dot-red" />
         <div className="terminal-dot terminal-dot-yellow" />

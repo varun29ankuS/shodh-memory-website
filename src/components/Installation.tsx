@@ -67,7 +67,7 @@ export function Installation() {
         </div>
 
         {/* Terminal window */}
-        <div className="terminal-window">
+        <div className="shadow-window">
           <div className="terminal-header">
             <div className="terminal-dot terminal-dot-red" />
             <div className="terminal-dot terminal-dot-yellow" />

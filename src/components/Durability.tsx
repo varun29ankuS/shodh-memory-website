@@ -53,7 +53,7 @@ export function Durability() {
 
         <div className="grid lg:grid-cols-2 gap-8 mb-12">
           {/* Retention Curve Table */}
-          <div className="terminal-window">
+          <div className="shadow-window">
             <div className="terminal-header">
               <div className="terminal-dot terminal-dot-red" />
               <div className="terminal-dot terminal-dot-yellow" />
@@ -95,7 +95,7 @@ export function Durability() {
           </div>
 
           {/* Visual representation */}
-          <div className="terminal-window">
+          <div className="shadow-window">
             <div className="terminal-header">
               <div className="terminal-dot terminal-dot-red" />
               <div className="terminal-dot terminal-dot-yellow" />
@@ -128,11 +128,11 @@ Strength
         </div>
 
         {/* Durability Features */}
-        <div className="grid md:grid-cols-2 gap-6 mb-8">
+        <div className="grid md:grid-cols-2 gap-8 mb-8">
           {DURABILITY_FEATURES.map((item, i) => (
             <div
               key={i}
-              className="border border-[var(--term-border)] p-5 rounded hover:border-[var(--term-green)] transition-colors"
+              className="shadow-box p-5 rounded"
             >
               <h3 className="text-[var(--term-text)] font-medium mb-2">{item.title}</h3>
               <p className="text-[var(--term-text-dim)] text-sm leading-relaxed mb-3">
@@ -152,7 +152,7 @@ Strength
         </div>
 
         {/* Bottom callout */}
-        <div className="border border-[var(--term-green)]/30 bg-[var(--term-green)]/5 rounded p-6 text-center">
+        <div className="shadow-callout p-6 text-center">
           <p className="text-[var(--term-text)] mb-2">
             Memories accessed <span className="text-[var(--term-orange)] font-semibold">10+ times</span> become permanent.
           </p>

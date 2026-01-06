@@ -59,15 +59,15 @@ export function FAQ() {
           </p>
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-4">
           {FAQS.map((faq, index) => (
             <div
               key={index}
-              className="border border-[var(--term-border)] rounded overflow-hidden"
+              className="shadow-accordion"
             >
               <button
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className="w-full px-5 py-4 text-left flex items-start gap-3 hover:bg-[var(--term-bg-secondary)] transition-colors"
+                className="w-full px-5 py-4 text-left flex items-start gap-3 hover:bg-[var(--term-bg-secondary)] transition-colors rounded"
               >
                 <span className="text-[var(--term-orange)] font-mono shrink-0">
                   {openIndex === index ? "[-]" : "[+]"}

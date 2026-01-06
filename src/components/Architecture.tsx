@@ -50,9 +50,9 @@ export function Architecture() {
               {i < TIERS.length - 1 && (
                 <div className="hidden md:block absolute top-1/2 -right-3 w-6 border-t border-dashed border-[var(--term-border)]" />
               )}
-              
-              <div 
-                className="border border-[var(--term-border)] p-6 rounded h-full hover:opacity-100 transition-all"
+
+              <div
+                className="shadow-box p-6 rounded h-full"
                 style={{ borderColor: tier.color }}
               >
                 <div className="text-3xl mb-3">{tier.icon}</div>
@@ -70,7 +70,7 @@ export function Architecture() {
         </div>
 
         {/* ASCII Architecture Blueprint */}
-        <div className="terminal-window mb-8">
+        <div className="shadow-window mb-8">
           <div className="terminal-header">
             <div className="terminal-dot terminal-dot-red" />
             <div className="terminal-dot terminal-dot-yellow" />
@@ -132,9 +132,9 @@ export function Architecture() {
         </div>
 
         {/* Components Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
           {COMPONENTS.map((comp, i) => (
-            <div key={i} className="border border-[var(--term-border)] p-4 rounded hover:border-[var(--term-orange)] transition-colors">
+            <div key={i} className="shadow-card p-4 rounded">
               <div className="text-[var(--term-orange)] text-sm font-medium mb-1">{comp.name}</div>
               <div className="text-[var(--term-text-dim)] text-xs">{comp.desc}</div>
             </div>

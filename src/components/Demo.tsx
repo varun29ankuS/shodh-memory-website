@@ -19,10 +19,10 @@ export function Demo() {
           <p className="text-[var(--term-text-dim)] mb-4">
             Ready to add memory to your AI agents?
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex flex-wrap justify-center gap-5">
             <a
               href="#install"
-              className="btn-terminal btn-terminal-primary px-6 py-2"
+              className="shadow-btn shadow-btn-primary px-6 py-2"
             >
               Get Started
             </a>
@@ -30,7 +30,7 @@ export function Demo() {
               href="https://github.com/varun29ankuS/shodh-memory"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-terminal px-6 py-2"
+              className="shadow-btn px-6 py-2"
             >
               Read the Docs
             </a>

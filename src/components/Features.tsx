@@ -71,23 +71,23 @@ function SectionHeader({ prefix, title, subtitle }: { prefix: string; title: str
   );
 }
 
-function FeatureCard({ 
-  icon, 
-  title, 
-  description, 
-  color, 
-  index 
-}: { 
-  icon: string; 
-  title: string; 
-  description: string; 
+function FeatureCard({
+  icon,
+  title,
+  description,
+  color,
+  index
+}: {
+  icon: string;
+  title: string;
+  description: string;
   color: string;
   index: number;
 }) {
   const delay = index * 0.1;
   return (
-    <div 
-      className="terminal-window group hover:border-[var(--term-orange)] transition-colors"
+    <div
+      className="shadow-window group"
       style={{ animationDelay: delay + "s" }}
     >
       <div className="terminal-header">

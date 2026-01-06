@@ -55,11 +55,11 @@ export function WhyShodh() {
         </div>
 
         {/* Differentiators */}
-        <div className="grid md:grid-cols-2 gap-6 mb-16">
+        <div className="grid md:grid-cols-2 gap-8 mb-16">
           {DIFFERENTIATORS.map((item, i) => (
             <div
               key={i}
-              className="border border-[var(--term-border)] p-6 rounded hover:border-[var(--term-orange)] transition-colors"
+              className="shadow-box p-6 rounded"
             >
               <div className="flex items-start gap-4">
                 <span className="text-2xl">{item.icon}</span>
@@ -77,7 +77,7 @@ export function WhyShodh() {
         </div>
 
         {/* Comparison Table */}
-        <div className="terminal-window">
+        <div className="shadow-window">
           <div className="terminal-header">
             <div className="terminal-dot terminal-dot-red" />
             <div className="terminal-dot terminal-dot-yellow" />
