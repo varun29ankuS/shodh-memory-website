@@ -226,6 +226,109 @@ pre {
 a { color: var(--term-orange); text-decoration: none; transition: all 0.2s ease; }
 a:hover { color: var(--term-yellow); text-decoration: underline; }
 
+/* Folder-like shadow button system - retro terminal aesthetic */
+.shadow-btn {
+  position: relative;
+  background: var(--term-bg-secondary);
+  border: 1px solid var(--term-border);
+  color: var(--term-text);
+  padding: 0.5rem 1rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow:
+    3px 3px 0 0 var(--term-border),
+    4px 4px 0 0 var(--term-bg);
+  transform: translate(0, 0);
+}
+.shadow-btn:hover {
+  border-color: var(--term-orange);
+  color: var(--term-orange);
+  box-shadow:
+    4px 4px 0 0 var(--term-orange),
+    5px 5px 0 0 var(--term-bg);
+  transform: translate(-1px, -1px);
+}
+.shadow-btn:active {
+  box-shadow:
+    1px 1px 0 0 var(--term-orange),
+    2px 2px 0 0 var(--term-bg);
+  transform: translate(2px, 2px);
+}
+
+.shadow-btn-primary {
+  background: var(--term-orange);
+  border-color: var(--term-orange);
+  color: var(--term-bg);
+  box-shadow:
+    3px 3px 0 0 #b8632e,
+    4px 4px 0 0 var(--term-bg);
+}
+.shadow-btn-primary:hover {
+  background: #ffa050;
+  border-color: #ffa050;
+  color: var(--term-bg);
+  box-shadow:
+    4px 4px 0 0 var(--term-orange),
+    5px 5px 0 0 var(--term-bg);
+  transform: translate(-1px, -1px);
+}
+.shadow-btn-primary:active {
+  background: var(--term-orange);
+  box-shadow:
+    1px 1px 0 0 #b8632e,
+    2px 2px 0 0 var(--term-bg);
+  transform: translate(2px, 2px);
+}
+
+/* Shadow card - folder-like containers */
+.shadow-card {
+  background: var(--term-bg-secondary);
+  border: 1px solid var(--term-border);
+  transition: all 0.15s ease;
+  box-shadow:
+    3px 3px 0 0 var(--term-border),
+    4px 4px 0 0 var(--term-bg);
+}
+.shadow-card:hover {
+  border-color: var(--term-orange);
+  box-shadow:
+    4px 4px 0 0 var(--term-orange),
+    5px 5px 0 0 var(--term-bg);
+  transform: translate(-1px, -1px);
+}
+
+/* Shadow tab - for tab buttons */
+.shadow-tab {
+  position: relative;
+  background: var(--term-bg-secondary);
+  border: 1px solid var(--term-border);
+  padding: 0.5rem 1rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow:
+    2px 2px 0 0 var(--term-border);
+}
+.shadow-tab:hover {
+  border-color: var(--term-text-dim);
+  box-shadow:
+    3px 3px 0 0 var(--term-text-dim);
+  transform: translate(-1px, -1px);
+}
+.shadow-tab-active {
+  background: var(--term-orange);
+  border-color: var(--term-orange);
+  color: var(--term-bg);
+  box-shadow:
+    2px 2px 0 0 #b8632e;
+}
+.shadow-tab-active:hover {
+  box-shadow:
+    3px 3px 0 0 #b8632e;
+}
+
+/* Legacy button classes for compatibility */
 .btn-terminal {
   background: transparent;
   border: 1px solid var(--term-border);

@@ -118,10 +118,10 @@ export function Hero() {
         </div>
 
         {/* CTA Buttons */}
-        <div className="flex flex-wrap gap-4 animate-fade-in animate-delay-4">
+        <div className="flex flex-wrap gap-5 animate-fade-in animate-delay-4">
           <a
             href="#install"
-            className="btn-terminal btn-terminal-primary px-6 py-2 text-sm font-medium"
+            className="shadow-btn shadow-btn-primary px-6 py-2 text-sm font-medium"
           >
             $ npm install
           </a>
@@ -129,13 +129,13 @@ export function Hero() {
             href="https://github.com/varun29ankuS/shodh-memory"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-terminal px-6 py-2 text-sm"
+            className="shadow-btn px-6 py-2 text-sm"
           >
             View on GitHub
           </a>
           <a
             href="#demo"
-            className="btn-terminal px-6 py-2 text-sm"
+            className="shadow-btn px-6 py-2 text-sm"
           >
             Try Demo
           </a>
@@ -161,7 +161,7 @@ function StatBox({ label, value, href }: { label: string; value: string; href?: 
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className="border border-[var(--term-border)] p-4 rounded hover:border-[var(--term-orange)] transition-colors block"
+        className="shadow-card p-4 block"
       >
         {content}
       </a>
@@ -169,7 +169,7 @@ function StatBox({ label, value, href }: { label: string; value: string; href?: 
   }
 
   return (
-    <div className="border border-[var(--term-border)] p-4 rounded">
+    <div className="shadow-card p-4">
       {content}
     </div>
   );

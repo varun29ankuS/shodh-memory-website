@@ -51,16 +51,14 @@ export function Installation() {
         />
 
         {/* Tab buttons */}
-        <div className="flex gap-2 mb-6">
+        <div className="flex gap-3 mb-6">
           {(Object.keys(INSTALL_COMMANDS) as InstallMethod[]).map((key) => (
             <button
               key={key}
               onClick={() => setMethod(key)}
               className={
-                "px-4 py-2 text-sm border transition-all " +
-                (method === key
-                  ? "border-[var(--term-orange)] text-[var(--term-orange)] bg-[var(--term-orange)]/10"
-                  : "border-[var(--term-border)] text-[var(--term-text-dim)] hover:border-[var(--term-text-dim)]")
+                "shadow-tab px-4 py-2 text-sm " +
+                (method === key ? "shadow-tab-active" : "text-[var(--term-text-dim)]")
               }
             >
               {INSTALL_COMMANDS[key].label}
@@ -162,7 +160,7 @@ function CopyButton({ commands }: { commands: { cmd: string; comment?: string }[
   return (
     <button
       onClick={handleCopy}
-      className="ml-auto text-[var(--term-text-dim)] hover:text-[var(--term-orange)] text-xs px-2 py-1 border border-[var(--term-border)] rounded hover:border-[var(--term-orange)] transition-all"
+      className="shadow-btn ml-auto text-xs px-2 py-1"
     >
       {copied ? "Copied!" : "Copy"}
     </button>
