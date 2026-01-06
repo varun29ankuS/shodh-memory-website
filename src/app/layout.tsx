@@ -120,6 +120,7 @@ export default function RootLayout({
         />
       </head>
       <body className={`${jetbrainsMono.className} scanline`}>
+        <div className="interference-bands" aria-hidden="true" />
         <ClientWrapper>
           {children}
         </ClientWrapper>
