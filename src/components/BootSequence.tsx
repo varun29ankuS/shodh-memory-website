@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 
 const BOOT_LINES = [
-  { text: "SHODH-MEMORY BIOS v0.2.1", delay: 0 },
+  { text: "SHODH-MEMORY BIOS v0.1.6", delay: 0 },
   { text: "Copyright (C) 2024-2025 Shodh Systems", delay: 100 },
   { text: "", delay: 200 },
   { text: "Detecting hardware...", delay: 300 },

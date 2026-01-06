@@ -64,7 +64,7 @@ const COMMANDS: Record<string, { output: string[]; delay?: number }> = {
 
 export function InteractiveTerminal() {
   const [history, setHistory] = useState<TerminalLine[]>([
-    { type: "system", content: "shodh-memory v0.2.1 - Cognitive Memory System" },
+    { type: "system", content: "shodh-memory v0.1.6 - Cognitive Memory System" },
     { type: "system", content: 'Type "help" for available commands' },
     { type: "system", content: "" },
   ]);
@@ -88,7 +88,7 @@ export function InteractiveTerminal() {
 
     if (command === "clear") {
       setHistory([
-        { type: "system", content: "shodh-memory v0.2.1 - Cognitive Memory System" },
+        { type: "system", content: "shodh-memory v0.1.6 - Cognitive Memory System" },
         { type: "system", content: "" },
       ]);
       setIsProcessing(false);

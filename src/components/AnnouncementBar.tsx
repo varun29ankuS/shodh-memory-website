@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 
 const ANNOUNCEMENT = {
-  id: "v0.2.0-release", // Change this ID when updating announcement to show it again
-  text: "v0.2.0 released — GTD-style todos, comments, sub-projects & more",
+  id: "v0.1.6-release", // Change this ID when updating announcement to show it again
+  text: "v0.1.6 released — GTD-style todos, comments, sub-projects & more",
   link: "https://github.com/varun29ankuS/shodh-memory/releases",
   linkText: "View changelog →",
 };

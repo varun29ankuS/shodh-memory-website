@@ -100,7 +100,7 @@ export default function RootLayout({
                 "Persistent cognitive memory for AI agents. Hebbian learning, runs offline, single binary.",
               url: "https://www.shodh-memory.com",
               downloadUrl: "https://www.npmjs.com/package/@shodh/memory-mcp",
-              softwareVersion: "0.2.0",
+              softwareVersion: "0.1.6",
               author: {
                 "@type": "Organization",
                 name: "Shodh",

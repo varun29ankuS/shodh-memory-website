@@ -13,7 +13,7 @@ export function Header() {
         <Link href="/" className="flex items-center gap-2 hover:no-underline">
           <Image src="/logo.png" alt="Shodh" width={24} height={24} className="opacity-90" />
           <span className="text-[var(--term-text)] font-semibold">shodh-memory</span>
-          <span className="text-[var(--term-text-dim)] text-sm hidden sm:inline">v0.2.1</span>
+          <span className="text-[var(--term-text-dim)] text-sm hidden sm:inline">v0.1.6</span>
         </Link>
 
         {/* Desktop nav */}

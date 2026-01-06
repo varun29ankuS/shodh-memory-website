@@ -3,7 +3,8 @@
     "allow": [
       "mcp__shodh-memory__proactive_context",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "WebFetch(domain:github.com)"
     ]
   }
 }
