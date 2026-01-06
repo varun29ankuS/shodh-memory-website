@@ -143,6 +143,24 @@ const RESEARCH_CATEGORIES = [
     description: "Computational models of human memory",
     papers: [
       {
+        authors: "Cowan, N.",
+        year: 1988,
+        title: "Evolving Conceptions of Memory Storage, Selective Attention, and Their Mutual Constraints",
+        journal: "Psychological Bulletin, 104(2), 163-191",
+        doi: "10.1037/0033-2909.104.2.163",
+        usage:
+          "The foundational paper for our 3-tier architecture. Cowan's model distinguishes activated long-term memory from the focus of attention—our Working → Session → LongTerm tiers map directly to this.",
+      },
+      {
+        authors: "Cowan, N.",
+        year: 2001,
+        title: "The Magical Number 4 in Short-Term Memory",
+        journal: "Behavioral and Brain Sciences, 24(1), 87-114",
+        doi: "10.1017/S0140525X01003922",
+        usage:
+          "Working memory capacity limits. Refined our understanding of tier boundaries and why memories must be consolidated.",
+      },
+      {
         authors: "Anderson, J.R.",
         year: 2007,
         title: "How Can the Human Mind Occur in the Physical Universe?",
@@ -152,13 +170,22 @@ const RESEARCH_CATEGORIES = [
           "ACT-R cognitive architecture. Our base-level activation and decay equations derive from ACT-R.",
       },
       {
-        authors: "Cowan, N.",
-        year: 2001,
-        title: "The Magical Number 4 in Short-Term Memory",
-        journal: "Behavioral and Brain Sciences, 24(1), 87-114",
-        doi: "10.1017/S0140525X01003922",
+        authors: "McGaugh, J.L.",
+        year: 2000,
+        title: "Memory—a Century of Consolidation",
+        journal: "Science, 287(5451), 248-251",
+        doi: "10.1126/science.287.5451.248",
         usage:
-          "Working memory capacity limits. Inspired our 3-tier memory architecture (working/session/long-term).",
+          "Landmark review of memory consolidation. Our TIER_PROMOTION_WORKING_AGE_SECS (30 min) is based on the synaptic consolidation window described here.",
+      },
+      {
+        authors: "Dudai, Y.",
+        year: 2004,
+        title: "The Neurobiology of Consolidations, or, How Stable Is the Engram?",
+        journal: "Annual Review of Psychology, 55, 51-86",
+        doi: "10.1146/annurev.psych.55.090902.141555",
+        usage:
+          "Detailed analysis of consolidation timelines. Informed our 24-hour session → long-term promotion threshold.",
       },
     ],
   },
@@ -211,7 +238,7 @@ export default function ResearchPage() {
           {/* Quick stats */}
           <div className="grid grid-cols-3 gap-4 mb-12">
             <div className="border border-[var(--term-border)] rounded p-4 text-center">
-              <div className="text-2xl font-semibold text-[var(--term-orange)]">15+</div>
+              <div className="text-2xl font-semibold text-[var(--term-orange)]">18+</div>
               <div className="text-xs text-[var(--term-text-dim)]">Papers cited</div>
             </div>
             <div className="border border-[var(--term-border)] rounded p-4 text-center">
