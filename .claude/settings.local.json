@@ -4,7 +4,8 @@
       "mcp__shodh-memory__proactive_context",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "Bash(git push)"
     ]
   }
 }

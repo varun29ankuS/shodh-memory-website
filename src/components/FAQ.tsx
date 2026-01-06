@@ -13,7 +13,7 @@ const FAQS = [
   },
   {
     q: "What's the memory overhead?",
-    a: "The binary is ~15MB. Each memory entry uses roughly 2-5KB (content + 384-dim embeddings + metadata). A system with 10,000 memories uses approximately 50MB of storage.",
+    a: "Total footprint is ~80MB (30MB server + 22MB MiniLM embeddings + 14MB NER model + 14MB ONNX runtime). Each memory entry uses roughly 2-5KB. A system with 10,000 memories uses approximately 50MB of storage.",
   },
   {
     q: "Can it run on a Raspberry Pi?",

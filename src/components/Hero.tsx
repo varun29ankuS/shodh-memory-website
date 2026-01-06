@@ -113,7 +113,7 @@ export function Hero() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 animate-fade-in animate-delay-3">
           <StatBox label="Graph Lookup" value="<1μs" href="https://github.com/varun29ankuS/shodh-memory#performance" />
           <StatBox label="Semantic Search" value="34-58ms" href="https://github.com/varun29ankuS/shodh-memory#benchmarks" />
-          <StatBox label="Binary Size" value="~15MB" href="https://github.com/varun29ankuS/shodh-memory/releases" />
+          <StatBox label="Total Footprint" value="~80MB" href="https://github.com/varun29ankuS/shodh-memory/releases" />
           <StatBox label="Tests Passing" value="688" href="https://github.com/varun29ankuS/shodh-memory/actions" />
         </div>
 

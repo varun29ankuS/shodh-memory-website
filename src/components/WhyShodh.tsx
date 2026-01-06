@@ -10,7 +10,7 @@ const DIFFERENTIATORS = [
   {
     title: "No cloud required",
     description:
-      "Mem0, Zep, and others are cloud-first. Shodh-memory is a single ~15MB binary. No API keys, no Docker, no external dependencies. Your agent's memory runs on your hardware.",
+      "Mem0, Zep, and others are cloud-first. Shodh-memory is ~80MB total with embedded models. No API keys, no Docker, no external dependencies. Your agent's memory runs on your hardware.",
     icon: "🔒",
   },
   {
