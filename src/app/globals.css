@@ -775,8 +775,8 @@ th { color: var(--term-orange); font-weight: 500; }
   justify-content: center;
   gap: 1rem;
   padding: 0.5rem 1rem;
-  background: linear-gradient(90deg, var(--term-bg-secondary) 0%, rgba(240, 136, 62, 0.15) 50%, var(--term-bg-secondary) 100%);
-  border-bottom: 1px solid var(--term-orange);
+  background: linear-gradient(90deg, #ffb088 0%, #f0883e 50%, #ffb088 100%);
+  border: none;
   font-size: 13px;
 }
 
@@ -790,8 +790,8 @@ th { color: var(--term-orange); font-weight: 500; }
 
 .announcement-badge {
   padding: 0.15rem 0.5rem;
-  background: linear-gradient(90deg, #ffb088 0%, #f0883e 100%);
-  color: var(--term-bg);
+  background: var(--term-bg);
+  color: var(--term-orange);
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.05em;
@@ -799,13 +799,14 @@ th { color: var(--term-orange); font-weight: 500; }
 }
 
 .announcement-text {
-  color: var(--term-text);
+  color: var(--term-bg);
+  font-weight: 500;
 }
 
 .announcement-link {
-  color: var(--term-orange);
+  color: var(--term-bg);
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
   transition: opacity 0.15s ease;
 }
 .announcement-link:hover {
@@ -818,15 +819,16 @@ th { color: var(--term-orange); font-weight: 500; }
   right: 1rem;
   background: none;
   border: none;
-  color: var(--term-text-dim);
+  color: var(--term-bg);
   font-size: 20px;
   cursor: pointer;
   padding: 0 0.5rem;
   line-height: 1;
-  transition: color 0.15s ease;
+  opacity: 0.7;
+  transition: opacity 0.15s ease;
 }
 .announcement-dismiss:hover {
-  color: var(--term-text);
+  opacity: 1;
 }
 
 /* Offset body content when announcement bar is visible */
