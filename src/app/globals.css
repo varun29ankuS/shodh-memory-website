@@ -805,13 +805,12 @@ th { color: var(--term-orange); font-weight: 500; }
 
 .announcement-link {
   color: var(--term-bg);
-  text-decoration: none;
+  text-decoration: underline;
   font-weight: 600;
-  transition: opacity 0.15s ease;
+  transition: all 0.15s ease;
 }
 .announcement-link:hover {
-  opacity: 0.8;
-  text-decoration: underline;
+  color: #fff;
 }
 
 .announcement-dismiss {
