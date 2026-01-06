@@ -8,7 +8,7 @@ const FEATURES = [
   {
     icon: "🔌",
     title: "Runs Offline",
-    description: "~80MB total footprint with models. No cloud dependency. Works on Raspberry Pi, Jetson, industrial PCs, air-gapped systems.",
+    description: "Single ~30MB binary with no cloud dependency. Works on Raspberry Pi, Jetson, industrial PCs, air-gapped systems.",
     color: "var(--term-green)",
   },
   {

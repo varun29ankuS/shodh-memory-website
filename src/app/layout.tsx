@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     template: "%s | shodh-memory",
   },
   description:
-    "A neuroscience-grounded memory system that learns with use. Hebbian learning, 3-tier architecture, runs offline on edge devices. ~80MB total footprint, no cloud required.",
+    "A neuroscience-grounded memory system that learns with use. Hebbian learning, 3-tier architecture, runs offline on edge devices. Single ~30MB binary, no cloud required.",
   keywords: [
     "AI memory",
     "cognitive memory",
