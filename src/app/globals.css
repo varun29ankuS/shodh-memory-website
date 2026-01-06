@@ -227,10 +227,11 @@ a { color: var(--term-orange); text-decoration: none; transition: all 0.2s ease;
 a:hover { color: var(--term-yellow); text-decoration: underline; }
 
 /* ===========================================
-   DOTTED SHADOW SYSTEM - Retro folder aesthetic
+   DOTTED SHADOW SYSTEM - Multi-layer retro folder aesthetic
+   Uses ::before (outer layer) and ::after (inner layer) for depth
    =========================================== */
 
-/* Base shadow button with dotted shadow */
+/* Base shadow button with multi-layer dotted shadow */
 .shadow-btn {
   position: relative;
   background: var(--term-bg-secondary);
@@ -242,33 +243,61 @@ a:hover { color: var(--term-yellow); text-decoration: underline; }
   transition: all 0.15s ease;
   transform: translate(0, 0);
 }
+.shadow-btn::before,
 .shadow-btn::after {
   content: "";
   position: absolute;
-  top: 4px;
-  left: 4px;
-  right: -4px;
-  bottom: -4px;
+  pointer-events: none;
+  transition: all 0.15s ease;
+}
+.shadow-btn::before {
+  top: 6px;
+  left: 6px;
+  right: -6px;
+  bottom: -6px;
   border: 2px dotted var(--term-border);
   border-top: none;
   border-left: none;
-  pointer-events: none;
-  transition: all 0.15s ease;
+  opacity: 0.4;
+}
+.shadow-btn::after {
+  top: 3px;
+  left: 3px;
+  right: -3px;
+  bottom: -3px;
+  border: 2px dotted var(--term-border);
+  border-top: none;
+  border-left: none;
 }
 .shadow-btn:hover {
   border-color: var(--term-orange);
   color: var(--term-orange);
   transform: translate(-2px, -2px);
 }
+.shadow-btn:hover::before {
+  top: 10px;
+  left: 10px;
+  right: -10px;
+  bottom: -10px;
+  border-color: var(--term-orange);
+  opacity: 0.3;
+}
 .shadow-btn:hover::after {
-  top: 6px;
-  left: 6px;
-  right: -6px;
-  bottom: -6px;
+  top: 5px;
+  left: 5px;
+  right: -5px;
+  bottom: -5px;
   border-color: var(--term-orange);
 }
 .shadow-btn:active {
   transform: translate(2px, 2px);
+}
+.shadow-btn:active::before {
+  top: 2px;
+  left: 2px;
+  right: -2px;
+  bottom: -2px;
+  opacity: 0.2;
 }
 .shadow-btn:active::after {
   top: 1px;
@@ -283,6 +312,7 @@ a:hover { color: var(--term-yellow); text-decoration: underline; }
   border-color: var(--term-orange);
   color: var(--term-bg);
 }
+.shadow-btn-primary::before,
 .shadow-btn-primary::after {
   border-color: var(--term-text-dim);
 }
@@ -291,43 +321,66 @@ a:hover { color: var(--term-yellow); text-decoration: underline; }
   border-color: #ffa050;
   color: var(--term-bg);
 }
+.shadow-btn-primary:hover::before,
 .shadow-btn-primary:hover::after {
   border-color: var(--term-text-dim);
 }
 
-/* Shadow card - folder-like containers */
+/* Shadow card - folder-like containers with lift */
 .shadow-card {
   position: relative;
   background: var(--term-bg-secondary);
   border: 1px solid var(--term-border);
   transition: all 0.15s ease;
+  transform: translate(0, 0);
 }
+.shadow-card::before,
 .shadow-card::after {
   content: "";
   position: absolute;
-  top: 4px;
-  left: 4px;
-  right: -4px;
-  bottom: -4px;
+  pointer-events: none;
+  transition: all 0.15s ease;
+}
+.shadow-card::before {
+  top: 6px;
+  left: 6px;
+  right: -6px;
+  bottom: -6px;
   border: 2px dotted var(--term-border);
   border-top: none;
   border-left: none;
-  pointer-events: none;
-  transition: all 0.15s ease;
+  opacity: 0.4;
+}
+.shadow-card::after {
+  top: 3px;
+  left: 3px;
+  right: -3px;
+  bottom: -3px;
+  border: 2px dotted var(--term-border);
+  border-top: none;
+  border-left: none;
 }
 .shadow-card:hover {
   border-color: var(--term-orange);
   transform: translate(-2px, -2px);
 }
+.shadow-card:hover::before {
+  top: 10px;
+  left: 10px;
+  right: -10px;
+  bottom: -10px;
+  border-color: var(--term-orange);
+  opacity: 0.3;
+}
 .shadow-card:hover::after {
-  top: 6px;
-  left: 6px;
-  right: -6px;
-  bottom: -6px;
+  top: 5px;
+  left: 5px;
+  right: -5px;
+  bottom: -5px;
   border-color: var(--term-orange);
 }
 
-/* Shadow tab - for tab buttons */
+/* Shadow tab - for tab buttons with lift */
 .shadow-tab {
   position: relative;
   background: var(--term-bg-secondary);
@@ -336,54 +389,16 @@ a:hover { color: var(--term-yellow); text-decoration: underline; }
   font-family: inherit;
   cursor: pointer;
   transition: all 0.15s ease;
+  transform: translate(0, 0);
 }
+.shadow-tab::before,
 .shadow-tab::after {
   content: "";
   position: absolute;
-  top: 3px;
-  left: 3px;
-  right: -3px;
-  bottom: -3px;
-  border: 2px dotted var(--term-border);
-  border-top: none;
-  border-left: none;
   pointer-events: none;
   transition: all 0.15s ease;
 }
-.shadow-tab:hover {
-  border-color: var(--term-text-dim);
-  transform: translate(-1px, -1px);
-}
-.shadow-tab:hover::after {
-  top: 4px;
-  left: 4px;
-  right: -4px;
-  bottom: -4px;
-  border-color: var(--term-text-dim);
-}
-.shadow-tab-active {
-  background: var(--term-orange);
-  border-color: var(--term-orange);
-  color: var(--term-bg);
-}
-.shadow-tab-active::after {
-  border-color: var(--term-text-dim);
-}
-.shadow-tab-active:hover::after {
-  border-color: var(--term-text-dim);
-}
-
-/* Shadow window - terminal windows with dotted shadow */
-.shadow-window {
-  position: relative;
-  background: var(--term-bg-secondary);
-  border: 1px solid var(--term-border);
-  border-radius: 6px;
-  overflow: visible;
-}
-.shadow-window::after {
-  content: "";
-  position: absolute;
+.shadow-tab::before {
   top: 5px;
   left: 5px;
   right: -5px;
@@ -391,29 +406,79 @@ a:hover { color: var(--term-yellow); text-decoration: underline; }
   border: 2px dotted var(--term-border);
   border-top: none;
   border-left: none;
-  border-radius: 6px;
-  pointer-events: none;
-  transition: all 0.15s ease;
-  z-index: -1;
+  opacity: 0.4;
 }
-.shadow-window:hover::after {
+.shadow-tab::after {
+  top: 2px;
+  left: 2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px dotted var(--term-border);
+  border-top: none;
+  border-left: none;
+}
+.shadow-tab:hover {
+  border-color: var(--term-text-dim);
+  transform: translate(-1px, -1px);
+}
+.shadow-tab:hover::before {
   top: 7px;
   left: 7px;
   right: -7px;
   bottom: -7px;
+  border-color: var(--term-text-dim);
+}
+.shadow-tab:hover::after {
+  top: 3px;
+  left: 3px;
+  right: -3px;
+  bottom: -3px;
+  border-color: var(--term-text-dim);
+}
+.shadow-tab-active {
+  background: var(--term-orange);
   border-color: var(--term-orange);
+  color: var(--term-bg);
+}
+.shadow-tab-active::before,
+.shadow-tab-active::after {
+  border-color: var(--term-text-dim);
+}
+.shadow-tab-active:hover::before,
+.shadow-tab-active:hover::after {
+  border-color: var(--term-text-dim);
 }
 
-/* Shadow box - generic container with dotted shadow */
-.shadow-box {
+/* Shadow window - terminal windows with multi-layer shadow and lift */
+.shadow-window {
   position: relative;
   background: var(--term-bg-secondary);
   border: 1px solid var(--term-border);
+  border-radius: 6px;
+  overflow: visible;
   transition: all 0.15s ease;
+  transform: translate(0, 0);
 }
-.shadow-box::after {
+.shadow-window::before,
+.shadow-window::after {
   content: "";
   position: absolute;
+  pointer-events: none;
+  transition: all 0.15s ease;
+  z-index: -1;
+}
+.shadow-window::before {
+  top: 8px;
+  left: 8px;
+  right: -8px;
+  bottom: -8px;
+  border: 2px dotted var(--term-border);
+  border-top: none;
+  border-left: none;
+  border-radius: 6px;
+  opacity: 0.4;
+}
+.shadow-window::after {
   top: 4px;
   left: 4px;
   right: -4px;
@@ -421,28 +486,54 @@ a:hover { color: var(--term-yellow); text-decoration: underline; }
   border: 2px dotted var(--term-border);
   border-top: none;
   border-left: none;
-  pointer-events: none;
-  transition: all 0.15s ease;
+  border-radius: 6px;
 }
-.shadow-box:hover {
+.shadow-window:hover {
   border-color: var(--term-orange);
+  transform: translate(-2px, -2px);
 }
-.shadow-box:hover::after {
+.shadow-window:hover::before {
+  top: 12px;
+  left: 12px;
+  right: -12px;
+  bottom: -12px;
+  border-color: var(--term-orange);
+  opacity: 0.3;
+}
+.shadow-window:hover::after {
+  top: 6px;
+  left: 6px;
+  right: -6px;
+  bottom: -6px;
   border-color: var(--term-orange);
 }
 
-/* FAQ accordion item with dotted shadow */
-.shadow-accordion {
+/* Shadow box - generic container with multi-layer shadow and lift */
+.shadow-box {
   position: relative;
-  background: var(--term-bg);
+  background: var(--term-bg-secondary);
   border: 1px solid var(--term-border);
-  border-radius: 4px;
-  overflow: visible;
   transition: all 0.15s ease;
+  transform: translate(0, 0);
 }
-.shadow-accordion::after {
+.shadow-box::before,
+.shadow-box::after {
   content: "";
   position: absolute;
+  pointer-events: none;
+  transition: all 0.15s ease;
+}
+.shadow-box::before {
+  top: 6px;
+  left: 6px;
+  right: -6px;
+  bottom: -6px;
+  border: 2px dotted var(--term-border);
+  border-top: none;
+  border-left: none;
+  opacity: 0.4;
+}
+.shadow-box::after {
   top: 3px;
   left: 3px;
   right: -3px;
@@ -450,40 +541,139 @@ a:hover { color: var(--term-yellow); text-decoration: underline; }
   border: 2px dotted var(--term-border);
   border-top: none;
   border-left: none;
+}
+.shadow-box:hover {
+  border-color: var(--term-orange);
+  transform: translate(-2px, -2px);
+}
+.shadow-box:hover::before {
+  top: 10px;
+  left: 10px;
+  right: -10px;
+  bottom: -10px;
+  border-color: var(--term-orange);
+  opacity: 0.3;
+}
+.shadow-box:hover::after {
+  top: 5px;
+  left: 5px;
+  right: -5px;
+  bottom: -5px;
+  border-color: var(--term-orange);
+}
+
+/* FAQ accordion item with multi-layer shadow and lift */
+.shadow-accordion {
+  position: relative;
+  background: var(--term-bg);
+  border: 1px solid var(--term-border);
   border-radius: 4px;
+  overflow: visible;
+  transition: all 0.15s ease;
+  transform: translate(0, 0);
+}
+.shadow-accordion::before,
+.shadow-accordion::after {
+  content: "";
+  position: absolute;
   pointer-events: none;
   transition: all 0.15s ease;
   z-index: -1;
 }
+.shadow-accordion::before {
+  top: 5px;
+  left: 5px;
+  right: -5px;
+  bottom: -5px;
+  border: 2px dotted var(--term-border);
+  border-top: none;
+  border-left: none;
+  border-radius: 4px;
+  opacity: 0.4;
+}
+.shadow-accordion::after {
+  top: 2px;
+  left: 2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px dotted var(--term-border);
+  border-top: none;
+  border-left: none;
+  border-radius: 4px;
+}
 .shadow-accordion:hover {
   border-color: var(--term-orange);
+  transform: translate(-2px, -2px);
+}
+.shadow-accordion:hover::before {
+  top: 8px;
+  left: 8px;
+  right: -8px;
+  bottom: -8px;
+  border-color: var(--term-orange);
+  opacity: 0.3;
 }
 .shadow-accordion:hover::after {
+  top: 4px;
+  left: 4px;
+  right: -4px;
+  bottom: -4px;
   border-color: var(--term-orange);
 }
 
-/* Callout box with colored border */
+/* Callout box with multi-layer shadow */
 .shadow-callout {
   position: relative;
   border: 1px solid var(--term-green);
   background: rgba(63, 185, 80, 0.05);
   border-radius: 4px;
   transition: all 0.15s ease;
+  transform: translate(0, 0);
 }
+.shadow-callout::before,
 .shadow-callout::after {
   content: "";
   position: absolute;
-  top: 4px;
-  left: 4px;
-  right: -4px;
-  bottom: -4px;
+  pointer-events: none;
+  transition: all 0.15s ease;
+  z-index: -1;
+}
+.shadow-callout::before {
+  top: 6px;
+  left: 6px;
+  right: -6px;
+  bottom: -6px;
   border: 2px dotted var(--term-green);
   border-top: none;
   border-left: none;
   border-radius: 4px;
-  pointer-events: none;
+  opacity: 0.3;
+}
+.shadow-callout::after {
+  top: 3px;
+  left: 3px;
+  right: -3px;
+  bottom: -3px;
+  border: 2px dotted var(--term-green);
+  border-top: none;
+  border-left: none;
+  border-radius: 4px;
   opacity: 0.5;
-  z-index: -1;
+}
+.shadow-callout:hover {
+  transform: translate(-2px, -2px);
+}
+.shadow-callout:hover::before {
+  top: 10px;
+  left: 10px;
+  right: -10px;
+  bottom: -10px;
+}
+.shadow-callout:hover::after {
+  top: 5px;
+  left: 5px;
+  right: -5px;
+  bottom: -5px;
 }
 
 @keyframes fade-in-up {
