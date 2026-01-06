@@ -762,3 +762,77 @@ th { color: var(--term-orange); font-weight: 500; }
   background-size: 200% 100%;
   animation: highlight-slide 3s ease-in-out infinite;
 }
+
+/* Announcement Bar */
+.announcement-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(90deg, var(--term-bg-secondary) 0%, rgba(240, 136, 62, 0.15) 50%, var(--term-bg-secondary) 100%);
+  border-bottom: 1px solid var(--term-orange);
+  font-size: 13px;
+}
+
+.announcement-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.announcement-badge {
+  padding: 0.15rem 0.5rem;
+  background: var(--term-orange);
+  color: var(--term-bg);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  border-radius: 2px;
+}
+
+.announcement-text {
+  color: var(--term-text);
+}
+
+.announcement-link {
+  color: var(--term-orange);
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.15s ease;
+}
+.announcement-link:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+.announcement-dismiss {
+  position: absolute;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--term-text-dim);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0 0.5rem;
+  line-height: 1;
+  transition: color 0.15s ease;
+}
+.announcement-dismiss:hover {
+  color: var(--term-text);
+}
+
+/* Offset body content when announcement bar is visible */
+body:has(.announcement-bar) {
+  padding-top: 40px;
+}
+body:has(.announcement-bar) header {
+  top: 40px;
+}

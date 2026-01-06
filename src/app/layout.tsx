@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { ClientWrapper } from "@/components/ClientWrapper";
+import { AnnouncementBar } from "@/components/AnnouncementBar";
 import "./globals.css";
 
 const jetbrainsMono = JetBrains_Mono({
@@ -120,6 +121,7 @@ export default function RootLayout({
         />
       </head>
       <body className={`${jetbrainsMono.className} scanline`}>
+        <AnnouncementBar />
         <div className="interference-bands" aria-hidden="true" />
         <ClientWrapper>
           {children}
