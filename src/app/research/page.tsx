@@ -236,16 +236,16 @@ export default function ResearchPage() {
           </div>
 
           {/* Quick stats */}
-          <div className="grid grid-cols-3 gap-4 mb-12">
-            <div className="border border-[var(--term-border)] rounded p-4 text-center">
+          <div className="grid grid-cols-3 gap-5 mb-12">
+            <div className="shadow-card rounded p-4 text-center">
               <div className="text-2xl font-semibold text-[var(--term-orange)]">18+</div>
               <div className="text-xs text-[var(--term-text-dim)]">Papers cited</div>
             </div>
-            <div className="border border-[var(--term-border)] rounded p-4 text-center">
+            <div className="shadow-card rounded p-4 text-center">
               <div className="text-2xl font-semibold text-[var(--term-orange)]">7</div>
               <div className="text-xs text-[var(--term-text-dim)]">Research areas</div>
             </div>
-            <div className="border border-[var(--term-border)] rounded p-4 text-center">
+            <div className="shadow-card rounded p-4 text-center">
               <div className="text-2xl font-semibold text-[var(--term-orange)]">50+</div>
               <div className="text-xs text-[var(--term-text-dim)]">Tuned constants</div>
             </div>
@@ -260,11 +260,11 @@ export default function ResearchPage() {
               </div>
               <p className="text-[var(--term-text-dim)] text-sm mb-6 pl-10">{category.description}</p>
 
-              <div className="space-y-4">
+              <div className="space-y-5">
                 {category.papers.map((paper, j) => (
                   <div
                     key={j}
-                    className="border border-[var(--term-border)] rounded p-5 hover:border-[var(--term-orange)] transition-colors"
+                    className="shadow-box rounded p-5"
                   >
                     <div className="flex items-start justify-between gap-4 mb-2">
                       <h3 className="text-[var(--term-text)] font-medium leading-snug">
@@ -301,7 +301,7 @@ export default function ResearchPage() {
           ))}
 
           {/* Footer note */}
-          <div className="border border-[var(--term-green)]/30 bg-[var(--term-green)]/5 rounded p-6 mt-12">
+          <div className="shadow-callout p-6 mt-12">
             <h3 className="text-[var(--term-text)] font-medium mb-2">
               Open Science, Open Source
             </h3>

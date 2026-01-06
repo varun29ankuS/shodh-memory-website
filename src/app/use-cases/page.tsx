@@ -77,7 +77,7 @@ export default function UseCases() {
             </p>
           </div>
 
-          <div className="terminal-window mb-16">
+          <div className="shadow-window mb-16">
             <div className="terminal-header">
               <div className="terminal-dot terminal-dot-red" />
               <div className="terminal-dot terminal-dot-yellow" />
@@ -101,9 +101,9 @@ Shodh-memory solves all three:
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6 mb-16">
+          <div className="grid md:grid-cols-2 gap-8 mb-16">
             {USE_CASES.map((useCase, i) => (
-              <div key={i} className="terminal-window hover:border-[var(--term-orange)] transition-colors">
+              <div key={i} className="shadow-window">
                 <div className="terminal-header">
                   <div className="terminal-dot terminal-dot-red" />
                   <div className="terminal-dot terminal-dot-yellow" />
@@ -136,9 +136,9 @@ Shodh-memory solves all three:
 
           <div className="text-center">
             <p className="text-[var(--term-text-dim)] mb-4">Ready to add memory to your edge devices?</p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <a href="/#install" className="btn-terminal btn-terminal-primary px-6 py-2">Get Started</a>
-              <a href="https://github.com/varun29ankuS/shodh-memory" target="_blank" rel="noopener noreferrer" className="btn-terminal px-6 py-2">View Source</a>
+            <div className="flex flex-wrap justify-center gap-5">
+              <a href="/#install" className="shadow-btn shadow-btn-primary px-6 py-2">Get Started</a>
+              <a href="https://github.com/varun29ankuS/shodh-memory" target="_blank" rel="noopener noreferrer" className="shadow-btn px-6 py-2">View Source</a>
             </div>
           </div>
         </div>
@@ -150,7 +150,7 @@ Shodh-memory solves all three:
 
 function SpecCard({ title, specs, highlighted }: { title: string; specs: string[]; highlighted?: boolean }) {
   return (
-    <div className={"border p-6 rounded " + (highlighted ? "border-[var(--term-orange)]" : "border-[var(--term-border)]")}>
+    <div className={"shadow-box p-6 rounded " + (highlighted ? "border-[var(--term-orange)]" : "")}>
       <h3 className={"text-sm font-medium mb-4 " + (highlighted ? "text-[var(--term-orange)]" : "text-[var(--term-text)]")}>{title}</h3>
       <ul className="space-y-2">
         {specs.map((spec, i) => (

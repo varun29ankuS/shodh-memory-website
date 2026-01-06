@@ -109,12 +109,12 @@ export default function Blog() {
             </p>
           </div>
 
-          <div className="space-y-6">
+          <div className="space-y-8">
             {BLOG_POSTS.map((post, i) => (
               <Link
                 key={i}
                 href={"/blog/" + post.slug}
-                className="block terminal-window hover:border-[var(--term-orange)] transition-colors group"
+                className="block shadow-window group"
               >
                 <div className="terminal-header">
                   <div className="terminal-dot terminal-dot-red" />

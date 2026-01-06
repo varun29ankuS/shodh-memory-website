@@ -1147,7 +1147,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
               </div>
             </header>
 
-            <div className="terminal-window">
+            <div className="shadow-window">
               <div className="terminal-header">
                 <div className="terminal-dot terminal-dot-red" />
                 <div className="terminal-dot terminal-dot-yellow" />
