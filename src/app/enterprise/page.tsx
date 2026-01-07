@@ -117,7 +117,7 @@ export default function Enterprise() {
                 Contact Sales
               </a>
               <a
-                href="https://calendly.com/shodh-memory/enterprise"
+                href="https://calendly.com/varun-shodh-memory/30min"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="shadow-btn px-8 py-3 text-sm"
@@ -341,7 +341,7 @@ Your systems don't have downtime. Neither do we.`}</pre>
                   Contact Sales
                 </a>
                 <a
-                  href="https://calendly.com/shodh-memory/enterprise"
+                  href="https://calendly.com/varun-shodh-memory/30min"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="shadow-btn px-8 py-3 text-sm"
