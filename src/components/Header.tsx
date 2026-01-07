@@ -20,6 +20,7 @@ export function Header() {
         <div className="hidden md:flex items-center gap-6">
           <NavLink href="/#features">Features</NavLink>
           <NavLink href="/use-cases">Edge & Robotics</NavLink>
+          <NavLink href="/enterprise">Enterprise</NavLink>
           <NavLink href="/research">Research</NavLink>
           <NavLink href="/blog">Blog</NavLink>
           <NavLink href="/#install">Install</NavLink>
@@ -52,6 +53,7 @@ export function Header() {
           <NavLink href="/#features" onClick={() => setMenuOpen(false)}>Features</NavLink>
           <NavLink href="/#install" onClick={() => setMenuOpen(false)}>Install</NavLink>
           <NavLink href="/use-cases" onClick={() => setMenuOpen(false)}>Edge & Robotics</NavLink>
+          <NavLink href="/enterprise" onClick={() => setMenuOpen(false)}>Enterprise</NavLink>
           <NavLink href="/research" onClick={() => setMenuOpen(false)}>Research</NavLink>
           <NavLink href="/blog" onClick={() => setMenuOpen(false)}>Blog</NavLink>
           <a
