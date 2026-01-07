@@ -5,7 +5,8 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "WebFetch(domain:github.com)",
-      "Bash(git push)"
+      "Bash(git push)",
+      "mcp__shodh-memory__remember"
     ]
   }
 }

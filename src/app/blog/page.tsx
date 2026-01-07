@@ -4,6 +4,14 @@ import Link from "next/link";
 
 export const BLOG_POSTS = [
   {
+    slug: "memory-architecture-autonomous-agents",
+    title: "Memory Architecture for Autonomous Agents: Why Your AI Needs a Brain, Not a Database",
+    date: "2026-01-07",
+    readTime: "10 min",
+    tags: ["agentic-ai", "architecture", "autonomous-agents"],
+    excerpt: "Autonomous agents are everywhere—coding assistants, research bots, robotic systems. But most are goldfish. Here's how to give your agent a real brain.",
+  },
+  {
     slug: "hebbian-learning-ai-agents",
     title: "Hebbian Learning for AI Agents: Neurons That Fire Together Wire Together",
     date: "2026-01-03",
