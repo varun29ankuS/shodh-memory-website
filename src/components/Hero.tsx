@@ -23,9 +23,9 @@ const SHODH_TEXT = [
 
 const TAGLINES = [
   "Memory that learns with use",
-  "Hebbian learning for AI agents",
+  "A brain for your AI agent",
+  "Past and future inform present",
   "Runs offline on edge devices",
-  "Neuroscience-grounded architecture",
   "<1μs graph lookup latency",
 ];
 
@@ -104,9 +104,9 @@ export function Hero() {
 
         {/* Description */}
         <p className="text-[var(--term-text-dim)] text-base md:text-lg max-w-2xl mb-8 animate-fade-in animate-delay-2">
-          A persistent cognitive memory system for AI agents. Three-tier architecture 
-          based on Cowan&apos;s working memory model. Connections that are used together 
-          become stronger—just like biological neurons.
+          A cognitive brain for AI agents. Three-tier memory architecture
+          based on Cowan&apos;s model. Connections strengthen with use,
+          decay naturally over time—just like biological neurons.
         </p>
 
         {/* Stats */}
@@ -129,9 +129,14 @@ export function Hero() {
             href="https://github.com/varun29ankuS/shodh-memory"
             target="_blank"
             rel="noopener noreferrer"
-            className="shadow-btn px-6 py-2 text-sm"
+            className="shadow-btn px-6 py-2 text-sm flex items-center gap-2"
           >
-            View on GitHub
+            <span>GitHub</span>
+            <img
+              src="https://img.shields.io/github/stars/varun29ankuS/shodh-memory?style=flat&color=f0883e&labelColor=161b22"
+              alt="GitHub stars"
+              className="h-5"
+            />
           </a>
           <a
             href="#demo"

@@ -140,6 +140,16 @@ export function Architecture() {
             </div>
           ))}
         </div>
+
+        {/* Research link */}
+        <div className="mt-8 text-center">
+          <a
+            href="/research"
+            className="text-[var(--term-text-dim)] text-sm hover:text-[var(--term-orange)] transition-colors"
+          >
+            Based on 18+ peer-reviewed papers →
+          </a>
+        </div>
       </div>
     </section>
   );

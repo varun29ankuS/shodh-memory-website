@@ -14,13 +14,15 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.shodh-memory.com"),
   title: {
-    default: "shodh-memory | Persistent Cognitive Memory for AI Agents",
+    default: "shodh-memory | A Cognitive Brain for AI Agents",
     template: "%s | shodh-memory",
   },
   description:
-    "A neuroscience-grounded memory system that learns with use. Hebbian learning, 3-tier architecture, runs offline on edge devices. Single ~30MB binary, no cloud required.",
+    "A cognitive brain for AI agents. Memory that learns with use — Hebbian learning, 3-tier architecture, runs offline on edge devices. Single ~30MB binary, no cloud required.",
   keywords: [
+    "AI brain",
     "AI memory",
+    "cognitive brain",
     "cognitive memory",
     "AI agents",
     "LLM memory",
@@ -53,9 +55,9 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://www.shodh-memory.com",
     siteName: "shodh-memory",
-    title: "shodh-memory | Persistent Cognitive Memory for AI Agents",
+    title: "shodh-memory | A Cognitive Brain for AI Agents",
     description:
-      "Memory that learns with use. Hebbian learning, runs offline, single binary. Not another vector database.",
+      "A brain for your AI agent. Memory that learns with use. Hebbian learning, runs offline, single binary.",
     images: [
       {
         url: "https://raw.githubusercontent.com/varun29ankuS/shodh-memory/main/assets/splash.jpg",
@@ -67,9 +69,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "shodh-memory | Cognitive Memory for AI Agents",
+    title: "shodh-memory | A Cognitive Brain for AI Agents",
     description:
-      "Memory that learns with use. Hebbian learning, runs offline, single binary.",
+      "A brain for your AI agent. Memory that learns with use. Runs offline, single binary.",
     images: ["https://raw.githubusercontent.com/varun29ankuS/shodh-memory/main/assets/splash.jpg"],
     creator: "@shodh_memory",
   },
