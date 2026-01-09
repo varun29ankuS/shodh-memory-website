@@ -5,6 +5,55 @@ const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
 });
 
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+
+// Send conversation summary to Telegram
+async function sendToTelegram(clientId: string, summary: string) {
+  if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) return;
+
+  try {
+    const message = `*New Chat - ${clientId}*\n\n${summary}`;
+    await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: TELEGRAM_CHAT_ID,
+        text: message,
+        parse_mode: "Markdown",
+      }),
+    });
+  } catch (error) {
+    console.error("Telegram send error:", error);
+  }
+}
+
+// Generate conversation summary
+async function summarizeConversation(messages: ChatMessage[]): Promise<string> {
+  if (messages.length < 2) return "";
+
+  try {
+    const completion = await groq.chat.completions.create({
+      model: "llama-3.3-70b-versatile",
+      messages: [
+        {
+          role: "system",
+          content: "Summarize this customer conversation in 2-3 bullet points. Include: what they asked about, any contact info shared, and if they showed buying intent. Be concise.",
+        },
+        {
+          role: "user",
+          content: messages.map(m => `${m.role}: ${m.content}`).join("\n"),
+        },
+      ],
+      temperature: 0.3,
+      max_tokens: 200,
+    });
+    return completion.choices[0]?.message?.content || "";
+  } catch {
+    return "";
+  }
+}
+
 // Client configurations - in production, move to database/KV
 const CLIENT_CONFIGS: Record<string, { name: string; systemPrompt: string }> = {
   "msi-laptop": {
@@ -160,6 +209,15 @@ export async function POST(request: NextRequest) {
     });
 
     const response = completion.choices[0]?.message?.content || "Sorry, I could not generate a response.";
+
+    // Send Telegram summary every 4 messages (2 exchanges)
+    const fullHistory = [...history, { role: "user" as const, content: message }, { role: "assistant" as const, content: response }];
+    if (fullHistory.length >= 4 && fullHistory.length % 4 === 0) {
+      // Fire and forget - don't block response
+      summarizeConversation(fullHistory).then(summary => {
+        if (summary) sendToTelegram(clientId, summary);
+      });
+    }
 
     return NextResponse.json({ response }, { headers: corsHeaders });
   } catch (error) {
