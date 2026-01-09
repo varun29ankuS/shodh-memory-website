@@ -82,7 +82,9 @@ export function ChatWidget() {
           sessionEnd: true,
           behavior,
         });
-        navigator.sendBeacon("/api/chat", data);
+        // Use Blob with correct content-type for sendBeacon
+        const blob = new Blob([data], { type: "application/json" });
+        navigator.sendBeacon("/api/chat", blob);
       }
     };
 
