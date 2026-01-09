@@ -346,6 +346,26 @@ export function ChatWidget() {
                   [ENTER] start_chat
                 </button>
 
+                <button
+                  type="button"
+                  onClick={() => {
+                    setLeadInfo({ name: "Anonymous", email: "" });
+                    setState("chat");
+                    setTimeout(() => {
+                      typeMessage("Hi! I'm the shodh-memory assistant. Ask me anything about cognitive memory for AI agents.");
+                    }, 300);
+                  }}
+                  className="w-full py-2 text-xs transition-all hover:opacity-70"
+                  style={{
+                    background: "transparent",
+                    border: "1px dotted var(--term-border)",
+                    color: "var(--term-text-dim)",
+                    fontFamily: "var(--font-mono)",
+                  }}
+                >
+                  [ESC] skip, chat anonymously
+                </button>
+
                 <p
                   className="text-center text-xs pt-1"
                   style={{ color: "var(--term-text-dim)", fontFamily: "var(--font-mono)" }}
