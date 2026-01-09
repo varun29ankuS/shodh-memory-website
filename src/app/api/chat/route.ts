@@ -9,19 +9,25 @@ const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
 // Send message to Telegram
-async function sendToTelegram(clientId: string, message: string) {
-  if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) return;
+async function sendToTelegram(message: string) {
+  if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
+    console.log("Telegram credentials missing");
+    return;
+  }
 
   try {
-    await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+    const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         chat_id: TELEGRAM_CHAT_ID,
         text: message,
-        parse_mode: "Markdown",
       }),
     });
+    const data = await res.json();
+    if (!data.ok) {
+      console.error("Telegram API error:", data);
+    }
   } catch (error) {
     console.error("Telegram send error:", error);
   }
@@ -187,13 +193,15 @@ export async function POST(request: NextRequest) {
 
     // Handle session end - send summary to Telegram
     if (sessionEnd && history.length > 0) {
-      const leadStr = leadInfo
-        ? `\n\n*Lead:*\nName: ${leadInfo.name}\nEmail: ${leadInfo.email}${leadInfo.company ? `\nCompany: ${leadInfo.company}` : ""}`
-        : "";
+      const leadStr = leadInfo?.name && leadInfo.name !== "Anonymous"
+        ? `\n\nLead:\nName: ${leadInfo.name}\nEmail: ${leadInfo.email}${leadInfo.company ? `\nCompany: ${leadInfo.company}` : ""}`
+        : "\n\n(Anonymous user)";
 
+      const convoStr = history.map(m => `${m.role}: ${m.content}`).join("\n");
       const summary = await summarizeConversation(history);
-      const fullMessage = `*Chat Session Ended*${leadStr}\n\n*Summary:*\n${summary || "No summary available"}`;
-      await sendToTelegram(clientId, fullMessage);
+
+      const fullMessage = `🗨️ Chat Session Ended${leadStr}\n\nSummary:\n${summary || "Could not generate summary"}\n\n--- Full conversation ---\n${convoStr}`;
+      await sendToTelegram(fullMessage);
 
       return NextResponse.json({ success: true }, { headers: corsHeaders });
     }
