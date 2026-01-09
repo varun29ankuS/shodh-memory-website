@@ -23,6 +23,7 @@ export function ChatWidget() {
   const [isLoading, setIsLoading] = useState(false);
   const [displayedContent, setDisplayedContent] = useState<string>("");
   const [isTypingEffect, setIsTypingEffect] = useState(false);
+  const [showPrompt, setShowPrompt] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const typingRef = useRef<NodeJS.Timeout | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -37,6 +38,23 @@ export function ChatWidget() {
       if (typingRef.current) clearTimeout(typingRef.current);
     };
   }, []);
+
+  // Show prompt bubble after 5 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (state === "closed") {
+        setShowPrompt(true);
+      }
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Hide prompt when chat opens
+  useEffect(() => {
+    if (state !== "closed") {
+      setShowPrompt(false);
+    }
+  }, [state]);
 
   // Send summary when user leaves page
   useEffect(() => {
@@ -167,6 +185,54 @@ export function ChatWidget() {
 
   return (
     <>
+      {/* Prompt Bubble */}
+      {showPrompt && state === "closed" && (
+        <div
+          className="fixed bottom-20 right-6 z-[1001] max-w-[250px]"
+          style={{ animation: "fadeInUp 0.3s ease-out" }}
+        >
+          <style jsx>{`
+            @keyframes fadeInUp {
+              from { opacity: 0; transform: translateY(10px); }
+              to { opacity: 1; transform: translateY(0); }
+            }
+          `}</style>
+          <div
+            className="relative px-4 py-3 text-sm cursor-pointer"
+            onClick={() => { setShowPrompt(false); setState("form"); }}
+            style={{
+              background: "var(--term-bg)",
+              border: "1px dotted var(--term-orange)",
+              color: "var(--term-text)",
+              fontFamily: "var(--font-mono)",
+              boxShadow: "3px 3px 0 var(--term-orange)",
+            }}
+          >
+            <button
+              onClick={(e) => { e.stopPropagation(); setShowPrompt(false); }}
+              className="absolute -top-2 -right-2 w-5 h-5 flex items-center justify-center text-xs"
+              style={{
+                background: "var(--term-bg)",
+                border: "1px dotted var(--term-border)",
+                color: "var(--term-text-dim)",
+              }}
+            >
+              ×
+            </button>
+            <span style={{ color: "var(--term-orange)" }}>→</span> got questions about shodh-memory? let&apos;s chat!
+          </div>
+          {/* Arrow pointing to button */}
+          <div
+            className="absolute -bottom-2 right-8 w-0 h-0"
+            style={{
+              borderLeft: "8px solid transparent",
+              borderRight: "8px solid transparent",
+              borderTop: "8px solid var(--term-orange)",
+            }}
+          />
+        </div>
+      )}
+
       {/* Floating Button - Terminal Style */}
       <button
         onClick={toggleWidget}
