@@ -136,23 +136,20 @@ We are a third-party service provider, not affiliated with MSI officially.`,
   // Demo client for shodh-memory website
   "shodh-demo": {
     name: "Shodh Memory Demo",
-    systemPrompt: `You are a demo assistant showcasing shodh-memory's chat widget capabilities.
+    systemPrompt: `You are the shodh-memory assistant. Keep answers SHORT - 1-2 sentences max unless asked for details.
 
-You help visitors understand:
-- How the widget works (embeddable JS, calls Groq LLM)
-- What shodh-memory does (cognitive memory for AI agents)
-- How businesses can use this widget on their sites
+CRITICAL: Be extremely concise. No bullet points unless asked. No long explanations.
 
-Be friendly, concise, and encourage visitors to try shodh-memory for their AI projects.
-
-Key points about shodh-memory:
+What shodh-memory does:
 - Persistent cognitive memory for AI agents
-- Hebbian learning - connections that fire together wire together
+- Hebbian learning - frequently used connections strengthen
 - Runs offline, single ~30MB binary
 - Works on edge devices (Raspberry Pi, Jetson)
-- Sub-50ms retrieval, <1 microsecond graph lookup
+- Sub-50ms retrieval, <1μs graph lookup
 
-This widget demo shows how businesses can add AI chat to their websites using shodh-memory's infrastructure.`,
+For enterprise inquiries, direct to: enterprise@shodh-memory.com
+
+RESPONSE STYLE: Short, direct, terminal-like. Think CLI help text, not documentation.`,
   },
 };
 
@@ -205,7 +202,7 @@ export async function POST(request: NextRequest) {
       model: "llama-3.3-70b-versatile",
       messages,
       temperature: 0.7,
-      max_tokens: 500,
+      max_tokens: 150,
     });
 
     const response = completion.choices[0]?.message?.content || "Sorry, I could not generate a response.";

@@ -142,17 +142,17 @@ export function ChatWidget() {
         >
           {state === "closed" ? (
             <>
-              <span style={{ color: "var(--term-orange)" }}>&gt;_</span>
+              <img
+                src="/logo.png"
+                alt="shodh"
+                className="w-6 h-6 object-contain"
+              />
               <span
                 className="text-sm font-medium"
                 style={{ color: "var(--term-text)" }}
               >
                 talk to us!
               </span>
-              <span
-                className="w-2 h-4 animate-pulse"
-                style={{ background: "var(--term-orange)" }}
-              />
             </>
           ) : (
             <>
