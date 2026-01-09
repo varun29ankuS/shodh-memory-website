@@ -61,7 +61,6 @@ export function ChatWidget() {
     e.preventDefault();
     if (!leadInfo.name.trim() || !leadInfo.email.trim()) return;
 
-    // Send lead info to backend (which forwards to Telegram)
     try {
       await fetch("/api/chat", {
         method: "POST",
@@ -124,116 +123,155 @@ export function ChatWidget() {
 
   return (
     <>
-      {/* Floating Button */}
+      {/* Floating Button - Terminal Style */}
       <button
         onClick={toggleWidget}
         className="fixed bottom-6 right-6 z-[1001] group"
         aria-label={state === "closed" ? "Open chat" : "Close chat"}
       >
         <div
-          className={`flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 ${
-            state === "closed" ? "rounded-full px-4 py-3 gap-2" : "w-14 h-14 rounded-full"
-          }`}
+          className="flex items-center gap-2 px-4 py-2.5 transition-all duration-200"
           style={{
-            background: state === "closed"
-              ? "linear-gradient(135deg, var(--term-orange) 0%, #e07730 100%)"
-              : "var(--term-bg-secondary)",
-            border: state !== "closed" ? "1px solid var(--term-border)" : "none",
+            background: "var(--term-bg)",
+            border: "2px dotted var(--term-orange)",
+            fontFamily: "var(--font-mono), monospace",
+            boxShadow: state === "closed"
+              ? "4px 4px 0 var(--term-orange)"
+              : "2px 2px 0 var(--term-border)",
           }}
         >
           {state === "closed" ? (
             <>
-              <svg className="w-5 h-5" fill="white" viewBox="0 0 24 24">
-                <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z" />
-              </svg>
-              <span className="text-white font-medium text-sm whitespace-nowrap">talk to us!</span>
+              <span style={{ color: "var(--term-orange)" }}>&gt;_</span>
+              <span
+                className="text-sm font-medium"
+                style={{ color: "var(--term-text)" }}
+              >
+                talk to us!
+              </span>
+              <span
+                className="w-2 h-4 animate-pulse"
+                style={{ background: "var(--term-orange)" }}
+              />
             </>
           ) : (
-            <svg className="w-5 h-5" fill="var(--term-text)" viewBox="0 0 24 24">
-              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-            </svg>
+            <>
+              <span style={{ color: "var(--term-orange)" }}>[</span>
+              <span style={{ color: "var(--term-text)" }}>x</span>
+              <span style={{ color: "var(--term-orange)" }}>]</span>
+            </>
           )}
         </div>
       </button>
 
-      {/* Widget Panel */}
+      {/* Widget Panel - Terminal Window */}
       {state !== "closed" && (
         <div
-          className="fixed bottom-24 right-6 w-[400px] z-[1001] transition-all duration-300"
-          style={{
-            animation: "slideUp 0.3s ease-out",
-          }}
+          className="fixed bottom-20 right-6 w-[380px] z-[1001]"
+          style={{ animation: "termSlideUp 0.2s ease-out" }}
         >
           <style jsx>{`
-            @keyframes slideUp {
-              from { opacity: 0; transform: translateY(20px); }
+            @keyframes termSlideUp {
+              from { opacity: 0; transform: translateY(10px); }
               to { opacity: 1; transform: translateY(0); }
+            }
+            @keyframes termBlink {
+              0%, 50% { opacity: 1; }
+              51%, 100% { opacity: 0; }
             }
           `}</style>
 
           <div
-            className="rounded-2xl overflow-hidden flex flex-col shadow-2xl"
+            className="flex flex-col overflow-hidden"
             style={{
               background: "var(--term-bg)",
-              border: "1px solid var(--term-border)",
-              height: state === "form" ? "auto" : "560px",
+              border: "2px dotted var(--term-border)",
+              boxShadow: "6px 6px 0 rgba(255, 140, 50, 0.3)",
+              height: state === "form" ? "auto" : "500px",
             }}
           >
-            {/* Header */}
+            {/* Terminal Header */}
             <div
-              className="px-5 py-4 flex items-center gap-3"
+              className="px-3 py-2 flex items-center justify-between"
               style={{
-                background: "linear-gradient(135deg, var(--term-orange) 0%, #e07730 100%)",
+                background: "var(--term-bg-secondary)",
+                borderBottom: "1px dotted var(--term-border)",
               }}
             >
-              <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-                <svg className="w-5 h-5" fill="white" viewBox="0 0 24 24">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                </svg>
-              </div>
-              <div className="flex-1">
-                <div className="text-white font-semibold text-sm">shodh-memory</div>
-                <div className="text-white/70 text-xs flex items-center gap-1.5">
-                  <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-                  Online
+              <div className="flex items-center gap-2">
+                <div className="flex gap-1.5">
+                  <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#ff5f56" }} />
+                  <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#ffbd2e" }} />
+                  <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#27ca40" }} />
                 </div>
+                <span
+                  className="text-xs ml-2"
+                  style={{ color: "var(--term-text-dim)", fontFamily: "var(--font-mono)" }}
+                >
+                  shodh-memory ~ chat
+                </span>
+              </div>
+              <div className="flex items-center gap-1">
+                <span
+                  className="w-1.5 h-1.5 rounded-full animate-pulse"
+                  style={{ background: "#27ca40" }}
+                />
+                <span
+                  className="text-xs"
+                  style={{ color: "var(--term-text-dim)", fontFamily: "var(--font-mono)" }}
+                >
+                  online
+                </span>
               </div>
             </div>
 
             {/* Pre-chat Form */}
             {state === "form" && (
-              <form onSubmit={handleFormSubmit} className="p-5 space-y-4">
-                <div className="text-center mb-4">
-                  <h3 className="font-semibold mb-1" style={{ color: "var(--term-text)" }}>
-                    Start a conversation
-                  </h3>
-                  <p className="text-xs" style={{ color: "var(--term-text-dim)" }}>
-                    We typically reply within minutes
+              <form onSubmit={handleFormSubmit} className="p-4 space-y-3">
+                <div className="mb-3">
+                  <div
+                    className="text-sm mb-1"
+                    style={{ color: "var(--term-orange)", fontFamily: "var(--font-mono)" }}
+                  >
+                    $ init_conversation
+                  </div>
+                  <p
+                    className="text-xs"
+                    style={{ color: "var(--term-text-dim)", fontFamily: "var(--font-mono)" }}
+                  >
+                    // typically reply within minutes
                   </p>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium mb-1.5" style={{ color: "var(--term-text-dim)" }}>
-                    Name *
+                  <label
+                    className="block text-xs mb-1"
+                    style={{ color: "var(--term-cyan)", fontFamily: "var(--font-mono)" }}
+                  >
+                    name:
                   </label>
                   <input
                     type="text"
                     required
                     value={leadInfo.name}
                     onChange={(e) => setLeadInfo({ ...leadInfo, name: e.target.value })}
-                    placeholder="Your name"
-                    className="w-full px-4 py-2.5 rounded-lg text-sm outline-none transition-all"
+                    placeholder="your_name"
+                    className="w-full px-3 py-2 text-sm outline-none"
                     style={{
                       background: "var(--term-bg-secondary)",
-                      border: "1px solid var(--term-border)",
+                      border: "1px dotted var(--term-border)",
                       color: "var(--term-text)",
+                      fontFamily: "var(--font-mono)",
                     }}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium mb-1.5" style={{ color: "var(--term-text-dim)" }}>
-                    Email *
+                  <label
+                    className="block text-xs mb-1"
+                    style={{ color: "var(--term-cyan)", fontFamily: "var(--font-mono)" }}
+                  >
+                    email:
                   </label>
                   <input
                     type="email"
@@ -241,48 +279,58 @@ export function ChatWidget() {
                     value={leadInfo.email}
                     onChange={(e) => setLeadInfo({ ...leadInfo, email: e.target.value })}
                     placeholder="you@company.com"
-                    className="w-full px-4 py-2.5 rounded-lg text-sm outline-none transition-all"
+                    className="w-full px-3 py-2 text-sm outline-none"
                     style={{
                       background: "var(--term-bg-secondary)",
-                      border: "1px solid var(--term-border)",
+                      border: "1px dotted var(--term-border)",
                       color: "var(--term-text)",
+                      fontFamily: "var(--font-mono)",
                     }}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium mb-1.5" style={{ color: "var(--term-text-dim)" }}>
-                    Company <span style={{ color: "var(--term-text-dim)" }}>(optional)</span>
+                  <label
+                    className="block text-xs mb-1"
+                    style={{ color: "var(--term-cyan)", fontFamily: "var(--font-mono)" }}
+                  >
+                    company: <span style={{ color: "var(--term-text-dim)" }}>(optional)</span>
                   </label>
                   <input
                     type="text"
                     value={leadInfo.company || ""}
                     onChange={(e) => setLeadInfo({ ...leadInfo, company: e.target.value })}
-                    placeholder="Your company"
-                    className="w-full px-4 py-2.5 rounded-lg text-sm outline-none transition-all"
+                    placeholder="your_company"
+                    className="w-full px-3 py-2 text-sm outline-none"
                     style={{
                       background: "var(--term-bg-secondary)",
-                      border: "1px solid var(--term-border)",
+                      border: "1px dotted var(--term-border)",
                       color: "var(--term-text)",
+                      fontFamily: "var(--font-mono)",
                     }}
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full py-3 rounded-lg font-medium text-sm transition-all hover:opacity-90"
+                  className="w-full py-2.5 text-sm font-medium transition-all hover:opacity-90 mt-2"
                   style={{
                     background: "var(--term-orange)",
+                    border: "none",
                     color: "var(--term-bg)",
+                    fontFamily: "var(--font-mono)",
                   }}
                 >
-                  Start Chat
+                  [ENTER] start_chat
                 </button>
 
-                <p className="text-center text-xs" style={{ color: "var(--term-text-dim)" }}>
-                  By chatting, you agree to our{" "}
-                  <a href="/privacy" className="underline" style={{ color: "var(--term-cyan)" }}>
-                    privacy policy
+                <p
+                  className="text-center text-xs pt-1"
+                  style={{ color: "var(--term-text-dim)", fontFamily: "var(--font-mono)" }}
+                >
+                  // by chatting, you agree to our{" "}
+                  <a href="/privacy" style={{ color: "var(--term-cyan)" }}>
+                    privacy_policy
                   </a>
                 </p>
               </form>
@@ -293,79 +341,85 @@ export function ChatWidget() {
               <>
                 {/* Messages */}
                 <div
-                  className="flex-1 overflow-y-auto p-4 space-y-4"
-                  style={{ background: "var(--term-bg-secondary)" }}
+                  className="flex-1 overflow-y-auto p-3 space-y-3"
+                  style={{ background: "var(--term-bg)" }}
                 >
                   {messages.map((msg, i) => (
-                    <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
-                      {msg.role === "assistant" && (
-                        <div
-                          className="w-7 h-7 rounded-full flex items-center justify-center mr-2 flex-shrink-0"
-                          style={{ background: "var(--term-orange)" }}
-                        >
-                          <svg className="w-4 h-4" fill="var(--term-bg)" viewBox="0 0 24 24">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                          </svg>
+                    <div key={i}>
+                      {msg.role === "user" ? (
+                        <div className="flex items-start gap-2">
+                          <span
+                            className="text-xs shrink-0 mt-0.5"
+                            style={{ color: "var(--term-cyan)", fontFamily: "var(--font-mono)" }}
+                          >
+                            you&gt;
+                          </span>
+                          <p
+                            className="text-sm leading-relaxed"
+                            style={{ color: "var(--term-text)", fontFamily: "var(--font-mono)" }}
+                          >
+                            {msg.content}
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="flex items-start gap-2">
+                          <span
+                            className="text-xs shrink-0 mt-0.5"
+                            style={{ color: "var(--term-orange)", fontFamily: "var(--font-mono)" }}
+                          >
+                            bot&gt;
+                          </span>
+                          <p
+                            className="text-sm leading-relaxed"
+                            style={{ color: "var(--term-text)", fontFamily: "var(--font-mono)" }}
+                          >
+                            {msg.content}
+                          </p>
                         </div>
                       )}
-                      <div
-                        className="max-w-[80%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed"
-                        style={{
-                          background: msg.role === "user" ? "var(--term-orange)" : "var(--term-bg)",
-                          color: msg.role === "user" ? "white" : "var(--term-text)",
-                          borderBottomRightRadius: msg.role === "user" ? "4px" : "16px",
-                          borderBottomLeftRadius: msg.role === "assistant" ? "4px" : "16px",
-                        }}
-                      >
-                        {msg.content}
-                      </div>
                     </div>
                   ))}
 
-                  {/* Typing indicator */}
+                  {/* Typing effect */}
                   {isTypingEffect && displayedContent && (
-                    <div className="flex justify-start">
-                      <div
-                        className="w-7 h-7 rounded-full flex items-center justify-center mr-2 flex-shrink-0"
-                        style={{ background: "var(--term-orange)" }}
+                    <div className="flex items-start gap-2">
+                      <span
+                        className="text-xs shrink-0 mt-0.5"
+                        style={{ color: "var(--term-orange)", fontFamily: "var(--font-mono)" }}
                       >
-                        <svg className="w-4 h-4" fill="var(--term-bg)" viewBox="0 0 24 24">
-                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                        </svg>
-                      </div>
-                      <div
-                        className="max-w-[80%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed"
-                        style={{
-                          background: "var(--term-bg)",
-                          color: "var(--term-text)",
-                          borderBottomLeftRadius: "4px",
-                        }}
+                        bot&gt;
+                      </span>
+                      <p
+                        className="text-sm leading-relaxed"
+                        style={{ color: "var(--term-text)", fontFamily: "var(--font-mono)" }}
                       >
                         {displayedContent}
-                        <span className="inline-block w-0.5 h-4 ml-0.5 animate-pulse" style={{ background: "var(--term-orange)" }}></span>
-                      </div>
+                        <span
+                          className="inline-block w-2 h-4 ml-0.5"
+                          style={{
+                            background: "var(--term-orange)",
+                            animation: "termBlink 1s infinite",
+                          }}
+                        />
+                      </p>
                     </div>
                   )}
 
-                  {/* Loading dots */}
+                  {/* Loading */}
                   {isLoading && !isTypingEffect && (
-                    <div className="flex justify-start">
-                      <div
-                        className="w-7 h-7 rounded-full flex items-center justify-center mr-2 flex-shrink-0"
-                        style={{ background: "var(--term-orange)" }}
+                    <div className="flex items-start gap-2">
+                      <span
+                        className="text-xs shrink-0 mt-0.5"
+                        style={{ color: "var(--term-orange)", fontFamily: "var(--font-mono)" }}
                       >
-                        <svg className="w-4 h-4" fill="var(--term-bg)" viewBox="0 0 24 24">
-                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                        </svg>
-                      </div>
-                      <div
-                        className="px-4 py-3 rounded-2xl flex gap-1"
-                        style={{ background: "var(--term-bg)", borderBottomLeftRadius: "4px" }}
+                        bot&gt;
+                      </span>
+                      <span
+                        className="text-sm"
+                        style={{ color: "var(--term-text-dim)", fontFamily: "var(--font-mono)" }}
                       >
-                        <span className="w-2 h-2 rounded-full animate-bounce" style={{ background: "var(--term-text-dim)", animationDelay: "0ms" }}></span>
-                        <span className="w-2 h-2 rounded-full animate-bounce" style={{ background: "var(--term-text-dim)", animationDelay: "150ms" }}></span>
-                        <span className="w-2 h-2 rounded-full animate-bounce" style={{ background: "var(--term-text-dim)", animationDelay: "300ms" }}></span>
-                      </div>
+                        processing...
+                      </span>
                     </div>
                   )}
 
@@ -374,51 +428,60 @@ export function ChatWidget() {
 
                 {/* Input */}
                 <div
-                  className="p-4"
-                  style={{ background: "var(--term-bg)", borderTop: "1px solid var(--term-border)" }}
+                  className="p-3"
+                  style={{ borderTop: "1px dotted var(--term-border)" }}
                 >
-                  <div
-                    className="flex items-center gap-2 px-4 py-2 rounded-full"
-                    style={{ background: "var(--term-bg-secondary)", border: "1px solid var(--term-border)" }}
-                  >
+                  <div className="flex items-center gap-2">
+                    <span
+                      className="text-sm shrink-0"
+                      style={{ color: "var(--term-cyan)", fontFamily: "var(--font-mono)" }}
+                    >
+                      $
+                    </span>
                     <input
                       ref={inputRef}
                       type="text"
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
                       onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && sendMessage()}
-                      placeholder="Type a message..."
+                      placeholder="type_message..."
                       disabled={isLoading || isTypingEffect}
                       className="flex-1 bg-transparent border-none outline-none text-sm disabled:opacity-50"
-                      style={{ color: "var(--term-text)" }}
+                      style={{
+                        color: "var(--term-text)",
+                        fontFamily: "var(--font-mono)",
+                      }}
                     />
                     <button
                       onClick={sendMessage}
                       disabled={isLoading || isTypingEffect || !input.trim()}
-                      className="w-8 h-8 rounded-full flex items-center justify-center transition-all disabled:opacity-30"
-                      style={{ background: "var(--term-orange)" }}
+                      className="px-3 py-1 text-xs transition-all disabled:opacity-30"
+                      style={{
+                        background: "var(--term-orange)",
+                        color: "var(--term-bg)",
+                        fontFamily: "var(--font-mono)",
+                      }}
                     >
-                      <svg className="w-4 h-4" fill="white" viewBox="0 0 24 24">
-                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
-                      </svg>
+                      SEND
                     </button>
                   </div>
                 </div>
 
-                {/* Footer with contact */}
+                {/* Footer */}
                 <div
-                  className="px-4 py-3 flex items-center justify-center"
-                  style={{ background: "var(--term-bg)", borderTop: "1px solid var(--term-border)" }}
+                  className="px-3 py-2 flex items-center justify-center"
+                  style={{ borderTop: "1px dotted var(--term-border)" }}
                 >
                   <a
                     href="mailto:enterprise@shodh-memory.com?subject=Enterprise%20Inquiry"
-                    className="text-xs flex items-center gap-1.5 transition-opacity hover:opacity-80"
-                    style={{ color: "var(--term-cyan)", textDecoration: "none" }}
+                    className="text-xs flex items-center gap-1 transition-opacity hover:opacity-70"
+                    style={{
+                      color: "var(--term-cyan)",
+                      textDecoration: "none",
+                      fontFamily: "var(--font-mono)",
+                    }}
                   >
-                    <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-                    </svg>
-                    Need help? Contact sales
+                    [?] need_help? → contact_sales
                   </a>
                 </div>
               </>
