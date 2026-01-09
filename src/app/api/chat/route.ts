@@ -8,12 +8,11 @@ const groq = new Groq({
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
-// Send conversation summary to Telegram
-async function sendToTelegram(clientId: string, summary: string) {
+// Send message to Telegram
+async function sendToTelegram(clientId: string, message: string) {
   if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) return;
 
   try {
-    const message = `*New Chat - ${clientId}*\n\n${summary}`;
     await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -161,10 +160,18 @@ interface ChatMessage {
   content: string;
 }
 
+interface LeadInfo {
+  name: string;
+  email: string;
+  company?: string;
+}
+
 interface ChatRequest {
   message: string;
   clientId?: string;
   history?: ChatMessage[];
+  leadInfo?: LeadInfo;
+  sessionEnd?: boolean;
 }
 
 export async function POST(request: NextRequest) {
@@ -177,7 +184,20 @@ export async function POST(request: NextRequest) {
 
   try {
     const body: ChatRequest = await request.json();
-    const { message, clientId = "shodh-demo", history = [] } = body;
+    const { message, clientId = "shodh-demo", history = [], leadInfo, sessionEnd } = body;
+
+    // Handle session end - send summary to Telegram
+    if (sessionEnd && history.length > 0) {
+      const leadStr = leadInfo
+        ? `\n\n*Lead:*\nName: ${leadInfo.name}\nEmail: ${leadInfo.email}${leadInfo.company ? `\nCompany: ${leadInfo.company}` : ""}`
+        : "";
+
+      const summary = await summarizeConversation(history);
+      const fullMessage = `*Chat Session Ended*${leadStr}\n\n*Summary:*\n${summary || "No summary available"}`;
+      await sendToTelegram(clientId, fullMessage);
+
+      return NextResponse.json({ success: true }, { headers: corsHeaders });
+    }
 
     if (!message || typeof message !== "string") {
       return NextResponse.json(
@@ -206,15 +226,6 @@ export async function POST(request: NextRequest) {
     });
 
     const response = completion.choices[0]?.message?.content || "Sorry, I could not generate a response.";
-
-    // Send Telegram summary every 4 messages (2 exchanges)
-    const fullHistory = [...history, { role: "user" as const, content: message }, { role: "assistant" as const, content: response }];
-    if (fullHistory.length >= 4 && fullHistory.length % 4 === 0) {
-      // Fire and forget - don't block response
-      summarizeConversation(fullHistory).then(summary => {
-        if (summary) sendToTelegram(clientId, summary);
-      });
-    }
 
     return NextResponse.json({ response }, { headers: corsHeaders });
   } catch (error) {

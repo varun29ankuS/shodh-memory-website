@@ -113,10 +113,32 @@ export function ChatWidget() {
     }
   };
 
+  const sendSummaryToTelegram = async () => {
+    if (messages.length < 2) return;
+    try {
+      await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message: "[SESSION_END]",
+          clientId: "shodh-demo",
+          history: messages,
+          leadInfo,
+          sessionEnd: true,
+        }),
+      });
+    } catch {
+      // Silent fail
+    }
+  };
+
   const toggleWidget = () => {
     if (state === "closed") {
       setState("form");
     } else {
+      if (messages.length > 0) {
+        sendSummaryToTelegram();
+      }
       setState("closed");
     }
   };
