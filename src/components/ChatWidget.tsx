@@ -28,6 +28,8 @@ export function ChatWidget() {
   const typingRef = useRef<NodeJS.Timeout | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const summarySentRef = useRef(false);
+  const sessionStartRef = useRef<number>(Date.now());
+  const chatOpenedAtRef = useRef<number | null>(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -61,12 +63,24 @@ export function ChatWidget() {
     const handleBeforeUnload = () => {
       if (messages.length > 0 && !summarySentRef.current) {
         summarySentRef.current = true;
+        const now = Date.now();
+        const behavior = {
+          timestamp: new Date().toISOString(),
+          page: window.location.pathname,
+          timeOnPageSec: Math.round((now - sessionStartRef.current) / 1000),
+          timeInChatSec: chatOpenedAtRef.current ? Math.round((now - chatOpenedAtRef.current) / 1000) : 0,
+          messageCount: messages.length,
+          filledForm: leadInfo.name !== "Anonymous" && leadInfo.email !== "",
+          userAgent: navigator.userAgent,
+          referrer: document.referrer,
+        };
         const data = JSON.stringify({
           message: "[SESSION_END]",
           clientId: "shodh-demo",
           history: messages,
           leadInfo,
           sessionEnd: true,
+          behavior,
         });
         navigator.sendBeacon("/api/chat", data);
       }
@@ -152,6 +166,25 @@ export function ChatWidget() {
     }
   };
 
+  const getBehaviorData = () => {
+    const now = Date.now();
+    const timeOnPage = Math.round((now - sessionStartRef.current) / 1000);
+    const timeInChat = chatOpenedAtRef.current
+      ? Math.round((now - chatOpenedAtRef.current) / 1000)
+      : 0;
+
+    return {
+      timestamp: new Date().toISOString(),
+      page: typeof window !== "undefined" ? window.location.pathname : "/",
+      timeOnPageSec: timeOnPage,
+      timeInChatSec: timeInChat,
+      messageCount: messages.length,
+      filledForm: leadInfo.name !== "Anonymous" && leadInfo.email !== "",
+      userAgent: typeof navigator !== "undefined" ? navigator.userAgent : "",
+      referrer: typeof document !== "undefined" ? document.referrer : "",
+    };
+  };
+
   const sendSummaryToTelegram = async () => {
     if (messages.length < 1 || summarySentRef.current) return;
     summarySentRef.current = true;
@@ -165,6 +198,7 @@ export function ChatWidget() {
           history: messages,
           leadInfo,
           sessionEnd: true,
+          behavior: getBehaviorData(),
         }),
       });
     } catch {
@@ -174,6 +208,7 @@ export function ChatWidget() {
 
   const toggleWidget = () => {
     if (state === "closed") {
+      chatOpenedAtRef.current = Date.now();
       setState("form");
     } else {
       if (messages.length > 0) {

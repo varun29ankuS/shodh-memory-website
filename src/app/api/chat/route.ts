@@ -171,12 +171,24 @@ interface LeadInfo {
   company?: string;
 }
 
+interface BehaviorData {
+  timestamp: string;
+  page: string;
+  timeOnPageSec: number;
+  timeInChatSec: number;
+  messageCount: number;
+  filledForm: boolean;
+  userAgent: string;
+  referrer: string;
+}
+
 interface ChatRequest {
   message: string;
   clientId?: string;
   history?: ChatMessage[];
   leadInfo?: LeadInfo;
   sessionEnd?: boolean;
+  behavior?: BehaviorData;
 }
 
 export async function POST(request: NextRequest) {
@@ -189,18 +201,31 @@ export async function POST(request: NextRequest) {
 
   try {
     const body: ChatRequest = await request.json();
-    const { message, clientId = "shodh-demo", history = [], leadInfo, sessionEnd } = body;
+    const { message, clientId = "shodh-demo", history = [], leadInfo, sessionEnd, behavior } = body;
 
     // Handle session end - send summary to Telegram
     if (sessionEnd && history.length > 0) {
       const leadStr = leadInfo?.name && leadInfo.name !== "Anonymous"
-        ? `\n\nLead:\nName: ${leadInfo.name}\nEmail: ${leadInfo.email}${leadInfo.company ? `\nCompany: ${leadInfo.company}` : ""}`
-        : "\n\n(Anonymous user)";
+        ? `\n\n👤 Lead:\nName: ${leadInfo.name}\nEmail: ${leadInfo.email}${leadInfo.company ? `\nCompany: ${leadInfo.company}` : ""}`
+        : "\n\n👤 Anonymous user";
+
+      // Format behavior data
+      const formatTime = (sec: number) => {
+        if (sec < 60) return `${sec}s`;
+        const min = Math.floor(sec / 60);
+        const s = sec % 60;
+        return `${min}m ${s}s`;
+      };
+
+      const device = behavior?.userAgent?.includes("Mobile") ? "📱 Mobile" : "💻 Desktop";
+      const behaviorStr = behavior
+        ? `\n\n📊 Behavior:\n⏰ ${behavior.timestamp}\n📍 Page: ${behavior.page}\n⏱️ Time on page: ${formatTime(behavior.timeOnPageSec)}\n💬 Time in chat: ${formatTime(behavior.timeInChatSec)}\n📝 Messages: ${behavior.messageCount}\n📋 Filled form: ${behavior.filledForm ? "Yes" : "No"}\n${device}${behavior.referrer ? `\n🔗 Referrer: ${behavior.referrer}` : ""}`
+        : "";
 
       const convoStr = history.map(m => `${m.role}: ${m.content}`).join("\n");
       const summary = await summarizeConversation(history);
 
-      const fullMessage = `🗨️ Chat Session Ended${leadStr}\n\nSummary:\n${summary || "Could not generate summary"}\n\n--- Full conversation ---\n${convoStr}`;
+      const fullMessage = `🗨️ Chat Session Ended${leadStr}${behaviorStr}\n\n📋 Summary:\n${summary || "Could not generate summary"}\n\n--- Conversation ---\n${convoStr}`;
       await sendToTelegram(fullMessage);
 
       return NextResponse.json({ success: true }, { headers: corsHeaders });
