@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
+  isTyping?: boolean;
 }
 
 export function ChatWidget() {
@@ -12,25 +13,52 @@ export function ChatWidget() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [displayedContent, setDisplayedContent] = useState<string>("");
+  const [isTypingEffect, setIsTypingEffect] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const typingRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [messages, displayedContent]);
 
   useEffect(() => {
     if (isOpen && messages.length === 0) {
-      setMessages([
-        {
-          role: "assistant",
-          content: "> Welcome! I'm the shodh-memory demo. Ask me about cognitive memory for AI agents.",
-        },
-      ]);
+      typeMessage("> Welcome! I'm the shodh-memory demo. Ask me about cognitive memory for AI agents.");
     }
   }, [isOpen, messages.length]);
 
+  // Cleanup typing effect on unmount
+  useEffect(() => {
+    return () => {
+      if (typingRef.current) clearTimeout(typingRef.current);
+    };
+  }, []);
+
+  const typeMessage = useCallback((text: string) => {
+    setIsTypingEffect(true);
+    setDisplayedContent("");
+    let index = 0;
+
+    const type = () => {
+      if (index < text.length) {
+        setDisplayedContent(text.slice(0, index + 1));
+        index++;
+        // Faster for spaces and punctuation, slower for letters
+        const delay = text[index - 1] === " " ? 10 : text[index - 1]?.match(/[.,!?]/) ? 50 : 20;
+        typingRef.current = setTimeout(type, delay);
+      } else {
+        setIsTypingEffect(false);
+        setMessages((prev) => [...prev, { role: "assistant", content: text }]);
+        setDisplayedContent("");
+      }
+    };
+
+    type();
+  }, []);
+
   const sendMessage = async () => {
-    if (!input.trim() || isLoading) return;
+    if (!input.trim() || isLoading || isTypingEffect) return;
 
     const userMessage = input.trim();
     setInput("");
@@ -51,15 +79,12 @@ export function ChatWidget() {
       if (!res.ok) throw new Error("API error");
 
       const data = await res.json();
-      setMessages((prev) => [...prev, { role: "assistant", content: data.response }]);
+      setIsLoading(false);
+      typeMessage(data.response);
     } catch {
-      setMessages((prev) => [
-        ...prev,
-        { role: "assistant", content: "> Error: Connection failed. Try again." },
-      ]);
+      setIsLoading(false);
+      typeMessage("> Error: Connection failed. Try again or contact us below.");
     }
-
-    setIsLoading(false);
   };
 
   return (
@@ -123,7 +148,7 @@ export function ChatWidget() {
             style={{
               background: "var(--term-bg-secondary)",
               border: "1px solid var(--term-border)",
-              height: "480px"
+              height: "520px"
             }}
           >
             {/* Terminal header */}
@@ -168,7 +193,20 @@ export function ChatWidget() {
                   )}
                 </div>
               ))}
-              {isLoading && (
+
+              {/* Currently typing message */}
+              {isTypingEffect && displayedContent && (
+                <div className="flex items-start gap-2">
+                  <span style={{ color: "var(--term-green)" }}>$</span>
+                  <span style={{ color: "var(--term-text)" }}>
+                    {displayedContent}
+                    <span className="cursor-blink" style={{ color: "var(--term-orange)" }}>_</span>
+                  </span>
+                </div>
+              )}
+
+              {/* Loading state */}
+              {isLoading && !isTypingEffect && (
                 <div className="flex items-center gap-2">
                   <span style={{ color: "var(--term-green)" }}>$</span>
                   <span style={{ color: "var(--term-text-dim)" }} className="cursor-blink">_</span>
@@ -190,13 +228,14 @@ export function ChatWidget() {
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && sendMessage()}
                   placeholder="type your query..."
-                  className="flex-1 bg-transparent border-none outline-none font-mono text-sm"
+                  disabled={isLoading || isTypingEffect}
+                  className="flex-1 bg-transparent border-none outline-none font-mono text-sm disabled:opacity-50"
                   style={{ color: "var(--term-text)" }}
                 />
               </div>
               <button
                 onClick={sendMessage}
-                disabled={isLoading || !input.trim()}
+                disabled={isLoading || isTypingEffect || !input.trim()}
                 className="px-3 py-1 rounded text-xs font-mono transition-all duration-150 disabled:opacity-50"
                 style={{
                   background: "var(--term-orange)",
@@ -206,6 +245,34 @@ export function ChatWidget() {
               >
                 SEND
               </button>
+            </div>
+
+            {/* Contact section */}
+            <div
+              className="px-4 py-3"
+              style={{
+                borderTop: "1px solid var(--term-border)",
+                background: "var(--term-bg)"
+              }}
+            >
+              <div className="text-xs font-mono" style={{ color: "var(--term-text-dim)" }}>
+                Need enterprise support or custom integration?
+              </div>
+              <a
+                href="mailto:enterprise@shodh-memory.com?subject=Enterprise%20Inquiry%20-%20shodh-memory"
+                className="flex items-center gap-2 mt-2 px-3 py-2 rounded text-xs font-mono transition-all duration-150 hover:opacity-90"
+                style={{
+                  background: "var(--term-bg-secondary)",
+                  border: "1px solid var(--term-border)",
+                  color: "var(--term-cyan)",
+                  textDecoration: "none"
+                }}
+              >
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                </svg>
+                enterprise@shodh-memory.com
+              </a>
             </div>
 
             {/* Footer */}
