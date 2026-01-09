@@ -78,7 +78,7 @@ export function ChatWidget() {
 
     setState("chat");
     setTimeout(() => {
-      typeMessage(`Hi ${leadInfo.name.split(" ")[0]}! I'm the shodh-memory assistant. Ask me anything about cognitive memory for AI agents, pricing, or enterprise integration.`);
+      typeMessage(`Hey ${leadInfo.name.split(" ")[0]}! Thanks for reaching out. What brings you here today?`);
     }, 300);
   };
 
@@ -352,7 +352,7 @@ export function ChatWidget() {
                     setLeadInfo({ name: "Anonymous", email: "" });
                     setState("chat");
                     setTimeout(() => {
-                      typeMessage("Hi! I'm the shodh-memory assistant. Ask me anything about cognitive memory for AI agents.");
+                      typeMessage("Hey! What brings you here today?");
                     }, 300);
                   }}
                   className="w-full py-2 text-xs transition-all hover:opacity-70"
