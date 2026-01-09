@@ -367,7 +367,7 @@ export function ChatWidget() {
                             className="text-xs shrink-0 mt-0.5"
                             style={{ color: "var(--term-orange)", fontFamily: "var(--font-mono)" }}
                           >
-                            bot&gt;
+                            shodh&gt;
                           </span>
                           <p
                             className="text-sm leading-relaxed"
