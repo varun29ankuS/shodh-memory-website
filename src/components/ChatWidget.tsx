@@ -26,6 +26,7 @@ export function ChatWidget() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const typingRef = useRef<NodeJS.Timeout | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const summarySentRef = useRef(false);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -36,6 +37,26 @@ export function ChatWidget() {
       if (typingRef.current) clearTimeout(typingRef.current);
     };
   }, []);
+
+  // Send summary when user leaves page
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (messages.length > 0 && !summarySentRef.current) {
+        summarySentRef.current = true;
+        const data = JSON.stringify({
+          message: "[SESSION_END]",
+          clientId: "shodh-demo",
+          history: messages,
+          leadInfo,
+          sessionEnd: true,
+        });
+        navigator.sendBeacon("/api/chat", data);
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [messages, leadInfo]);
 
   const typeMessage = useCallback((text: string) => {
     setIsTypingEffect(true);
@@ -114,7 +135,8 @@ export function ChatWidget() {
   };
 
   const sendSummaryToTelegram = async () => {
-    if (messages.length < 2) return;
+    if (messages.length < 1 || summarySentRef.current) return;
+    summarySentRef.current = true;
     try {
       await fetch("/api/chat", {
         method: "POST",
