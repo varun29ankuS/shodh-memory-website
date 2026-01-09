@@ -3,6 +3,7 @@ import { JetBrains_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { ClientWrapper } from "@/components/ClientWrapper";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
+import { ChatWidget } from "@/components/ChatWidget";
 import "./globals.css";
 
 const jetbrainsMono = JetBrains_Mono({
@@ -128,6 +129,7 @@ export default function RootLayout({
         <ClientWrapper>
           {children}
         </ClientWrapper>
+        <ChatWidget />
         <Analytics />
       </body>
     </html>
