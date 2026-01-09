@@ -226,6 +226,7 @@ export async function POST(request: NextRequest) {
 
     // Handle session end - send summary to Telegram
     if (sessionEnd && history.length > 0) {
+      console.log("Session end received:", { behavior, leadInfo, historyLength: history.length });
       const location = ip !== "Unknown" ? await getLocationFromIP(ip) : "Unknown";
 
       const leadStr = leadInfo?.name && leadInfo.name !== "Anonymous"
