@@ -180,6 +180,8 @@ interface BehaviorData {
   filledForm: boolean;
   userAgent: string;
   referrer: string;
+  ip?: string;
+  location?: string;
 }
 
 interface ChatRequest {
@@ -191,6 +193,20 @@ interface ChatRequest {
   behavior?: BehaviorData;
 }
 
+// Get location from IP
+async function getLocationFromIP(ip: string): Promise<string> {
+  try {
+    const res = await fetch(`https://ipapi.co/${ip}/json/`);
+    const data = await res.json();
+    if (data.city && data.country_name) {
+      return `${data.city}, ${data.country_name}`;
+    }
+    return data.country_name || "Unknown";
+  } catch {
+    return "Unknown";
+  }
+}
+
 export async function POST(request: NextRequest) {
   // CORS headers for cross-origin widget requests
   const corsHeaders = {
@@ -199,12 +215,19 @@ export async function POST(request: NextRequest) {
     "Access-Control-Allow-Headers": "Content-Type",
   };
 
+  // Get IP address
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
+    || request.headers.get("x-real-ip")
+    || "Unknown";
+
   try {
     const body: ChatRequest = await request.json();
     const { message, clientId = "shodh-demo", history = [], leadInfo, sessionEnd, behavior } = body;
 
     // Handle session end - send summary to Telegram
     if (sessionEnd && history.length > 0) {
+      const location = ip !== "Unknown" ? await getLocationFromIP(ip) : "Unknown";
+
       const leadStr = leadInfo?.name && leadInfo.name !== "Anonymous"
         ? `\n\n👤 Lead:\nName: ${leadInfo.name}\nEmail: ${leadInfo.email}${leadInfo.company ? `\nCompany: ${leadInfo.company}` : ""}`
         : "\n\n👤 Anonymous user";
@@ -218,9 +241,10 @@ export async function POST(request: NextRequest) {
       };
 
       const device = behavior?.userAgent?.includes("Mobile") ? "📱 Mobile" : "💻 Desktop";
+      const locationStr = `\n🌍 Location: ${location}${ip !== "Unknown" ? ` (${ip})` : ""}`;
       const behaviorStr = behavior
-        ? `\n\n📊 Behavior:\n⏰ ${behavior.timestamp}\n📍 Page: ${behavior.page}\n⏱️ Time on page: ${formatTime(behavior.timeOnPageSec)}\n💬 Time in chat: ${formatTime(behavior.timeInChatSec)}\n📝 Messages: ${behavior.messageCount}\n📋 Filled form: ${behavior.filledForm ? "Yes" : "No"}\n${device}${behavior.referrer ? `\n🔗 Referrer: ${behavior.referrer}` : ""}`
-        : "";
+        ? `\n\n📊 Behavior:\n⏰ ${behavior.timestamp}${locationStr}\n📍 Page: ${behavior.page}\n⏱️ Time on page: ${formatTime(behavior.timeOnPageSec)}\n💬 Time in chat: ${formatTime(behavior.timeInChatSec)}\n📝 Messages: ${behavior.messageCount}\n📋 Filled form: ${behavior.filledForm ? "Yes" : "No"}\n${device}${behavior.referrer ? `\n🔗 Referrer: ${behavior.referrer}` : ""}`
+        : `\n\n📊 Info:${locationStr}`;
 
       const convoStr = history.map(m => `${m.role}: ${m.content}`).join("\n");
       const summary = await summarizeConversation(history);
