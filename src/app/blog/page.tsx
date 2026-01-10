@@ -4,6 +4,22 @@ import Link from "next/link";
 
 export const BLOG_POSTS = [
   {
+    slug: "rag-is-not-memory",
+    title: "RAG Is Not Memory: Why Your AI Still Has Amnesia",
+    date: "2026-01-10",
+    readTime: "8 min",
+    tags: ["rag", "architecture", "memory"],
+    excerpt: "Everyone thinks RAG solves the memory problem. It doesn't. Retrieval is not remembering. Here's the difference—and why it matters.",
+  },
+  {
+    slug: "agentic-shift-2026",
+    title: "The Agentic Shift: Why 2026 Is the Year AI Stops Waiting for Prompts",
+    date: "2026-01-10",
+    readTime: "9 min",
+    tags: ["trends", "agentic-ai", "2026"],
+    excerpt: "We're witnessing the biggest shift in AI since ChatGPT. Agents that act, remember, and learn—not chatbots that wait. Here's what's actually changing.",
+  },
+  {
     slug: "memory-architecture-autonomous-agents",
     title: "Memory Architecture for Autonomous Agents: Why Your AI Needs a Brain, Not a Database",
     date: "2026-01-07",
