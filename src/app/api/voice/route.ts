@@ -18,7 +18,7 @@ interface VoiceRequest {
 async function speechToText(audioBase64: string): Promise<string> {
   const audioBuffer = Buffer.from(audioBase64, "base64");
 
-  const response = await fetch("https://api.deepgram.com/v1/listen?model=nova-2&language=hi&detect_language=true", {
+  const response = await fetch("https://api.deepgram.com/v1/listen?model=nova-2&detect_language=true", {
     method: "POST",
     headers: {
       "Authorization": `Token ${DEEPGRAM_API_KEY}`,
@@ -64,7 +64,7 @@ async function generateResponse(
   history: Array<{ role: string; content: string }>
 ): Promise<string> {
   const systemPrompt = `You are a friendly assistant for shodh-memory.
-You can respond in Hindi or English based on what the user speaks.
+Always respond in English only, regardless of what language the user speaks.
 Keep responses concise (2-3 sentences) since this will be spoken aloud.
 Be helpful and conversational.`;
 
