@@ -5,6 +5,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 interface Message {
   role: "user" | "assistant";
   content: string;
+  audioUrl?: string; // For voice messages
 }
 
 interface LeadInfo {
@@ -14,6 +15,7 @@ interface LeadInfo {
 }
 
 type WidgetState = "closed" | "form" | "chat";
+type VoiceState = "idle" | "recording" | "processing";
 
 export function ChatWidget() {
   const [state, setState] = useState<WidgetState>("closed");
@@ -24,12 +26,17 @@ export function ChatWidget() {
   const [displayedContent, setDisplayedContent] = useState<string>("");
   const [isTypingEffect, setIsTypingEffect] = useState(false);
   const [showPrompt, setShowPrompt] = useState(false);
+  const [voiceState, setVoiceState] = useState<VoiceState>("idle");
+  const [voiceEnabled, setVoiceEnabled] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const typingRef = useRef<NodeJS.Timeout | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const summarySentRef = useRef(false);
   const sessionStartRef = useRef<number>(Date.now());
   const chatOpenedAtRef = useRef<number | null>(null);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const audioChunksRef = useRef<Blob[]>([]);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -218,6 +225,113 @@ export function ChatWidget() {
       }
       setState("closed");
     }
+  };
+
+  // Voice recording functions
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mediaRecorder = new MediaRecorder(stream, { mimeType: "audio/webm" });
+      mediaRecorderRef.current = mediaRecorder;
+      audioChunksRef.current = [];
+
+      mediaRecorder.ondataavailable = (e) => {
+        if (e.data.size > 0) {
+          audioChunksRef.current.push(e.data);
+        }
+      };
+
+      mediaRecorder.onstop = async () => {
+        stream.getTracks().forEach((track) => track.stop());
+        const audioBlob = new Blob(audioChunksRef.current, { type: "audio/webm" });
+        await processVoiceMessage(audioBlob);
+      };
+
+      mediaRecorder.start();
+      setVoiceState("recording");
+    } catch (err) {
+      console.error("Microphone access denied:", err);
+      alert("Please allow microphone access to use voice chat.");
+    }
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorderRef.current && voiceState === "recording") {
+      mediaRecorderRef.current.stop();
+      setVoiceState("processing");
+    }
+  };
+
+  const processVoiceMessage = async (audioBlob: Blob) => {
+    try {
+      // Convert blob to base64
+      const reader = new FileReader();
+      reader.readAsDataURL(audioBlob);
+
+      reader.onloadend = async () => {
+        const base64Audio = (reader.result as string).split(",")[1];
+
+        setIsLoading(true);
+
+        const res = await fetch("/api/voice", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            audio: base64Audio,
+            action: "chat",
+            history: messages.slice(-6),
+          }),
+        });
+
+        if (!res.ok) throw new Error("Voice API error");
+
+        const data = await res.json();
+
+        // Add user's transcribed message
+        if (data.userText) {
+          setMessages((prev) => [...prev, { role: "user", content: data.userText }]);
+        }
+
+        setIsLoading(false);
+
+        // Add assistant's response and play audio
+        if (data.responseText) {
+          typeMessage(data.responseText);
+
+          // Play audio response if available
+          if (data.responseAudio) {
+            playAudioResponse(data.responseAudio);
+          }
+        }
+
+        setVoiceState("idle");
+      };
+    } catch (err) {
+      console.error("Voice processing error:", err);
+      setIsLoading(false);
+      setVoiceState("idle");
+      typeMessage("Sorry, I couldn't process your voice message. Please try again or type instead.");
+    }
+  };
+
+  const playAudioResponse = (base64Audio: string) => {
+    try {
+      const audioData = `data:audio/wav;base64,${base64Audio}`;
+      if (audioRef.current) {
+        audioRef.current.src = audioData;
+        audioRef.current.play();
+      } else {
+        const audio = new Audio(audioData);
+        audioRef.current = audio;
+        audio.play();
+      }
+    } catch (err) {
+      console.error("Audio playback error:", err);
+    }
+  };
+
+  const toggleVoiceMode = () => {
+    setVoiceEnabled(!voiceEnabled);
   };
 
   return (
@@ -599,38 +713,95 @@ export function ChatWidget() {
                   style={{ borderTop: "1px dotted var(--term-border)" }}
                 >
                   <div className="flex items-center gap-2">
-                    <span
-                      className="text-sm shrink-0"
-                      style={{ color: "var(--term-cyan)", fontFamily: "var(--font-mono)" }}
-                    >
-                      $
-                    </span>
-                    <input
-                      ref={inputRef}
-                      type="text"
-                      value={input}
-                      onChange={(e) => setInput(e.target.value)}
-                      onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && sendMessage()}
-                      placeholder="type_message..."
-                      disabled={isLoading || isTypingEffect}
-                      className="flex-1 bg-transparent border-none outline-none text-sm disabled:opacity-50"
-                      style={{
-                        color: "var(--term-text)",
-                        fontFamily: "var(--font-mono)",
-                      }}
-                    />
+                    {/* Voice mode toggle */}
                     <button
-                      onClick={sendMessage}
-                      disabled={isLoading || isTypingEffect || !input.trim()}
-                      className="px-3 py-1 text-xs transition-all disabled:opacity-30"
+                      onClick={toggleVoiceMode}
+                      className="shrink-0 w-7 h-7 flex items-center justify-center text-xs transition-all"
                       style={{
-                        background: "var(--term-orange)",
-                        color: "var(--term-bg)",
+                        background: voiceEnabled ? "var(--term-orange)" : "transparent",
+                        border: "1px dotted var(--term-border)",
+                        color: voiceEnabled ? "var(--term-bg)" : "var(--term-text-dim)",
                         fontFamily: "var(--font-mono)",
                       }}
+                      title={voiceEnabled ? "Switch to text" : "Switch to voice"}
                     >
-                      SEND
+                      {voiceEnabled ? "🎤" : "⌨"}
                     </button>
+
+                    {voiceEnabled ? (
+                      // Voice input mode
+                      <>
+                        <div
+                          className="flex-1 flex items-center justify-center py-2"
+                          style={{ fontFamily: "var(--font-mono)" }}
+                        >
+                          {voiceState === "idle" && (
+                            <span className="text-xs" style={{ color: "var(--term-text-dim)" }}>
+                              tap mic to speak (Hindi/English)
+                            </span>
+                          )}
+                          {voiceState === "recording" && (
+                            <span className="text-xs animate-pulse" style={{ color: "#ff5f56" }}>
+                              ● recording... tap to stop
+                            </span>
+                          )}
+                          {voiceState === "processing" && (
+                            <span className="text-xs" style={{ color: "var(--term-cyan)" }}>
+                              processing...
+                            </span>
+                          )}
+                        </div>
+                        <button
+                          onClick={voiceState === "recording" ? stopRecording : startRecording}
+                          disabled={isLoading || isTypingEffect || voiceState === "processing"}
+                          className="w-10 h-10 flex items-center justify-center text-lg transition-all disabled:opacity-30"
+                          style={{
+                            background: voiceState === "recording" ? "#ff5f56" : "var(--term-orange)",
+                            border: "none",
+                            borderRadius: "50%",
+                            color: "var(--term-bg)",
+                          }}
+                        >
+                          {voiceState === "recording" ? "⏹" : "🎤"}
+                        </button>
+                      </>
+                    ) : (
+                      // Text input mode
+                      <>
+                        <span
+                          className="text-sm shrink-0"
+                          style={{ color: "var(--term-cyan)", fontFamily: "var(--font-mono)" }}
+                        >
+                          $
+                        </span>
+                        <input
+                          ref={inputRef}
+                          type="text"
+                          value={input}
+                          onChange={(e) => setInput(e.target.value)}
+                          onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && sendMessage()}
+                          placeholder="type_message..."
+                          disabled={isLoading || isTypingEffect}
+                          className="flex-1 bg-transparent border-none outline-none text-sm disabled:opacity-50"
+                          style={{
+                            color: "var(--term-text)",
+                            fontFamily: "var(--font-mono)",
+                          }}
+                        />
+                        <button
+                          onClick={sendMessage}
+                          disabled={isLoading || isTypingEffect || !input.trim()}
+                          className="px-3 py-1 text-xs transition-all disabled:opacity-30"
+                          style={{
+                            background: "var(--term-orange)",
+                            color: "var(--term-bg)",
+                            fontFamily: "var(--font-mono)",
+                          }}
+                        >
+                          SEND
+                        </button>
+                      </>
+                    )}
                   </div>
                 </div>
 
