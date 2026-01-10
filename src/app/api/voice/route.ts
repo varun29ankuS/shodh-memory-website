@@ -5,14 +5,7 @@ const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
 });
 
-// Bhashini API config
-const BHASHINI_API_URL = "https://dhruva-api.bhashini.gov.in/services/inference/pipeline";
-const BHASHINI_API_KEY = process.env.BHASHINI_API_KEY;
-const BHASHINI_USER_ID = process.env.BHASHINI_USER_ID;
-
-// Service IDs for Hindi (you get these from pipeline config call)
-const ASR_SERVICE_ID = process.env.BHASHINI_ASR_SERVICE_ID || "ai4bharat/conformer-hi-gpu--t4";
-const TTS_SERVICE_ID = process.env.BHASHINI_TTS_SERVICE_ID || "ai4bharat/indic-tts-coqui-hindi-gpu--t4";
+const DEEPGRAM_API_KEY = process.env.DEEPGRAM_API_KEY;
 
 interface VoiceRequest {
   audio?: string; // base64 audio for speech-to-text
@@ -21,72 +14,48 @@ interface VoiceRequest {
   history?: Array<{ role: string; content: string }>;
 }
 
-// Speech to Text using Bhashini
+// Speech to Text using Deepgram
 async function speechToText(audioBase64: string): Promise<string> {
-  const response = await fetch(BHASHINI_API_URL, {
+  const audioBuffer = Buffer.from(audioBase64, "base64");
+
+  const response = await fetch("https://api.deepgram.com/v1/listen?model=nova-2&language=hi&detect_language=true", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
-      "Authorization": BHASHINI_API_KEY || "",
+      "Authorization": `Token ${DEEPGRAM_API_KEY}`,
+      "Content-Type": "audio/webm",
     },
-    body: JSON.stringify({
-      pipelineTasks: [{
-        taskType: "asr",
-        config: {
-          language: { sourceLanguage: "hi" },
-          serviceId: ASR_SERVICE_ID,
-          audioFormat: "wav",
-          samplingRate: 16000,
-        },
-      }],
-      inputData: {
-        audio: [{ audioContent: audioBase64 }],
-      },
-    }),
+    body: audioBuffer,
   });
 
   if (!response.ok) {
     const error = await response.text();
-    console.error("Bhashini ASR error:", error);
+    console.error("Deepgram STT error:", error);
     throw new Error("Speech recognition failed");
   }
 
   const data = await response.json();
-  return data.pipelineResponse?.[0]?.output?.[0]?.source || "";
+  return data.results?.channels?.[0]?.alternatives?.[0]?.transcript || "";
 }
 
-// Text to Speech using Bhashini
+// Text to Speech using Deepgram
 async function textToSpeech(text: string): Promise<string> {
-  const response = await fetch(BHASHINI_API_URL, {
+  const response = await fetch("https://api.deepgram.com/v1/speak?model=aura-asteria-en", {
     method: "POST",
     headers: {
+      "Authorization": `Token ${DEEPGRAM_API_KEY}`,
       "Content-Type": "application/json",
-      "Authorization": BHASHINI_API_KEY || "",
     },
-    body: JSON.stringify({
-      pipelineTasks: [{
-        taskType: "tts",
-        config: {
-          language: { sourceLanguage: "hi" },
-          serviceId: TTS_SERVICE_ID,
-          gender: "female",
-          samplingRate: 22050,
-        },
-      }],
-      inputData: {
-        input: [{ source: text }],
-      },
-    }),
+    body: JSON.stringify({ text }),
   });
 
   if (!response.ok) {
     const error = await response.text();
-    console.error("Bhashini TTS error:", error);
+    console.error("Deepgram TTS error:", error);
     throw new Error("Text to speech failed");
   }
 
-  const data = await response.json();
-  return data.pipelineResponse?.[0]?.audio?.[0]?.audioContent || "";
+  const audioBuffer = await response.arrayBuffer();
+  return Buffer.from(audioBuffer).toString("base64");
 }
 
 // Generate chat response
