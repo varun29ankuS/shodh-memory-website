@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { VERSION } from "@/lib/version";
 
 interface TerminalLine {
   type: "input" | "output" | "error" | "system";
@@ -64,7 +65,7 @@ const COMMANDS: Record<string, { output: string[]; delay?: number }> = {
 
 export function InteractiveTerminal() {
   const [history, setHistory] = useState<TerminalLine[]>([
-    { type: "system", content: "shodh-memory v0.1.6 - Cognitive Memory System" },
+    { type: "system", content: `shodh-memory v${VERSION} - Cognitive Memory System` },
     { type: "system", content: 'Type "help" for available commands' },
     { type: "system", content: "" },
   ]);
@@ -88,7 +89,7 @@ export function InteractiveTerminal() {
 
     if (command === "clear") {
       setHistory([
-        { type: "system", content: "shodh-memory v0.1.6 - Cognitive Memory System" },
+        { type: "system", content: `shodh-memory v${VERSION} - Cognitive Memory System` },
         { type: "system", content: "" },
       ]);
       setIsProcessing(false);

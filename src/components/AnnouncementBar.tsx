@@ -2,10 +2,11 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { VERSION } from "@/lib/version";
 
 const ANNOUNCEMENT = {
-  id: "v0.1.6-release", // Change this ID when updating announcement to show it again
-  text: "v0.1.6 released — GTD-style todos, comments, sub-projects & more",
+  id: `v${VERSION}-release`, // Change this ID when updating announcement to show it again
+  text: `v${VERSION} released — Hierarchical memory trees, ACT-R spreading activation & more`,
   link: "https://github.com/varun29ankuS/shodh-memory/releases",
   linkText: "View changelog →",
 };

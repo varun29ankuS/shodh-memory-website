@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { VERSION } from "@/lib/version";
 
 const BOOT_LINES = [
-  { text: "SHODH-MEMORY BIOS v0.1.6", delay: 0 },
+  { text: `SHODH-MEMORY BIOS v${VERSION}`, delay: 0 },
   { text: "Copyright (C) 2024-2025 Shodh Systems", delay: 100 },
   { text: "", delay: 200 },
   { text: "Detecting hardware...", delay: 300 },

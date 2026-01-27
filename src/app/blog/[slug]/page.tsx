@@ -587,7 +587,7 @@ const BLOG_CONTENT: Record<string, string[]> = {
     "",
     "```bash",
     "# On Raspberry Pi OS (64-bit recommended)",
-    "curl -L https://github.com/varun29ankuS/shodh-memory/releases/download/v0.1.6/shodh-memory-aarch64-linux -o shodh-memory",
+    "curl -L https://github.com/varun29ankuS/shodh-memory/releases/download/v0.1.75/shodh-memory-aarch64-linux -o shodh-memory",
     "chmod +x shodh-memory",
     "./shodh-memory --data-dir ./memory-data",
     "```",

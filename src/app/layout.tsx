@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { ClientWrapper } from "@/components/ClientWrapper";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { ChatWidget } from "@/components/ChatWidget";
+import { VERSION } from "@/lib/version";
 import "./globals.css";
 
 const jetbrainsMono = JetBrains_Mono({
@@ -103,7 +104,7 @@ export default function RootLayout({
                 "Persistent cognitive memory for AI agents. Hebbian learning, runs offline, single binary.",
               url: "https://www.shodh-memory.com",
               downloadUrl: "https://www.npmjs.com/package/@shodh/memory-mcp",
-              softwareVersion: "0.1.6",
+              softwareVersion: VERSION,
               author: {
                 "@type": "Organization",
                 name: "Shodh",

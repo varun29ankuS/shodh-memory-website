@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { VERSION } from "@/lib/version";
 
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -13,7 +14,7 @@ export function Header() {
         <Link href="/" className="flex items-center gap-2 hover:no-underline">
           <Image src="/logo.png" alt="Shodh" width={24} height={24} className="opacity-90" />
           <span className="text-[var(--term-text)] font-semibold">shodh-memory</span>
-          <span className="text-[var(--term-text-dim)] text-sm hidden sm:inline">v0.1.6</span>
+          <span className="text-[var(--term-text-dim)] text-sm hidden sm:inline">v{VERSION}</span>
         </Link>
 
         {/* Desktop nav */}
