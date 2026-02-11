@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export function Footer() {
   return (
     <footer className="border-t border-[var(--term-border)] py-12 px-4">
@@ -10,7 +12,7 @@ export function Footer() {
               <span className="font-semibold">shodh-memory</span>
             </div>
             <p className="text-[var(--term-text-dim)] text-sm max-w-md">
-              Persistent cognitive memory for AI agents. Built with Rust, 
+              Persistent cognitive memory for AI agents. Built with Rust,
               grounded in neuroscience, designed for the edge.
             </p>
           </div>
@@ -20,32 +22,32 @@ export function Footer() {
             <h4 className="text-[var(--term-orange)] text-sm font-medium mb-3">Resources</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="https://github.com/varun29ankuS/shodh-memory" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
+                <a href="https://github.com/varun29ankuS/shodh-memory" target="_blank" rel="noopener noreferrer" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
                   GitHub
                 </a>
               </li>
               <li>
-                <a href="/docs" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
+                <Link href="/docs" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
                   Documentation
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/research" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
+                <Link href="/research" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
                   Research & Citations
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/enterprise" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
+                <Link href="/enterprise" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
                   Enterprise
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="https://crates.io/crates/shodh-memory" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
+                <a href="https://crates.io/crates/shodh-memory" target="_blank" rel="noopener noreferrer" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
                   crates.io
                 </a>
               </li>
               <li>
-                <a href="https://www.npmjs.com/package/@shodh/memory-mcp" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
+                <a href="https://www.npmjs.com/package/@shodh/memory-mcp" target="_blank" rel="noopener noreferrer" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
                   npm
                 </a>
               </li>
@@ -57,22 +59,22 @@ export function Footer() {
             <h4 className="text-[var(--term-orange)] text-sm font-medium mb-3">Shodh Ecosystem</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="https://www.shodh-rag.com" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
+                <a href="https://www.shodh-rag.com" target="_blank" rel="noopener noreferrer" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
                   Shodh RAG
                 </a>
               </li>
               <li>
-                <a href="https://www.shodh-rag.com/memory" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
+                <a href="https://www.shodh-rag.com/memory" target="_blank" rel="noopener noreferrer" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
                   Memory Docs
                 </a>
               </li>
               <li>
-                <a href="https://github.com/varun29ankuS/shodh-memory/issues" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
+                <a href="https://github.com/varun29ankuS/shodh-memory/issues" target="_blank" rel="noopener noreferrer" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
                   Issues
                 </a>
               </li>
               <li>
-                <a href="https://github.com/varun29ankuS/shodh-memory/discussions" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
+                <a href="https://github.com/varun29ankuS/shodh-memory/discussions" target="_blank" rel="noopener noreferrer" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
                   Discussions
                 </a>
               </li>
@@ -83,7 +85,7 @@ export function Footer() {
         {/* Bottom */}
         <div className="pt-8 border-t border-[var(--term-border)] flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-[var(--term-text-dim)]">
           <div>
-            Part of the <a href="https://shodh-rag.com" className="text-[var(--term-orange)] hover:underline">Shodh</a> ecosystem
+            Part of the <a href="https://shodh-rag.com" target="_blank" rel="noopener noreferrer" className="text-[var(--term-orange)] hover:underline">Shodh</a> ecosystem
           </div>
           <div className="flex items-center gap-1">
             <span>Built with</span>

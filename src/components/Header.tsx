@@ -76,13 +76,13 @@ export function Header() {
 
 function NavLink({ href, children, onClick }: { href: string; children: React.ReactNode; onClick?: () => void }) {
   return (
-    <a
+    <Link
       href={href}
       onClick={onClick}
       className="block text-[var(--term-text-dim)] hover:text-[var(--term-orange)] transition-colors"
     >
       {children}
-    </a>
+    </Link>
   );
 }
 

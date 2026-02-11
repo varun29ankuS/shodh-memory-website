@@ -1,5 +1,22 @@
+import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+
+export const metadata: Metadata = {
+  title: "Edge & Robotics Use Cases",
+  description:
+    "Deploy AI memory on edge devices, robots, and industrial systems. Shodh-memory runs on Raspberry Pi, NVIDIA Jetson, and air-gapped environments with sub-millisecond latency.",
+  openGraph: {
+    title: "Edge & Robotics Use Cases | shodh-memory",
+    description:
+      "Deploy AI memory on edge devices, robots, and industrial systems. Sub-millisecond latency, zero cloud dependency.",
+    url: "https://www.shodh-memory.com/use-cases",
+    siteName: "shodh-memory",
+  },
+  alternates: {
+    canonical: "https://www.shodh-memory.com/use-cases",
+  },
+};
 
 const USE_CASES = [
   {
