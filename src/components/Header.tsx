@@ -23,6 +23,7 @@ export function Header() {
           <NavLink href="/use-cases">Edge & Robotics</NavLink>
           <NavLink href="/enterprise">Enterprise</NavLink>
           <NavLink href="/research">Research</NavLink>
+          <NavLink href="/docs">Docs</NavLink>
           <NavLink href="/blog">Blog</NavLink>
           <NavLink href="/#install">Install</NavLink>
           
@@ -56,6 +57,7 @@ export function Header() {
           <NavLink href="/use-cases" onClick={() => setMenuOpen(false)}>Edge & Robotics</NavLink>
           <NavLink href="/enterprise" onClick={() => setMenuOpen(false)}>Enterprise</NavLink>
           <NavLink href="/research" onClick={() => setMenuOpen(false)}>Research</NavLink>
+          <NavLink href="/docs" onClick={() => setMenuOpen(false)}>Docs</NavLink>
           <NavLink href="/blog" onClick={() => setMenuOpen(false)}>Blog</NavLink>
           <a
             href="https://github.com/varun29ankuS/shodh-memory"

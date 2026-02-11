@@ -25,7 +25,7 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <a href="https://github.com/varun29ankuS/shodh-memory#readme" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
+                <a href="/docs" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
                   Documentation
                 </a>
               </li>
