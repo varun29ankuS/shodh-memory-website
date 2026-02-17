@@ -21,6 +21,14 @@ export const metadata: Metadata = {
 
 export const BLOG_POSTS = [
   {
+    slug: "why-your-ai-agents-memory-is-broken",
+    title: "Why Your AI Agent's Memory Is Broken — And How Neuroscience Fixes It",
+    date: "2026-02-17",
+    readTime: "12 min",
+    tags: ["cognition", "neuroscience", "architecture"],
+    excerpt: "Your agent forgets everything between sessions. RAG doesn't help. Vector databases don't help. The fix comes from 75 years of memory research — Hebbian learning, spreading activation, and decay curves that actually work.",
+  },
+  {
     slug: "what-is-ai-agent-memory",
     title: "What Is AI Agent Memory? Beyond Chat History and RAG",
     date: "2026-02-17",
