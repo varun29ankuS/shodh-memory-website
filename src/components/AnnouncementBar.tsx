@@ -6,7 +6,7 @@ import { VERSION } from "@/lib/version";
 
 const ANNOUNCEMENT = {
   id: `v${VERSION}-release`, // Change this ID when updating announcement to show it again
-  text: `v${VERSION} released — Hierarchical memory trees, ACT-R spreading activation & more`,
+  text: `v${VERSION} released — OpenAI Agents SDK integration, cognitive session memory & more`,
   link: "https://github.com/varun29ankuS/shodh-memory/releases",
   linkText: "View changelog →",
 };
