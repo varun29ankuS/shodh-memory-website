@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 
@@ -22,6 +23,20 @@ const RESEARCH_CATEGORIES = [
   {
     title: "Memory Decay & Forgetting",
     description: "How memories fade over time and why power-law decay matters",
+    blogSlug: "memory-decay-forgetting-curves",
+    blogLabel: "The Math Behind Remembering",
+    ascii: [
+      "  strength",
+      "  100% |\u2588\u2588\u2588\u2588",
+      "   80% |\u2588\u2588\u2588\u2588\u2588\u2588",
+      "   60% |   \u2588\u2588\u2588\u2588\u2588\u2593\u2593",
+      "   40% |      \u2588\u2588\u2588\u2593\u2593\u2593\u2592\u2592",
+      "   20% |         \u2593\u2593\u2592\u2592\u2592\u2591\u2591\u2591\u2591",
+      "   10% |            \u2592\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591",
+      "       +\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
+      "       0   1d   3d   7d   30d",
+      "         exponential \u2192 power-law",
+    ],
     papers: [
       {
         authors: "Wixted, J.T. & Ebbesen, E.B.",
@@ -54,7 +69,21 @@ const RESEARCH_CATEGORIES = [
   },
   {
     title: "Hebbian Learning & Synaptic Plasticity",
-    description: "Fire together, wire together—the basis of associative memory",
+    description: "Fire together, wire together\u2014the basis of associative memory",
+    blogSlug: "hebbian-learning-ai-agents",
+    blogLabel: "Neurons That Fire Together Wire Together",
+    ascii: [
+      "  before:          after:",
+      "",
+      "  \u25CB \u2500\u2500\u2500 \u25CB          \u25CF \u2550\u2550\u2550 \u25CF",
+      "  |       |          |       |",
+      "  \u25CB \u2500\u2500\u2500 \u25CB          \u25CF \u2550\u2550\u2550 \u25CF",
+      "",
+      "  weak edges       strengthened",
+      "  (0.10)            (+0.025/co-access)",
+      "",
+      "  co-activation \u2192 stronger bonds",
+    ],
     papers: [
       {
         authors: "Bi, G.Q. & Poo, M.M.",
@@ -79,6 +108,20 @@ const RESEARCH_CATEGORIES = [
   {
     title: "Spreading Activation",
     description: "How activation spreads through associative networks",
+    blogSlug: "knowledge-graph-spreading-activation",
+    blogLabel: "How Context Surfaces",
+    ascii: [
+      "          \u25CB",
+      "         / \\",
+      "        \u25CB   \u25CB \u2190 hop 2 (0.49)",
+      "       / \\   \\",
+      "      \u25CF   \u25CF   \u25CB \u2190 hop 1 (0.70)",
+      "       \\ /",
+      "        \u2605 \u2190 query node (1.00)",
+      "",
+      "  activation = weight \u00D7 0.7^hops",
+      "  surfaces related context",
+    ],
     papers: [
       {
         authors: "Anderson, J.R. & Pirolli, P.L.",
@@ -103,6 +146,18 @@ const RESEARCH_CATEGORIES = [
   {
     title: "Sleep & Memory Consolidation",
     description: "How replay during rest strengthens memory traces",
+    blogSlug: "long-term-potentiation-code",
+    blogLabel: "Making Memories Permanent",
+    ascii: [
+      "  awake        consolidation     stable",
+      "",
+      "  \u2591\u2591\u2591\u2592\u2591\u2591\u2592\u2591   \u2192   \u2592\u2593\u2593\u2593\u2593\u2592\u2592\u2591   \u2192   \u2588\u2588\u2588\u2588\u2593\u2592\u2591\u2591",
+      "  fragile         replay         durable",
+      "  traces          cycles         engrams",
+      "",
+      "  hippocampal replay \u2192 cortical storage",
+      "  (our maintenance cycles mirror this)",
+    ],
     papers: [
       {
         authors: "Rasch, B. & Born, J.",
@@ -127,6 +182,19 @@ const RESEARCH_CATEGORIES = [
   {
     title: "Interference & Competition",
     description: "How similar memories compete and interfere",
+    blogSlug: "why-not-just-vector-search",
+    blogLabel: "Why Vector Search Alone Isn't Enough",
+    ascii: [
+      "  memory A [\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2593\u2593\u2593]  sim=0.92",
+      "  memory B [\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2593\u2592]  sim=0.95",
+      "            \u2502",
+      "            \u25BC",
+      "  retrieval competition: B wins",
+      "  A suppressed by interference",
+      "",
+      "  threshold > 0.85 \u2192 inhibition",
+      "  (prevents redundant recall)",
+    ],
     papers: [
       {
         authors: "Postman, L. & Underwood, B.J.",
@@ -151,6 +219,20 @@ const RESEARCH_CATEGORIES = [
   {
     title: "Cognitive Architecture",
     description: "Computational models of human memory",
+    blogSlug: "three-tier-memory-architecture",
+    blogLabel: "From Cowan to Code",
+    ascii: [
+      "  \u250C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510",
+      "  \u2502  \u250C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510  \u2502",
+      "  \u2502  \u2502  \u250C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510  \u2502  \u2502",
+      "  \u2502  \u2502  \u2502 Working \u2502  \u2502  \u2502  \u2190 seconds",
+      "  \u2502  \u2502  \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518  \u2502  \u2502",
+      "  \u2502  \u2502   Session      \u2502  \u2502  \u2190 hours",
+      "  \u2502  \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518  \u2502",
+      "  \u2502     Long-Term Memory    \u2502  \u2190 permanent",
+      "  \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518",
+      "    Cowan's embedded processes",
+    ],
     papers: [
       {
         authors: "Cowan, N.",
@@ -159,7 +241,7 @@ const RESEARCH_CATEGORIES = [
         journal: "Psychological Bulletin, 104(2), 163-191",
         doi: "10.1037/0033-2909.104.2.163",
         usage:
-          "The foundational paper for our 3-tier architecture. Cowan's model distinguishes activated long-term memory from the focus of attention—our Working → Session → LongTerm tiers map directly to this.",
+          "The foundational paper for our 3-tier architecture. Cowan's model distinguishes activated long-term memory from the focus of attention\u2014our Working \u2192 Session \u2192 LongTerm tiers map directly to this.",
       },
       {
         authors: "Cowan, N.",
@@ -182,7 +264,7 @@ const RESEARCH_CATEGORIES = [
       {
         authors: "McGaugh, J.L.",
         year: 2000,
-        title: "Memory—a Century of Consolidation",
+        title: "Memory\u2014a Century of Consolidation",
         journal: "Science, 287(5451), 248-251",
         doi: "10.1126/science.287.5451.248",
         usage:
@@ -195,13 +277,25 @@ const RESEARCH_CATEGORIES = [
         journal: "Annual Review of Psychology, 55, 51-86",
         doi: "10.1146/annurev.psych.55.090902.141555",
         usage:
-          "Detailed analysis of consolidation timelines. Informed our 24-hour session → long-term promotion threshold.",
+          "Detailed analysis of consolidation timelines. Informed our 24-hour session \u2192 long-term promotion threshold.",
       },
     ],
   },
   {
     title: "Graph-Enhanced Retrieval",
     description: "Combining knowledge graphs with vector search",
+    blogSlug: "why-not-just-vector-search",
+    blogLabel: "Why Vector Search Alone Isn't Enough",
+    ascii: [
+      "  query \u2192 [semantic] \u2500\u2500\u2510",
+      "          [keyword ] \u2500\u2500\u2524 RRF",
+      "          [graph   ] \u2500\u2500\u2524 fusion \u2192 results",
+      "          [temporal] \u2500\u2500\u2518",
+      "",
+      "  multi-signal retrieval:",
+      "  vector + BM25 + graph + recency",
+      "  beats any single signal alone",
+    ],
     papers: [
       {
         authors: "Edge et al.",
@@ -226,10 +320,12 @@ const RESEARCH_CATEGORIES = [
 ];
 
 export default function ResearchPage() {
+  const totalPapers = RESEARCH_CATEGORIES.reduce((sum, cat) => sum + cat.papers.length, 0);
+
   return (
     <div className="min-h-screen">
       <Header />
-      <main className="py-16 px-4">
+      <main className="pt-24 pb-16 px-4">
         <div className="mx-auto max-w-4xl">
           {/* Header */}
           <div className="mb-12">
@@ -239,45 +335,71 @@ export default function ResearchPage() {
                 Research & Citations
               </h1>
             </div>
-            <p className="text-[var(--term-text-dim)] leading-relaxed">
+            <p className="text-[var(--term-text-dim)] leading-relaxed max-w-2xl">
               shodh-memory is grounded in decades of cognitive psychology and neuroscience research.
               Every constant in our codebase has a citation. Here are the papers that shaped our architecture.
             </p>
           </div>
 
           {/* Quick stats */}
-          <div className="grid grid-cols-3 gap-5 mb-12">
+          <div className="grid grid-cols-3 gap-5 mb-14">
             <div className="shadow-card rounded p-4 text-center">
-              <div className="text-2xl font-semibold text-[var(--term-orange)]">18+</div>
+              <div className="text-2xl font-semibold text-[var(--term-orange)]">{totalPapers}</div>
               <div className="text-xs text-[var(--term-text-dim)]">Papers cited</div>
             </div>
             <div className="shadow-card rounded p-4 text-center">
-              <div className="text-2xl font-semibold text-[var(--term-orange)]">7</div>
+              <div className="text-2xl font-semibold text-[var(--term-orange)]">{RESEARCH_CATEGORIES.length}</div>
               <div className="text-xs text-[var(--term-text-dim)]">Research areas</div>
             </div>
             <div className="shadow-card rounded p-4 text-center">
-              <div className="text-2xl font-semibold text-[var(--term-orange)]">50+</div>
+              <div className="text-2xl font-semibold text-[var(--term-orange)]">200+</div>
               <div className="text-xs text-[var(--term-text-dim)]">Tuned constants</div>
             </div>
           </div>
 
           {/* Research categories */}
           {RESEARCH_CATEGORIES.map((category, i) => (
-            <section key={i} className="mb-12">
+            <section key={i} className="mb-16">
+              {/* Category header */}
               <div className="flex items-center gap-3 mb-2">
                 <span className="text-[var(--term-orange)] font-mono text-sm">[{String(i + 1).padStart(2, "0")}]</span>
                 <h2 className="text-xl font-semibold text-[var(--term-text)]">{category.title}</h2>
               </div>
-              <p className="text-[var(--term-text-dim)] text-sm mb-6 pl-10">{category.description}</p>
+              <p className="text-[var(--term-text-dim)] text-sm mb-4 pl-10">{category.description}</p>
 
-              <div className="space-y-5">
+              {/* ASCII art diagram */}
+              <div className="shadow-window rounded mb-6">
+                <div className="terminal-header">
+                  <div className="terminal-dot terminal-dot-red" />
+                  <div className="terminal-dot terminal-dot-yellow" />
+                  <div className="terminal-dot terminal-dot-green" />
+                  <span className="ml-2 text-[var(--term-text-dim)] text-xs">
+                    {category.title.toLowerCase().replace(/ & /g, "-").replace(/ /g, "-")}.viz
+                  </span>
+                </div>
+                <div className="terminal-body p-4 md:p-5">
+                  <pre className="text-[var(--term-green)] text-xs md:text-sm leading-relaxed font-mono overflow-x-auto">
+                    {category.ascii.join("\n")}
+                  </pre>
+                </div>
+              </div>
+
+              {/* Blog deep-dive link */}
+              <div className="pl-10 mb-6">
+                <Link
+                  href={`/blog/${category.blogSlug}`}
+                  className="text-sm text-[var(--term-orange)] hover:underline"
+                >
+                  Read the deep-dive: {category.blogLabel} &rarr;
+                </Link>
+              </div>
+
+              {/* Papers */}
+              <div className="space-y-4">
                 {category.papers.map((paper, j) => (
-                  <div
-                    key={j}
-                    className="shadow-box rounded p-5"
-                  >
+                  <div key={j} className="shadow-box rounded p-5">
                     <div className="flex items-start justify-between gap-4 mb-2">
-                      <h3 className="text-[var(--term-text)] font-medium leading-snug">
+                      <h3 className="text-[var(--term-text)] font-medium leading-snug text-sm">
                         {paper.title}
                       </h3>
                       <span className="text-[var(--term-orange)] font-mono text-sm shrink-0">
@@ -294,14 +416,15 @@ export default function ResearchPage() {
                         href={`https://doi.org/${paper.doi}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-xs text-[var(--term-orange)] hover:underline"
+                        className="text-xs text-[var(--term-cyan)] hover:underline"
                       >
                         DOI: {paper.doi}
                       </a>
                     )}
                     <div className="mt-3 pt-3 border-t border-[var(--term-border)]/30">
                       <div className="text-xs text-[var(--term-text-dim)]">
-                        <span className="text-[var(--term-green)]">How we use it:</span> {paper.usage}
+                        <span className="text-[var(--term-green)]">How we use it:</span>{" "}
+                        {paper.usage}
                       </div>
                     </div>
                   </div>
@@ -311,12 +434,12 @@ export default function ResearchPage() {
           ))}
 
           {/* Footer note */}
-          <div className="shadow-callout p-6 mt-12">
+          <div className="shadow-callout p-6 mt-8">
             <h3 className="text-[var(--term-text)] font-medium mb-2">
               Open Science, Open Source
             </h3>
             <p className="text-[var(--term-text-dim)] text-sm leading-relaxed">
-              All constants in shodh-memory are documented in{" "}
+              All {totalPapers} citations and 200+ tunable constants are documented in{" "}
               <a
                 href="https://github.com/varun29ankuS/shodh-memory/blob/main/src/constants.rs"
                 target="_blank"
@@ -325,7 +448,7 @@ export default function ResearchPage() {
               >
                 src/constants.rs
               </a>{" "}
-              with full justification and citations. We believe AI memory systems should be grounded
+              with full justification. We believe AI memory systems should be grounded
               in science, not magic numbers.
             </p>
           </div>
