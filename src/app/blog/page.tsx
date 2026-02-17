@@ -21,6 +21,14 @@ export const metadata: Metadata = {
 
 export const BLOG_POSTS = [
   {
+    slug: "openai-agents-sdk-cognitive-memory",
+    title: "Giving OpenAI Agents Cognitive Memory: Shodh-Memory + Agents SDK",
+    date: "2026-02-13",
+    readTime: "10 min",
+    tags: ["agentic-ai", "integration", "cognition"],
+    excerpt: "OpenAI's Agents SDK gives agents tools and handoffs. Shodh-memory gives them cognition — memory that strengthens with use, decays naturally, and surfaces context before you ask.",
+  },
+  {
     slug: "rag-is-not-memory",
     title: "RAG Is Not Memory: Why Your AI Still Has Amnesia",
     date: "2026-01-10",
