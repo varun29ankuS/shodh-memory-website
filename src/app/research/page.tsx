@@ -361,14 +361,15 @@ const SHODH_BIBTEX = `@software{sharma2026shodh,
   title     = {shodh-memory: Cognitive Memory for AI Agents},
   year      = {2026},
   url       = {https://github.com/varun29ankuS/shodh-memory},
+  doi       = {10.5281/zenodo.18668709},
   version   = {0.1.80},
   license   = {Apache-2.0},
   note      = {Hebbian learning, 3-tier architecture (Cowan 2001), hybrid decay (Wixted 2004), spreading activation (Anderson 1984)},
 }`;
 
-const SHODH_APA = `Sharma, V. (2026). shodh-memory: Cognitive memory for AI agents (Version 0.1.80) [Computer software]. https://github.com/varun29ankuS/shodh-memory`;
+const SHODH_APA = `Sharma, V. (2026). shodh-memory: Cognitive memory for AI agents (Version 0.1.80) [Computer software]. https://doi.org/10.5281/zenodo.18668709`;
 
-const SHODH_IEEE = `V. Sharma, "shodh-memory: Cognitive memory for AI agents," version 0.1.80, 2026. [Online]. Available: https://github.com/varun29ankuS/shodh-memory`;
+const SHODH_IEEE = `V. Sharma, "shodh-memory: Cognitive memory for AI agents," version 0.1.80, 2026. doi: 10.5281/zenodo.18668709`;
 
 function CopyButton({ text, label }: { text: string; label: string }) {
   const [copied, setCopied] = useState(false);
@@ -495,8 +496,16 @@ export default function ResearchPage() {
               </div>
             </div>
 
-            <div className="flex gap-4 items-center">
+            <div className="flex gap-4 items-center flex-wrap">
               <DownloadBibButton />
+              <a
+                href="https://doi.org/10.5281/zenodo.18668709"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm px-4 py-2 border border-[var(--term-cyan)] text-[var(--term-cyan)] hover:bg-[var(--term-cyan)] hover:text-[var(--term-bg)] transition-colors rounded"
+              >
+                DOI: 10.5281/zenodo.18668709
+              </a>
               <a
                 href="https://github.com/varun29ankuS/shodh-memory/blob/main/CITATION.cff"
                 target="_blank"
