@@ -6,6 +6,16 @@ export const metadata: Metadata = {
   title: "Enterprise",
   description:
     "Mission-critical memory deployment for industrial applications. On-premise installation, annual support contracts, and custom development for robotics, medical devices, defense, and autonomous vehicles.",
+  openGraph: {
+    title: "Enterprise Solutions | shodh-memory",
+    description:
+      "Mission-critical memory deployment for industrial applications. On-premise installation, annual support contracts, and custom development.",
+    url: "https://www.shodh-memory.com/enterprise",
+    siteName: "shodh-memory",
+  },
+  alternates: {
+    canonical: "https://www.shodh-memory.com/enterprise",
+  },
 };
 
 const SERVICES = [

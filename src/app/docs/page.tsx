@@ -6,6 +6,16 @@ export const metadata: Metadata = {
   title: "Documentation",
   description:
     "Complete guide to installing, configuring, and using shodh-memory. MCP setup for Claude and Cursor, REST API reference, and first-memory tutorial.",
+  openGraph: {
+    title: "Documentation | shodh-memory",
+    description:
+      "Complete guide to installing, configuring, and using shodh-memory. MCP setup for Claude and Cursor, REST API reference, and first-memory tutorial.",
+    url: "https://www.shodh-memory.com/docs",
+    siteName: "shodh-memory",
+  },
+  alternates: {
+    canonical: "https://www.shodh-memory.com/docs",
+  },
 };
 
 const NAV_SECTIONS = [

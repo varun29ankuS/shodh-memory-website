@@ -21,6 +21,46 @@ export const metadata: Metadata = {
 
 export const BLOG_POSTS = [
   {
+    slug: "what-is-ai-agent-memory",
+    title: "What Is AI Agent Memory? Beyond Chat History and RAG",
+    date: "2026-02-17",
+    readTime: "10 min",
+    tags: ["agentic-ai", "cognition", "architecture"],
+    excerpt: "AI agents are everywhere — but most forget everything between runs. What is agent memory, how does it differ from RAG, and what does a real memory system look like?",
+  },
+  {
+    slug: "what-is-ai-memory",
+    title: "What Is AI Memory? A Technical Guide for 2026",
+    date: "2026-02-16",
+    readTime: "9 min",
+    tags: ["architecture", "cognition", "trends"],
+    excerpt: "AI memory is not a database. It is not RAG. It is not context windows. This guide explains what AI memory actually is — and why every serious AI system will need one.",
+  },
+  {
+    slug: "why-ai-memory-should-be-local",
+    title: "Why AI Memory Should Run Locally: Privacy, Latency & Sovereignty",
+    date: "2026-02-15",
+    readTime: "8 min",
+    tags: ["privacy", "edge", "philosophy"],
+    excerpt: "Cloud AI memory means your agent's knowledge lives on someone else's server. Here's why local-first memory wins on privacy, speed, and control — and how to do it.",
+  },
+  {
+    slug: "cognitive-memory-ai-arms-race",
+    title: "Cognitive Memory: The Missing Piece in the AI Arms Race",
+    date: "2026-02-14",
+    readTime: "10 min",
+    tags: ["trends", "cognition", "vision"],
+    excerpt: "Every lab is racing on reasoning, planning, and tool use. But memory — the ability to learn from experience — is the capability nobody is shipping. That is about to change.",
+  },
+  {
+    slug: "robotics-needs-memory",
+    title: "Why Robotics Still Doesn't Have Memory (And How to Fix It)",
+    date: "2026-02-13",
+    readTime: "9 min",
+    tags: ["robotics", "edge", "architecture"],
+    excerpt: "Robots can see, grasp, and navigate. But they can't remember what they learned yesterday. The robotics memory gap is real — and solving it requires rethinking how memory works.",
+  },
+  {
     slug: "openai-agents-sdk-cognitive-memory",
     title: "Giving OpenAI Agents Cognitive Memory: Shodh-Memory + Agents SDK",
     date: "2026-02-13",
