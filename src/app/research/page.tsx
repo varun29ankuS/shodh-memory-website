@@ -432,6 +432,14 @@ export default function ResearchPage() {
               shodh-memory is grounded in decades of cognitive psychology and neuroscience research.
               Every constant in our codebase has a citation. Here are the papers that shaped our architecture.
             </p>
+            <a
+              href="/shodh_memory.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 mt-4 px-5 py-2.5 rounded bg-[var(--term-green)] text-[var(--term-bg)] font-semibold text-sm hover:opacity-90 transition-opacity"
+            >
+              <span>&#128196;</span> Read the Paper (PDF)
+            </a>
           </div>
 
           {/* Quick stats */}
