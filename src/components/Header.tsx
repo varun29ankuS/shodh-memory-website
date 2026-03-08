@@ -21,11 +21,12 @@ export function Header() {
         <div className="hidden md:flex items-center gap-6">
           <NavLink href="/#features">Features</NavLink>
           <NavLink href="/use-cases">Edge & Robotics</NavLink>
+          <NavLink href="/compare">Compare</NavLink>
+          <NavLink href="/integrations">Integrations</NavLink>
           <NavLink href="/enterprise">Enterprise</NavLink>
           <NavLink href="/research">Research</NavLink>
           <NavLink href="/docs">Docs</NavLink>
           <NavLink href="/blog">Blog</NavLink>
-          <NavLink href="/#install">Install</NavLink>
           
           
           <a
@@ -53,8 +54,9 @@ export function Header() {
       {menuOpen && (
         <div className="md:hidden border-t border-[var(--term-border)] bg-[var(--term-bg)] px-4 py-4 space-y-4">
           <NavLink href="/#features" onClick={() => setMenuOpen(false)}>Features</NavLink>
-          <NavLink href="/#install" onClick={() => setMenuOpen(false)}>Install</NavLink>
           <NavLink href="/use-cases" onClick={() => setMenuOpen(false)}>Edge & Robotics</NavLink>
+          <NavLink href="/compare" onClick={() => setMenuOpen(false)}>Compare</NavLink>
+          <NavLink href="/integrations" onClick={() => setMenuOpen(false)}>Integrations</NavLink>
           <NavLink href="/enterprise" onClick={() => setMenuOpen(false)}>Enterprise</NavLink>
           <NavLink href="/research" onClick={() => setMenuOpen(false)}>Research</NavLink>
           <NavLink href="/docs" onClick={() => setMenuOpen(false)}>Docs</NavLink>

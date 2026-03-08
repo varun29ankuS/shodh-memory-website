@@ -1,9 +1,23 @@
 import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { Newsletter } from "@/components/Newsletter";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BLOG_POSTS } from "../page";
+
+function getRelatedPosts(currentSlug: string, limit = 3) {
+  const current = BLOG_POSTS.find((p) => p.slug === currentSlug);
+  if (!current) return [];
+
+  return BLOG_POSTS.filter((p) => p.slug !== currentSlug)
+    .map((p) => {
+      const shared = p.tags.filter((t) => current.tags.includes(t)).length;
+      return { ...p, relevance: shared };
+    })
+    .sort((a, b) => b.relevance - a.relevance || new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, limit);
+}
 
 const BLOG_CONTENT: Record<string, string[]> = {
   "why-your-ai-agents-memory-is-broken": [
@@ -3620,10 +3634,44 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
             </div>
           </article>
 
-          <div className="mt-12 pt-8 border-t border-[var(--term-border)]">
-            <Link href="/blog" className="text-[var(--term-orange)] hover:underline">
-              ← More posts
-            </Link>
+          {/* Related Posts */}
+          {(() => {
+            const related = getRelatedPosts(slug);
+            if (related.length === 0) return null;
+            return (
+              <div className="mt-12 pt-8 border-t border-[var(--term-border)]">
+                <h2 className="text-lg font-semibold text-[var(--term-text)] mb-6">Related Posts</h2>
+                <div className="grid md:grid-cols-3 gap-4 mb-8">
+                  {related.map((r) => (
+                    <Link
+                      key={r.slug}
+                      href={`/blog/${r.slug}`}
+                      className="block shadow-box rounded p-4 group hover:border-[var(--term-orange)] transition-colors"
+                    >
+                      <h3 className="text-sm font-medium text-[var(--term-text)] group-hover:text-[var(--term-orange)] transition-colors mb-2 leading-snug line-clamp-2">
+                        {r.title}
+                      </h3>
+                      <p className="text-[var(--term-text-dim)] text-xs mb-3 leading-relaxed line-clamp-2">
+                        {r.excerpt}
+                      </p>
+                      <div className="flex items-center gap-2 text-xs text-[var(--term-text-dim)]">
+                        <span>{r.date}</span>
+                        <span className="text-[var(--term-border)]">|</span>
+                        <span>{r.readTime}</span>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+                <Link href="/blog" className="text-[var(--term-orange)] hover:underline text-sm">
+                  ← All posts
+                </Link>
+              </div>
+            );
+          })()}
+
+          {/* Newsletter CTA */}
+          <div className="mt-12">
+            <Newsletter variant="card" />
           </div>
         </div>
       </main>

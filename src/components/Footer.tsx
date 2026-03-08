@@ -1,20 +1,22 @@
 import Link from "next/link";
+import { Newsletter } from "./Newsletter";
 
 export function Footer() {
   return (
     <footer className="border-t border-[var(--term-border)] py-12 px-4">
       <div className="mx-auto max-w-6xl">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
-          {/* Brand */}
+          {/* Brand + Newsletter */}
           <div className="md:col-span-2">
             <div className="flex items-center gap-2 mb-3">
               <span className="text-[var(--term-green)]">$</span>
               <span className="font-semibold">shodh-memory</span>
             </div>
-            <p className="text-[var(--term-text-dim)] text-sm max-w-md">
+            <p className="text-[var(--term-text-dim)] text-sm max-w-md mb-4">
               Persistent cognitive memory for AI agents. Built with Rust,
               grounded in neuroscience, designed for the edge.
             </p>
+            <Newsletter variant="inline" />
           </div>
 
           {/* Links */}
@@ -39,6 +41,16 @@ export function Footer() {
               <li>
                 <Link href="/enterprise" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
                   Enterprise
+                </Link>
+              </li>
+              <li>
+                <Link href="/compare" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
+                  Compare
+                </Link>
+              </li>
+              <li>
+                <Link href="/integrations" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
+                  Integrations
                 </Link>
               </li>
               <li>
