@@ -16,7 +16,6 @@ export function Newsletter({
           action={BUTTONDOWN_ACTION}
           method="post"
           className="embeddable-buttondown-form flex items-center gap-2"
-          referrerPolicy="unsafe-url"
         >
           <label htmlFor="bd-email-inline" className="sr-only">
             Email
@@ -54,7 +53,6 @@ export function Newsletter({
         action={BUTTONDOWN_ACTION}
         method="post"
         className="embeddable-buttondown-form flex flex-col gap-3"
-        referrerPolicy="unsafe-url"
       >
         <label htmlFor="bd-email-card" className="sr-only">
           Email
