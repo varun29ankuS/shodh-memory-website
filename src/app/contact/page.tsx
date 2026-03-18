@@ -263,9 +263,9 @@ export default function ContactPage() {
                 </p>
               </a>
 
-              {/* GitHub Discussions */}
+              {/* Discord */}
               <a
-                href="https://github.com/varun29ankuS/shodh-memory/discussions"
+                href="https://discord.gg/HrpzXqTtEp"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="shadow-box rounded p-5 group hover:border-[var(--term-orange)] transition-colors block"
@@ -274,10 +274,10 @@ export default function ContactPage() {
                   &#128172;
                 </div>
                 <h3 className="text-sm font-medium text-[var(--term-text)] group-hover:text-[var(--term-orange)] transition-colors mb-1">
-                  Community
+                  Discord
                 </h3>
                 <p className="text-xs text-[var(--term-text-dim)]">
-                  Questions, ideas, and community conversations on GitHub Discussions
+                  Join the community — support, showcase, research, and discussions
                 </p>
               </a>
             </div>

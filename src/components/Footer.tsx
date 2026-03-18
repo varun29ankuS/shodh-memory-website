@@ -29,6 +29,11 @@ export function Footer() {
                 </a>
               </li>
               <li>
+                <a href="https://discord.gg/HrpzXqTtEp" target="_blank" rel="noopener noreferrer" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
+                  Discord
+                </a>
+              </li>
+              <li>
                 <Link href="/docs" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
                   Documentation
                 </Link>
