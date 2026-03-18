@@ -20,6 +20,12 @@ const DIFFERENTIATORS = [
     icon: "🧠",
   },
   {
+    title: "Knows what it doesn't know",
+    description:
+      "Claude.md files get compacted. Rules degrade to suggestions at 60-70% enforcement. Shodh's knowledge graph detects blind spots, shallow knowledge, orphaned clusters, and stale zones — surfacing what your agent has forgotten before it matters.",
+    icon: "🔍",
+  },
+  {
     title: "Edge-first architecture",
     description:
       "Designed for robots, IoT, air-gapped systems. Runs on Raspberry Pi Zero. Sub-microsecond graph lookups. Your drone doesn't need WiFi to remember.",
@@ -33,6 +39,7 @@ const COMPARISON = [
   { feature: "Hebbian learning", shodh: true, mem0: false, zep: false, cognee: false },
   { feature: "Knowledge graph", shodh: true, mem0: false, zep: true, cognee: true },
   { feature: "Memory decay model", shodh: true, mem0: false, zep: false, cognee: false },
+  { feature: "Blind spot detection", shodh: true, mem0: false, zep: false, cognee: false },
   { feature: "Runs on Raspberry Pi", shodh: true, mem0: false, zep: false, cognee: false },
   { feature: "Sub-millisecond lookup", shodh: true, mem0: false, zep: false, cognee: false },
   { feature: "Open source", shodh: true, mem0: true, zep: true, cognee: true },

@@ -21,6 +21,14 @@ export const metadata: Metadata = {
 
 export const BLOG_POSTS = [
   {
+    slug: "what-your-ai-doesnt-know-it-doesnt-know",
+    title: "What Your AI Doesn't Know It Doesn't Know: Why Memory Needs Diagnostic Introspection",
+    date: "2026-03-20",
+    readTime: "11 min",
+    tags: ["cognition", "architecture", "agentic-ai"],
+    excerpt: "Claude.md files get compacted. Rules degrade to suggestions. Context windows are lossy. The real problem isn't what your AI forgets — it's that it can't tell you what it's forgotten. Here's how a knowledge graph fixes that.",
+  },
+  {
     slug: "shodh-memory-vs-mem0-vs-zep-vs-memgpt",
     title: "shodh-memory vs mem0 vs Zep vs MemGPT: Which AI Agent Memory System Should You Use?",
     date: "2026-03-19",
