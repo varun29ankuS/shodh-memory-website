@@ -738,6 +738,43 @@ a:hover { color: var(--term-yellow); text-decoration: underline; }
   bottom: -5px;
 }
 
+/* Glitch chromatic aberration on hover — pair with GlitchText component */
+@keyframes glitch-clip {
+  0% { clip-path: inset(40% 0 61% 0); transform: translate(-2px, 1px); }
+  20% { clip-path: inset(92% 0 1% 0); transform: translate(1px, -1px); }
+  40% { clip-path: inset(43% 0 1% 0); transform: translate(-1px, 2px); }
+  60% { clip-path: inset(25% 0 58% 0); transform: translate(2px, 1px); }
+  80% { clip-path: inset(54% 0 7% 0); transform: translate(-1px, -1px); }
+  100% { clip-path: inset(58% 0 43% 0); transform: translate(0); }
+}
+
+.glitch-hover {
+  position: relative;
+}
+.glitch-hover::before,
+.glitch-hover::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+}
+.glitch-hover:hover::before {
+  opacity: 0.8;
+  color: var(--term-cyan);
+  animation: glitch-clip 0.3s linear;
+  z-index: -1;
+}
+.glitch-hover:hover::after {
+  opacity: 0.8;
+  color: var(--term-red);
+  animation: glitch-clip 0.3s linear reverse;
+  z-index: -1;
+}
+
 @keyframes fade-in-up {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }

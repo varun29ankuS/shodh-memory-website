@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { TypingTagline } from "./TypingTagline";
+import { GlitchText } from "./GlitchText";
 
 const ELEPHANT = [
   "⠀⠀⠀⠀⠀⠀⠀⠀⣠⣤⣤⣤⣤⣄⠀⠀⠀⠀⠀⠀",
@@ -126,9 +127,11 @@ function StatBox({ label, value, href }: { label: string; value: string; href?: 
   const content = (
     <>
       <div className="text-[var(--term-orange)] text-xl md:text-2xl font-semibold">
-        {value}
+        <GlitchText intensity="medium">{value}</GlitchText>
       </div>
-      <div className="text-[var(--term-text-dim)] text-sm">{label}</div>
+      <div className="text-[var(--term-text-dim)] text-sm">
+        <GlitchText intensity="subtle">{label}</GlitchText>
+      </div>
     </>
   );
 

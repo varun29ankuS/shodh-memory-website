@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { VERSION } from "@/lib/version";
+import { GlitchText } from "./GlitchText";
 
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -76,14 +77,14 @@ export function Header() {
   );
 }
 
-function NavLink({ href, children, onClick }: { href: string; children: React.ReactNode; onClick?: () => void }) {
+function NavLink({ href, children, onClick }: { href: string; children: string; onClick?: () => void }) {
   return (
     <Link
       href={href}
       onClick={onClick}
       className="block text-[var(--term-text-dim)] hover:text-[var(--term-orange)] transition-colors"
     >
-      {children}
+      <GlitchText intensity="subtle">{children}</GlitchText>
     </Link>
   );
 }
