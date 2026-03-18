@@ -19,16 +19,18 @@ export function Header() {
 
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-6">
-          <NavLink href="/#features">Features</NavLink>
           <NavLink href="/use-cases">Edge & Robotics</NavLink>
-          <NavLink href="/compare">Compare</NavLink>
-          <NavLink href="/integrations">Integrations</NavLink>
-          <NavLink href="/enterprise">Enterprise</NavLink>
           <NavLink href="/research">Research</NavLink>
-          <NavLink href="/docs">Docs</NavLink>
           <NavLink href="/blog">Blog</NavLink>
-          
-          
+          <NavLink href="/enterprise">Enterprise</NavLink>
+          <NavLink href="/docs">Docs</NavLink>
+
+          <Link
+            href="/contact"
+            className="shadow-btn flex items-center gap-2 px-3 py-1.5 text-sm border-[var(--term-orange)] text-[var(--term-orange)] hover:bg-[var(--term-orange)] hover:text-[var(--term-bg)] transition-colors"
+          >
+            Contact
+          </Link>
           <a
             href="https://github.com/varun29ankuS/shodh-memory"
             target="_blank"
@@ -53,14 +55,12 @@ export function Header() {
       {/* Mobile menu */}
       {menuOpen && (
         <div className="md:hidden border-t border-[var(--term-border)] bg-[var(--term-bg)] px-4 py-4 space-y-4">
-          <NavLink href="/#features" onClick={() => setMenuOpen(false)}>Features</NavLink>
           <NavLink href="/use-cases" onClick={() => setMenuOpen(false)}>Edge & Robotics</NavLink>
-          <NavLink href="/compare" onClick={() => setMenuOpen(false)}>Compare</NavLink>
-          <NavLink href="/integrations" onClick={() => setMenuOpen(false)}>Integrations</NavLink>
-          <NavLink href="/enterprise" onClick={() => setMenuOpen(false)}>Enterprise</NavLink>
           <NavLink href="/research" onClick={() => setMenuOpen(false)}>Research</NavLink>
-          <NavLink href="/docs" onClick={() => setMenuOpen(false)}>Docs</NavLink>
           <NavLink href="/blog" onClick={() => setMenuOpen(false)}>Blog</NavLink>
+          <NavLink href="/enterprise" onClick={() => setMenuOpen(false)}>Enterprise</NavLink>
+          <NavLink href="/docs" onClick={() => setMenuOpen(false)}>Docs</NavLink>
+          <NavLink href="/contact" onClick={() => setMenuOpen(false)}>Contact</NavLink>
           <a
             href="https://github.com/varun29ankuS/shodh-memory"
             target="_blank"

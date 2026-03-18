@@ -54,6 +54,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/contact" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
+                  Contact
+                </Link>
+              </li>
+              <li>
                 <a href="https://crates.io/crates/shodh-memory" target="_blank" rel="noopener noreferrer" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
                   crates.io
                 </a>
