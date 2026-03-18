@@ -148,7 +148,7 @@ export function Hero() {
             href="/shodh_memory.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-6 py-2 text-sm font-medium border border-[var(--term-cyan)] text-[var(--term-cyan)] hover:bg-[var(--term-cyan)] hover:text-[var(--term-bg)] transition-colors rounded-sm flex items-center gap-2"
+            className="shadow-btn px-6 py-2 text-sm font-medium flex items-center gap-2"
           >
             <span>&#128196;</span> Read the Paper
           </a>
