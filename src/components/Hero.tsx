@@ -102,11 +102,17 @@ export function Hero() {
           </span>
         </div>
 
+        {/* SEO H1 — visually part of the hero, semantically the page title */}
+        <h1 className="sr-only">
+          shodh-memory — Persistent Cognitive Memory for AI Agents
+        </h1>
+
         {/* Description */}
         <p className="text-[var(--term-text-dim)] text-base md:text-lg max-w-2xl mb-8 animate-fade-in animate-delay-2">
-          A cognitive brain for AI agents. Three-tier memory architecture
-          based on Cowan&apos;s model. Connections strengthen with use,
-          decay naturally over time—just like biological neurons.
+          Persistent memory for AI agents — memories strengthen with use,
+          decay naturally over time, and form associative networks.
+          Hebbian learning, knowledge graphs, and three-tier architecture
+          based on Cowan&apos;s model. Runs offline, single binary, no cloud required.
         </p>
 
         {/* Stats */}

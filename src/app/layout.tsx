@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     template: "%s | shodh-memory",
   },
   description:
-    "A cognitive brain for AI agents. Memory that learns with use — Hebbian learning, 3-tier architecture, runs offline on edge devices. Single ~30MB binary, no cloud required.",
+    "Persistent memory for AI agents that learns with use. Cognitive memory system with Hebbian learning, knowledge graphs, and 3-tier architecture. Runs offline on edge devices. Open-source Rust binary, no cloud required.",
   keywords: [
     "AI brain",
     "AI memory",
@@ -58,7 +58,16 @@ export const metadata: Metadata = {
     "shodh-memory",
     "mem0 alternative",
     "memgpt alternative",
+    "zep alternative",
+    "cognee alternative",
     "AI memory system",
+    "memory for AI agents",
+    "agent memory system",
+    "AI agent long-term memory",
+    "neuroscience-inspired AI",
+    "Hopfield network memory",
+    "biologically plausible AI",
+    "memory MCP server",
   ],
   authors: [{ name: "Shodh", url: "https://www.shodh-memory.com" }],
   creator: "Shodh",
@@ -81,7 +90,7 @@ export const metadata: Metadata = {
     siteName: "shodh-memory",
     title: "shodh-memory | A Cognitive Brain for AI Agents",
     description:
-      "A brain for your AI agent. Memory that learns with use. Hebbian learning, runs offline, single binary.",
+      "Persistent memory for AI agents. Cognitive memory with Hebbian learning, knowledge graphs, and memory decay. Open-source, runs offline.",
     images: [
       {
         url: "https://raw.githubusercontent.com/varun29ankuS/shodh-memory/main/assets/splash.jpg",
@@ -95,7 +104,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "shodh-memory | A Cognitive Brain for AI Agents",
     description:
-      "A brain for your AI agent. Memory that learns with use. Runs offline, single binary.",
+      "Persistent memory for AI agents. Cognitive memory with Hebbian learning, knowledge graphs, and memory decay. Open-source, runs offline.",
     images: ["https://raw.githubusercontent.com/varun29ankuS/shodh-memory/main/assets/splash.jpg"],
     creator: "@shodh_memory",
   },
@@ -125,7 +134,7 @@ export default function RootLayout({
                 applicationSubCategory: "AI Memory System",
                 operatingSystem: "Windows, macOS, Linux, ARM64",
                 description:
-                  "Persistent cognitive memory for AI agents. Hebbian learning, 3-tier memory architecture, knowledge graph. Runs offline, single binary.",
+                  "Persistent cognitive memory for AI agents. Neuroscience-inspired memory system with Hebbian learning, 3-tier architecture (Cowan's model), knowledge graphs with spreading activation, and biologically plausible decay curves. Runs offline on edge devices.",
                 url: "https://www.shodh-memory.com",
                 downloadUrl: "https://www.npmjs.com/package/@shodh/memory-mcp",
                 softwareVersion: VERSION,
@@ -165,6 +174,52 @@ export default function RootLayout({
                   "https://www.npmjs.com/package/@shodh/memory-mcp",
                   "https://crates.io/crates/shodh-memory",
                   "https://pypi.org/project/shodh-memory/",
+                ],
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                mainEntity: [
+                  {
+                    "@type": "Question",
+                    name: "How is shodh-memory different from a vector database?",
+                    acceptedAnswer: {
+                      "@type": "Answer",
+                      text: "Vector databases give you similarity search. Shodh-memory gives you cognition — memories strengthen when accessed together (Hebbian learning), decay naturally over time (power-law forgetting), and form associative networks via a knowledge graph. It's the difference between storage and memory.",
+                    },
+                  },
+                  {
+                    "@type": "Question",
+                    name: "Does shodh-memory require an internet connection?",
+                    acceptedAnswer: {
+                      "@type": "Answer",
+                      text: "No. Shodh-memory runs 100% offline. Embeddings, vector index, knowledge graph — everything runs locally in a single ~30MB binary. Perfect for edge devices, air-gapped systems, or anywhere you need data privacy.",
+                    },
+                  },
+                  {
+                    "@type": "Question",
+                    name: "Can shodh-memory run on a Raspberry Pi?",
+                    acceptedAnswer: {
+                      "@type": "Answer",
+                      text: "Yes. Shodh-memory is designed for edge deployment. It runs on Raspberry Pi Zero, Jetson Nano, industrial PCs, and other resource-constrained devices. Graph lookups are under 1 microsecond.",
+                    },
+                  },
+                  {
+                    "@type": "Question",
+                    name: "What is Hebbian learning in AI agent memory?",
+                    acceptedAnswer: {
+                      "@type": "Answer",
+                      text: "Hebbian learning is a neuroscience principle: neurons that fire together wire together. In shodh-memory, when memories are accessed together, their connection strengthens. When memories compete, interference effects occur. This is how biological brains work, applied to AI agent memory.",
+                    },
+                  },
+                  {
+                    "@type": "Question",
+                    name: "What languages and frameworks does shodh-memory support?",
+                    acceptedAnswer: {
+                      "@type": "Answer",
+                      text: "The core is Rust. We provide: an MCP server (for Claude, Cursor, and other AI agents), Python bindings (via PyO3/maturin), and a REST API. The Rust crate can be embedded directly in your application.",
+                    },
+                  },
                 ],
               },
             ]),

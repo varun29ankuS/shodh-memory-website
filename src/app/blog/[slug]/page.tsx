@@ -4141,9 +4141,42 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
 
   const content = BLOG_CONTENT[slug] || ["# Coming Soon", "", "This post is being written."];
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt,
+    datePublished: post.date,
+    dateModified: post.date,
+    author: {
+      "@type": "Organization",
+      name: "Shodh",
+      url: "https://www.shodh-memory.com",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Shodh",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://www.shodh-memory.com/logo.png",
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://www.shodh-memory.com/blog/${post.slug}`,
+    },
+    keywords: post.tags.join(", "),
+    url: `https://www.shodh-memory.com/blog/${post.slug}`,
+    image: `https://www.shodh-memory.com/blog/${post.slug}/opengraph-image`,
+  };
+
   return (
     <div className="min-h-screen">
       <Header />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <main className="pt-24 pb-16 px-4">
         <div className="mx-auto max-w-3xl">
           <Link href="/blog" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)] text-sm mb-8 inline-block">
