@@ -4,61 +4,53 @@ import { useState, useEffect } from "react";
 import { VERSION } from "@/lib/version";
 
 const BOOT_LINES = [
-  { text: `SHODH-MEMORY BIOS v${VERSION}`, delay: 0 },
-  { text: "Copyright (C) 2024-2025 Shodh Systems", delay: 100 },
-  { text: "", delay: 200 },
-  { text: "Detecting hardware...", delay: 300 },
-  { text: "  CPU: Neural Processing Unit [OK]", delay: 500 },
-  { text: "  MEM: 384-dim Embedding Space [OK]", delay: 700 },
-  { text: "  GPU: Vamana Vector Index [OK]", delay: 900 },
-  { text: "", delay: 1000 },
-  { text: "Loading cognitive modules...", delay: 1100 },
-  { text: "  [====                ] 20% Hebbian synapses", delay: 1300 },
-  { text: "  [========            ] 40% Spreading activation", delay: 1500 },
-  { text: "  [============        ] 60% Memory consolidation", delay: 1700 },
-  { text: "  [================    ] 80% Knowledge graph", delay: 1900 },
-  { text: "  [====================] 100% Complete", delay: 2100 },
-  { text: "", delay: 2200 },
-  { text: "Initializing memory system...", delay: 2300 },
-  { text: "Ready.", delay: 2500 },
+  { text: `SHODH-MEMORY BIOS v${VERSION}`, style: "dim" },
+  { text: "Copyright (C) 2024-2025 Shodh Systems", style: "dim" },
+  { text: "\u00A0", style: "dim" },
+  { text: "Detecting hardware...", style: "dim" },
+  { text: "  CPU: Neural Processing Unit [OK]", style: "green" },
+  { text: "  MEM: 384-dim Embedding Space [OK]", style: "green" },
+  { text: "  GPU: Vamana Vector Index [OK]", style: "green" },
+  { text: "\u00A0", style: "dim" },
+  { text: "Loading cognitive modules...", style: "dim" },
+  { text: "  [====                ] 20% Hebbian synapses", style: "orange" },
+  { text: "  [========            ] 40% Spreading activation", style: "orange" },
+  { text: "  [============        ] 60% Memory consolidation", style: "orange" },
+  { text: "  [================    ] 80% Knowledge graph", style: "orange" },
+  { text: "  [====================] 100% Complete", style: "green" },
+  { text: "\u00A0", style: "dim" },
+  { text: "Initializing memory system...", style: "dim" },
+  { text: "Ready.", style: "ready" },
 ];
 
+const STYLE_MAP: Record<string, string> = {
+  dim: "text-[var(--term-text-dim)]",
+  green: "text-[var(--term-green)]",
+  orange: "text-[var(--term-orange)]",
+  ready: "text-[var(--term-green)] font-bold",
+};
+
+const TOTAL_DURATION_MS = 3300;
+
 export function BootSequence({ onComplete }: { onComplete: () => void }) {
-  const [visibleLines, setVisibleLines] = useState<number>(0);
-  const [fadeOut, setFadeOut] = useState(false);
+  const [done, setDone] = useState(false);
 
   useEffect(() => {
-    // Check if user has seen boot sequence before (this session)
     if (sessionStorage.getItem("bootSeen")) {
       onComplete();
       return;
     }
 
-    // Show lines progressively
-    BOOT_LINES.forEach((line, index) => {
-      setTimeout(() => {
-        setVisibleLines(index + 1);
-      }, line.delay);
-    });
-
-    // Start fade out after last line
-    const fadeTimeout = setTimeout(() => {
-      setFadeOut(true);
-    }, 2800);
-
-    // Complete and mark as seen
-    const completeTimeout = setTimeout(() => {
+    // Single timeout instead of 13 — the CSS staggered animation handles the visual timing
+    const timeout = setTimeout(() => {
       sessionStorage.setItem("bootSeen", "true");
+      setDone(true);
       onComplete();
-    }, 3300);
+    }, TOTAL_DURATION_MS);
 
-    return () => {
-      clearTimeout(fadeTimeout);
-      clearTimeout(completeTimeout);
-    };
+    return () => clearTimeout(timeout);
   }, [onComplete]);
 
-  // Skip if already seen
   if (typeof window !== "undefined" && sessionStorage.getItem("bootSeen")) {
     return null;
   }
@@ -66,31 +58,22 @@ export function BootSequence({ onComplete }: { onComplete: () => void }) {
   return (
     <div
       className={`fixed inset-0 z-[9999] bg-[var(--term-bg)] flex items-center justify-center transition-opacity duration-500 ${
-        fadeOut ? "opacity-0" : "opacity-100"
+        done ? "opacity-0 pointer-events-none" : "opacity-100"
       }`}
     >
       <div className="w-full max-w-2xl px-6 font-mono text-sm">
-        {BOOT_LINES.slice(0, visibleLines).map((line, index) => (
+        {BOOT_LINES.map((line, i) => (
           <div
-            key={index}
-            className={`${
-              line.text.includes("[OK]")
-                ? "text-[var(--term-green)]"
-                : line.text.includes("100%")
-                ? "text-[var(--term-green)]"
-                : line.text.includes("%")
-                ? "text-[var(--term-orange)]"
-                : line.text === "Ready."
-                ? "text-[var(--term-green)] font-bold"
-                : "text-[var(--term-text-dim)]"
-            }`}
+            key={i}
+            className={STYLE_MAP[line.style]}
+            style={{
+              opacity: 0,
+              animation: `boot-line-in 0.05s ease-out ${i * 160}ms forwards`,
+            }}
           >
-            {line.text || "\u00A0"}
+            {line.text}
           </div>
         ))}
-        {visibleLines > 0 && visibleLines < BOOT_LINES.length && (
-          <span className="cursor-blink text-[var(--term-orange)]">▌</span>
-        )}
       </div>
     </div>
   );
