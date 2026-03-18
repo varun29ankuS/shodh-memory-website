@@ -8,10 +8,10 @@ import { VERSION } from "@/lib/version";
 import "./globals.css";
 
 const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-mono",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
   display: "swap",
+  preload: true,
+  adjustFontFallback: false,
 });
 
 export const metadata: Metadata = {
