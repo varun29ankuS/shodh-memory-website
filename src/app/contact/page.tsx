@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 
-const FORMSPREE_ENDPOINT = "https://formspree.io/f/xanedgkr";
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/meervqoe";
 
 const SUBJECT_OPTIONS = [
   "General Inquiry",
