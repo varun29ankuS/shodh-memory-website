@@ -1,5 +1,5 @@
 const GITHUB_REPO = "varun29ankuS/shodh-memory";
-const FALLBACK_VERSION = "0.1.80";
+const FALLBACK_VERSION = "0.1.90";
 
 interface GitHubRelease {
   tag_name: string;
