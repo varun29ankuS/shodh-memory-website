@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/xanedgkr";
+
 const SUBJECT_OPTIONS = [
   "General Inquiry",
   "Enterprise",
@@ -12,24 +14,44 @@ const SUBJECT_OPTIONS = [
   "Other",
 ];
 
+type FormStatus = "idle" | "submitting" | "success" | "error";
+
 export default function ContactPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [subject, setSubject] = useState(SUBJECT_OPTIONS[0]);
   const [message, setMessage] = useState("");
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<FormStatus>("idle");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const mailtoSubject = encodeURIComponent(
-      `[shodh-memory] ${subject}${name ? ` — ${name}` : ""}`
-    );
-    const mailtoBody = encodeURIComponent(
-      `${message}\n\n---\nFrom: ${name}\nEmail: ${email}\nSubject: ${subject}`
-    );
-    window.location.href = `mailto:varun@shodh-memory.com?subject=${mailtoSubject}&body=${mailtoBody}`;
-    setSent(true);
-    setTimeout(() => setSent(false), 4000);
+    setStatus("submitting");
+
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          name,
+          email,
+          subject,
+          message,
+          _subject: `[shodh-memory] ${subject} — ${name}`,
+        }),
+      });
+
+      if (res.ok) {
+        setStatus("success");
+        setName("");
+        setEmail("");
+        setSubject(SUBJECT_OPTIONS[0]);
+        setMessage("");
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
   };
 
   return (
@@ -62,94 +84,124 @@ export default function ContactPage() {
               </span>
             </div>
             <div className="terminal-body p-6">
-              <form onSubmit={handleSubmit} className="space-y-5">
-                {/* Name */}
-                <div>
-                  <label
-                    htmlFor="contact-name"
-                    className="block text-xs text-[var(--term-text-dim)] font-mono mb-1.5"
+              {status === "success" ? (
+                <div className="py-8 text-center">
+                  <div className="text-[var(--term-green)] text-3xl mb-3">&#10003;</div>
+                  <h3 className="text-[var(--term-text)] font-medium mb-2">
+                    Message sent
+                  </h3>
+                  <p className="text-[var(--term-text-dim)] text-sm mb-4">
+                    We&apos;ll get back to you within 24 hours.
+                  </p>
+                  <button
+                    onClick={() => setStatus("idle")}
+                    className="text-sm text-[var(--term-orange)] hover:underline font-mono"
                   >
-                    <span className="text-[var(--term-green)]">$</span> name
-                  </label>
-                  <input
-                    id="contact-name"
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                    placeholder="Your name"
-                    className="w-full bg-[var(--term-bg)] border border-[var(--term-border)] text-[var(--term-text)] placeholder:text-[var(--term-text-dim)]/50 text-sm px-3 py-2 font-mono focus:outline-none focus:border-[var(--term-orange)] transition-colors"
-                  />
+                    Send another message
+                  </button>
                 </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  {/* Name */}
+                  <div>
+                    <label
+                      htmlFor="contact-name"
+                      className="block text-xs text-[var(--term-text-dim)] font-mono mb-1.5"
+                    >
+                      <span className="text-[var(--term-green)]">$</span> name
+                    </label>
+                    <input
+                      id="contact-name"
+                      type="text"
+                      name="name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      required
+                      placeholder="Your name"
+                      className="w-full bg-[var(--term-bg)] border border-[var(--term-border)] text-[var(--term-text)] placeholder:text-[var(--term-text-dim)]/50 text-sm px-3 py-2 font-mono focus:outline-none focus:border-[var(--term-orange)] transition-colors"
+                    />
+                  </div>
 
-                {/* Email */}
-                <div>
-                  <label
-                    htmlFor="contact-email"
-                    className="block text-xs text-[var(--term-text-dim)] font-mono mb-1.5"
-                  >
-                    <span className="text-[var(--term-green)]">$</span> email
-                  </label>
-                  <input
-                    id="contact-email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    placeholder="you@example.com"
-                    className="w-full bg-[var(--term-bg)] border border-[var(--term-border)] text-[var(--term-text)] placeholder:text-[var(--term-text-dim)]/50 text-sm px-3 py-2 font-mono focus:outline-none focus:border-[var(--term-orange)] transition-colors"
-                  />
-                </div>
+                  {/* Email */}
+                  <div>
+                    <label
+                      htmlFor="contact-email"
+                      className="block text-xs text-[var(--term-text-dim)] font-mono mb-1.5"
+                    >
+                      <span className="text-[var(--term-green)]">$</span> email
+                    </label>
+                    <input
+                      id="contact-email"
+                      type="email"
+                      name="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                      placeholder="you@example.com"
+                      className="w-full bg-[var(--term-bg)] border border-[var(--term-border)] text-[var(--term-text)] placeholder:text-[var(--term-text-dim)]/50 text-sm px-3 py-2 font-mono focus:outline-none focus:border-[var(--term-orange)] transition-colors"
+                    />
+                  </div>
 
-                {/* Subject */}
-                <div>
-                  <label
-                    htmlFor="contact-subject"
-                    className="block text-xs text-[var(--term-text-dim)] font-mono mb-1.5"
-                  >
-                    <span className="text-[var(--term-green)]">$</span> subject
-                  </label>
-                  <select
-                    id="contact-subject"
-                    value={subject}
-                    onChange={(e) => setSubject(e.target.value)}
-                    className="w-full bg-[var(--term-bg)] border border-[var(--term-border)] text-[var(--term-text)] text-sm px-3 py-2 font-mono focus:outline-none focus:border-[var(--term-orange)] transition-colors appearance-none cursor-pointer"
-                  >
-                    {SUBJECT_OPTIONS.map((opt) => (
-                      <option key={opt} value={opt}>
-                        {opt}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                  {/* Subject */}
+                  <div>
+                    <label
+                      htmlFor="contact-subject"
+                      className="block text-xs text-[var(--term-text-dim)] font-mono mb-1.5"
+                    >
+                      <span className="text-[var(--term-green)]">$</span> subject
+                    </label>
+                    <select
+                      id="contact-subject"
+                      name="subject"
+                      value={subject}
+                      onChange={(e) => setSubject(e.target.value)}
+                      className="w-full bg-[var(--term-bg)] border border-[var(--term-border)] text-[var(--term-text)] text-sm px-3 py-2 font-mono focus:outline-none focus:border-[var(--term-orange)] transition-colors appearance-none cursor-pointer"
+                    >
+                      {SUBJECT_OPTIONS.map((opt) => (
+                        <option key={opt} value={opt}>
+                          {opt}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
 
-                {/* Message */}
-                <div>
-                  <label
-                    htmlFor="contact-message"
-                    className="block text-xs text-[var(--term-text-dim)] font-mono mb-1.5"
-                  >
-                    <span className="text-[var(--term-green)]">$</span> message
-                  </label>
-                  <textarea
-                    id="contact-message"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    required
-                    rows={6}
-                    placeholder="Tell us what's on your mind..."
-                    className="w-full bg-[var(--term-bg)] border border-[var(--term-border)] text-[var(--term-text)] placeholder:text-[var(--term-text-dim)]/50 text-sm px-3 py-2 font-mono focus:outline-none focus:border-[var(--term-orange)] transition-colors resize-vertical"
-                  />
-                </div>
+                  {/* Message */}
+                  <div>
+                    <label
+                      htmlFor="contact-message"
+                      className="block text-xs text-[var(--term-text-dim)] font-mono mb-1.5"
+                    >
+                      <span className="text-[var(--term-green)]">$</span> message
+                    </label>
+                    <textarea
+                      id="contact-message"
+                      name="message"
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      required
+                      rows={6}
+                      placeholder="Tell us what's on your mind..."
+                      className="w-full bg-[var(--term-bg)] border border-[var(--term-border)] text-[var(--term-text)] placeholder:text-[var(--term-text-dim)]/50 text-sm px-3 py-2 font-mono focus:outline-none focus:border-[var(--term-orange)] transition-colors resize-vertical"
+                    />
+                  </div>
 
-                {/* Submit */}
-                <button
-                  type="submit"
-                  className="w-full shadow-btn shadow-btn-primary px-4 py-2.5 text-sm font-mono cursor-pointer"
-                >
-                  {sent ? "Opening email client..." : "Send message"}
-                </button>
-              </form>
+                  {/* Error */}
+                  {status === "error" && (
+                    <p className="text-red-400 text-xs font-mono">
+                      Something went wrong. Please try again or email us directly at varun@shodh-memory.com
+                    </p>
+                  )}
+
+                  {/* Submit */}
+                  <button
+                    type="submit"
+                    disabled={status === "submitting"}
+                    className="w-full shadow-btn shadow-btn-primary px-4 py-2.5 text-sm font-mono cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {status === "submitting" ? "Sending..." : "Send message"}
+                  </button>
+                </form>
+              )}
             </div>
           </div>
 
