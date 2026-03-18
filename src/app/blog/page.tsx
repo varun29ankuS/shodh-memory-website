@@ -21,6 +21,38 @@ export const metadata: Metadata = {
 
 export const BLOG_POSTS = [
   {
+    slug: "shodh-memory-vs-mem0-vs-zep-vs-memgpt",
+    title: "shodh-memory vs mem0 vs Zep vs MemGPT: Which AI Agent Memory System Should You Use?",
+    date: "2026-03-19",
+    readTime: "14 min",
+    tags: ["comparison", "architecture", "agentic-ai"],
+    excerpt: "A head-to-head comparison of every major AI agent memory system in 2026. Architecture, privacy, performance, cognitive capabilities — and which one fits your use case.",
+  },
+  {
+    slug: "how-to-make-ai-remember-between-sessions",
+    title: "How to Make Your AI Agent Remember Between Sessions",
+    date: "2026-03-19",
+    readTime: "10 min",
+    tags: ["tutorial", "agentic-ai", "architecture"],
+    excerpt: "Your AI agent forgets everything when the session ends. Here's how to add persistent memory that actually works — not chat history, not RAG, but real cognitive memory.",
+  },
+  {
+    slug: "add-memory-to-langchain-agent",
+    title: "How to Add Real Memory to a LangChain Agent (Beyond ConversationBufferMemory)",
+    date: "2026-03-19",
+    readTime: "11 min",
+    tags: ["tutorial", "integration", "agentic-ai"],
+    excerpt: "LangChain's built-in memory is a chat history buffer. Here's how to give your LangChain agent persistent, cognitive memory that strengthens with use and decays naturally.",
+  },
+  {
+    slug: "claude-code-cursor-memory-setup",
+    title: "How to Set Up Persistent Memory for Claude Code and Cursor",
+    date: "2026-03-19",
+    readTime: "9 min",
+    tags: ["tutorial", "mcp", "developer-tools"],
+    excerpt: "Claude Code and Cursor are powerful — but they forget everything between sessions. Here's how to give them persistent memory in under 5 minutes using shodh-memory's MCP server.",
+  },
+  {
     slug: "hopfield-networks-ai-memory",
     title: "Hopfield Networks, the Nobel Prize, and Why AI Memory Was Right All Along",
     date: "2026-03-18",
