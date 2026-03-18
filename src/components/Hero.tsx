@@ -1,7 +1,5 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Image from "next/image";
+import { TypingTagline } from "./TypingTagline";
 
 const ELEPHANT = [
   "⠀⠀⠀⠀⠀⠀⠀⠀⣠⣤⣤⣤⣤⣄⠀⠀⠀⠀⠀⠀",
@@ -21,65 +19,28 @@ const SHODH_TEXT = [
   "╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝",
 ];
 
-const TAGLINES = [
-  "Memory that learns with use",
-  "A brain for your AI agent",
-  "Past and future inform present",
-  "Runs offline on edge devices",
-  "<1μs graph lookup latency",
-];
-
 export function Hero() {
-  const [taglineIndex, setTaglineIndex] = useState(0);
-  const [displayedText, setDisplayedText] = useState("");
-  const [isTyping, setIsTyping] = useState(true);
-
-  useEffect(() => {
-    const currentTagline = TAGLINES[taglineIndex];
-    
-    if (isTyping) {
-      if (displayedText.length < currentTagline.length) {
-        const timeout = setTimeout(() => {
-          setDisplayedText(currentTagline.slice(0, displayedText.length + 1));
-        }, 50);
-        return () => clearTimeout(timeout);
-      } else {
-        const timeout = setTimeout(() => setIsTyping(false), 2000);
-        return () => clearTimeout(timeout);
-      }
-    } else {
-      if (displayedText.length > 0) {
-        const timeout = setTimeout(() => {
-          setDisplayedText(displayedText.slice(0, -1));
-        }, 30);
-        return () => clearTimeout(timeout);
-      } else {
-        setTaglineIndex((prev) => (prev + 1) % TAGLINES.length);
-        setIsTyping(true);
-      }
-    }
-  }, [displayedText, isTyping, taglineIndex]);
-
   return (
     <section className="pt-24 pb-16 px-4 md:pt-32 md:pb-24">
       <div className="mx-auto max-w-4xl">
-        {/* Logo + ASCII Art */}
-        <div className="flex flex-col md:flex-row items-center gap-6 mb-8 animate-fade-in">
+        {/* Logo + ASCII Art — renders immediately on server */}
+        <div className="flex flex-col md:flex-row items-center gap-6 mb-8">
           {/* Elephant braille art */}
           <div className="hidden md:block">
             <pre className="text-[var(--term-orange)] text-sm leading-tight">
               {ELEPHANT.join("\n")}
             </pre>
           </div>
-          
+
           {/* Logo image on mobile */}
           <div className="md:hidden">
-            <Image 
-              src="/logo.png" 
-              alt="Shodh Logo" 
-              width={80} 
+            <Image
+              src="/logo.png"
+              alt="Shodh Logo"
+              width={80}
               height={80}
               className="opacity-90"
+              priority
             />
           </div>
 
@@ -94,37 +55,34 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Typing tagline */}
-        <div className="h-8 mb-8 animate-fade-in animate-delay-1">
-          <span className="text-xl md:text-2xl text-[var(--term-text-dim)]">
-            {">"} {displayedText}
-            <span className="cursor-blink text-[var(--term-orange)]">▌</span>
-          </span>
+        {/* Typing tagline — only this part is client-rendered */}
+        <div className="h-8 mb-8">
+          <TypingTagline />
         </div>
 
-        {/* SEO H1 — visually part of the hero, semantically the page title */}
+        {/* SEO H1 */}
         <h1 className="sr-only">
           shodh-memory — Persistent Cognitive Memory for AI Agents
         </h1>
 
-        {/* Description */}
-        <p className="text-[var(--term-text-dim)] text-base md:text-lg max-w-2xl mb-8 animate-fade-in animate-delay-2">
+        {/* Description — server-rendered, visible immediately */}
+        <p className="text-[var(--term-text-dim)] text-base md:text-lg max-w-2xl mb-8">
           Persistent memory for AI agents — memories strengthen with use,
           decay naturally over time, and form associative networks.
           Hebbian learning, knowledge graphs, and three-tier architecture
           based on Cowan&apos;s model. Runs offline, single binary, no cloud required.
         </p>
 
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 animate-fade-in animate-delay-3">
+        {/* Stats — server-rendered, visible immediately */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
           <StatBox label="Graph Lookup" value="<1μs" href="https://github.com/varun29ankuS/shodh-memory#performance" />
           <StatBox label="Semantic Search" value="34-58ms" href="https://github.com/varun29ankuS/shodh-memory#benchmarks" />
           <StatBox label="Binary Size" value="~30MB" href="https://github.com/varun29ankuS/shodh-memory/releases" />
           <StatBox label="Tests Passing" value="688" href="https://github.com/varun29ankuS/shodh-memory/actions" />
         </div>
 
-        {/* CTA Buttons */}
-        <div className="flex flex-wrap gap-5 animate-fade-in animate-delay-4">
+        {/* CTA Buttons — server-rendered, visible immediately */}
+        <div className="flex flex-wrap gap-5">
           <a
             href="#install"
             className="shadow-btn shadow-btn-primary px-6 py-2 text-sm font-medium"

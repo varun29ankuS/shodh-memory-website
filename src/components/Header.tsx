@@ -12,7 +12,7 @@ export function Header() {
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-[var(--term-border)] bg-[var(--term-bg)]/95 backdrop-blur-sm">
       <nav className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 hover:no-underline">
-          <Image src="/logo.png" alt="Shodh" width={32} height={32} className="opacity-90" />
+          <Image src="/logo.png" alt="Shodh" width={32} height={32} className="opacity-90" priority />
           <span className="text-[var(--term-text)] font-semibold">shodh-memory</span>
           <span className="text-[var(--term-text-dim)] text-sm hidden sm:inline">v{VERSION}</span>
         </Link>

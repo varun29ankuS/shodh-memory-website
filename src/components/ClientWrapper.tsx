@@ -11,24 +11,22 @@ export function ClientWrapper({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     setMounted(true);
-    // Check if already booted this session
     if (sessionStorage.getItem("bootSeen")) {
       setBooted(true);
     }
   }, []);
 
-  // Avoid hydration mismatch
-  if (!mounted) {
-    return <>{children}</>;
-  }
-
   return (
     <>
-      {!booted && <BootSequence onComplete={() => setBooted(true)} />}
-      <div className={booted ? "opacity-100" : "opacity-0"}>
-        <ScrollProgress />
+      {/* Boot sequence overlays on TOP of content — content is always in the DOM
+          and rendered by the browser for LCP, even while the overlay is visible */}
+      {mounted && !booted && (
+        <BootSequence onComplete={() => setBooted(true)} />
+      )}
+      <div>
+        {mounted && <ScrollProgress />}
         {children}
-        <BackToTop />
+        {mounted && <BackToTop />}
       </div>
     </>
   );
