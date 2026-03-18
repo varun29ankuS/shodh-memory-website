@@ -21,6 +21,30 @@ export const metadata: Metadata = {
 
 export const BLOG_POSTS = [
   {
+    slug: "hopfield-networks-ai-memory",
+    title: "Hopfield Networks, the Nobel Prize, and Why AI Memory Was Right All Along",
+    date: "2026-03-18",
+    readTime: "14 min",
+    tags: ["neuroscience", "research", "architecture"],
+    excerpt: "In 1982, John Hopfield showed how networks of neurons can store and recall memories. The field ignored it for 35 years. Then it won a Nobel Prize — and turned out to be the foundation of transformers.",
+  },
+  {
+    slug: "learning-without-backpropagation",
+    title: "Learning Without Backpropagation: Why Local Rules Beat Global Gradients for Memory",
+    date: "2026-03-18",
+    readTime: "12 min",
+    tags: ["neuroscience", "learning", "algorithms"],
+    excerpt: "Backpropagation powers every modern AI model. But the brain can't do it — and Hinton, the man who popularized it, published an alternative. Here's why local learning rules matter for memory systems.",
+  },
+  {
+    slug: "neuroscience-ai-divergence",
+    title: "The Great Divorce: How AI Abandoned Neuroscience — And Why It's Coming Back",
+    date: "2026-03-18",
+    readTime: "15 min",
+    tags: ["neuroscience", "trends", "research"],
+    excerpt: "AI started as brain simulation. Then it optimized for benchmarks instead. The 80-year story of how artificial intelligence and neuroscience split apart — and the signs they're reuniting.",
+  },
+  {
     slug: "why-your-ai-agents-memory-is-broken",
     title: "Why Your AI Agent's Memory Is Broken — And How Neuroscience Fixes It",
     date: "2026-02-17",
