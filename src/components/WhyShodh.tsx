@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 const DIFFERENTIATORS = [
   {
     title: "Not another vector database",
@@ -147,6 +149,12 @@ export function WhyShodh() {
             Others give you storage. We give you{" "}
             <span className="text-[var(--term-orange)]">cognition</span>.
           </p>
+          <Link
+            href="/compare"
+            className="text-[var(--term-orange)] hover:underline text-sm mt-2 inline-block"
+          >
+            See the full comparison →
+          </Link>
         </div>
       </div>
     </section>

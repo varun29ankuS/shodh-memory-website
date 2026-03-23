@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     "citation_title":
       "Shodh-Memory: A Cognitive Memory System for Edge-Native AI Agents",
     "citation_author": "Varun Sharma",
-    "citation_date": "2026/02",
+    "citation_publication_date": "2026/02",
     "citation_doi": "10.5281/zenodo.18668709",
     "citation_pdf_url": "https://www.shodh-memory.com/shodh_memory.pdf",
     "citation_abstract":

@@ -6,6 +6,13 @@ export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
     "Shodh-memory privacy policy. We collect minimal data, use no tracking cookies, and never sell your information.",
+  openGraph: {
+    title: "Privacy Policy | shodh-memory",
+    description:
+      "Shodh-memory privacy policy. We collect minimal data, use no tracking cookies, and never sell your information.",
+    url: "https://www.shodh-memory.com/privacy",
+    siteName: "shodh-memory",
+  },
   alternates: {
     canonical: "https://www.shodh-memory.com/privacy",
   },

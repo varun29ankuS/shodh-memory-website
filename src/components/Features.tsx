@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const FEATURES = [
   {
     icon: "🧠",
@@ -51,6 +53,15 @@ export function Features() {
           {FEATURES.map((feature, i) => (
             <FeatureCard key={i} {...feature} index={i} />
           ))}
+        </div>
+
+        <div className="mt-8 text-center">
+          <Link
+            href="/docs"
+            className="text-[var(--term-orange)] hover:underline text-sm"
+          >
+            Explore the full documentation →
+          </Link>
         </div>
       </div>
     </section>

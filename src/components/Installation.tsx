@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 type InstallMethod = "mcp" | "rust" | "python";
 
@@ -124,6 +125,12 @@ export function Installation() {
           >
             PyPI →
           </a>
+          <Link
+            href="/integrations"
+            className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]"
+          >
+            Integrations →
+          </Link>
         </div>
       </div>
     </section>

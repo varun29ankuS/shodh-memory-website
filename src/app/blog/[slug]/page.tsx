@@ -4,7 +4,65 @@ import { Footer } from "@/components/Footer";
 import { Newsletter } from "@/components/Newsletter";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import React from "react";
 import { BLOG_POSTS } from "../page";
+
+function renderInlineMarkdown(text: string): React.ReactNode {
+  const parts: React.ReactNode[] = [];
+  let remaining = text;
+  let key = 0;
+
+  while (remaining.length > 0) {
+    // Bold: **text**
+    const boldMatch = remaining.match(/^([\s\S]*?)\*\*(.+?)\*\*([\s\S]*)/);
+    // Inline code: `text`
+    const codeMatch = remaining.match(/^([\s\S]*?)`(.+?)`([\s\S]*)/);
+    // Italic: *text* (single asterisk, not double)
+    const italicMatch = remaining.match(/^([\s\S]*?)(?:[^*]|^)\*([^*]+?)\*(?!\*)([\s\S]*)/);
+    // Link: [text](url)
+    const linkMatch = remaining.match(/^([\s\S]*?)\[(.+?)\]\((.+?)\)([\s\S]*)/);
+
+    type Match = { index: number; type: string; match: RegExpMatchArray };
+    const candidates: Match[] = [];
+    if (boldMatch && boldMatch[1] !== undefined) candidates.push({ index: boldMatch[1].length, type: "bold", match: boldMatch });
+    if (codeMatch && codeMatch[1] !== undefined) candidates.push({ index: codeMatch[1].length, type: "code", match: codeMatch });
+    if (italicMatch && italicMatch[1] !== undefined) candidates.push({ index: italicMatch[1].length, type: "italic", match: italicMatch });
+    if (linkMatch && linkMatch[1] !== undefined) candidates.push({ index: linkMatch[1].length, type: "link", match: linkMatch });
+
+    if (candidates.length === 0) {
+      parts.push(remaining);
+      break;
+    }
+
+    candidates.sort((a, b) => a.index - b.index);
+    const best = candidates[0];
+
+    if (best.index > 0) {
+      parts.push(best.match[1]);
+    }
+
+    switch (best.type) {
+      case "bold":
+        parts.push(<strong key={key++} className="text-[var(--term-text)] font-semibold">{best.match[2]}</strong>);
+        remaining = best.match[3];
+        break;
+      case "code":
+        parts.push(<code key={key++} className="px-1.5 py-0.5 bg-[var(--term-bg-secondary)] text-[var(--term-cyan)] text-[0.9em] rounded">{best.match[2]}</code>);
+        remaining = best.match[3];
+        break;
+      case "italic":
+        parts.push(<em key={key++} className="italic">{best.match[2]}</em>);
+        remaining = best.match[3];
+        break;
+      case "link":
+        parts.push(<a key={key++} href={best.match[3]} className="text-[var(--term-orange)] hover:underline" target={best.match[3].startsWith("http") ? "_blank" : undefined} rel={best.match[3].startsWith("http") ? "noopener noreferrer" : undefined}>{best.match[2]}</a>);
+        remaining = best.match[4];
+        break;
+    }
+  }
+
+  return parts.length === 1 && typeof parts[0] === "string" ? parts[0] : <>{parts}</>;
+}
 
 function getRelatedPosts(currentSlug: string, limit = 3) {
   const current = BLOG_POSTS.find((p) => p.slug === currentSlug);
@@ -4956,34 +5014,60 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
 
   const content = BLOG_CONTENT[slug] || ["# Coming Soon", "", "This post is being written."];
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: post.title,
-    description: post.excerpt,
-    datePublished: post.date,
-    dateModified: post.date,
-    author: {
-      "@type": "Organization",
-      name: "Shodh",
-      url: "https://www.shodh-memory.com",
-    },
-    publisher: {
-      "@type": "Organization",
-      name: "Shodh",
-      logo: {
-        "@type": "ImageObject",
-        url: "https://www.shodh-memory.com/logo.png",
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      headline: post.title,
+      description: post.excerpt,
+      datePublished: post.date,
+      dateModified: post.date,
+      author: {
+        "@type": "Organization",
+        name: "Shodh",
+        url: "https://www.shodh-memory.com",
       },
+      publisher: {
+        "@type": "Organization",
+        name: "Shodh",
+        logo: {
+          "@type": "ImageObject",
+          url: "https://www.shodh-memory.com/logo.png",
+        },
+      },
+      mainEntityOfPage: {
+        "@type": "WebPage",
+        "@id": `https://www.shodh-memory.com/blog/${post.slug}`,
+      },
+      keywords: post.tags.join(", "),
+      url: `https://www.shodh-memory.com/blog/${post.slug}`,
+      image: `https://www.shodh-memory.com/blog/${post.slug}/opengraph-image`,
     },
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": `https://www.shodh-memory.com/blog/${post.slug}`,
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.shodh-memory.com",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Blog",
+          item: "https://www.shodh-memory.com/blog",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: post.title,
+          item: `https://www.shodh-memory.com/blog/${post.slug}`,
+        },
+      ],
     },
-    keywords: post.tags.join(", "),
-    url: `https://www.shodh-memory.com/blog/${post.slug}`,
-    image: `https://www.shodh-memory.com/blog/${post.slug}/opengraph-image`,
-  };
+  ];
 
   return (
     <div className="min-h-screen">
@@ -5001,7 +5085,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
           <article>
             <header className="mb-8">
               <div className="flex items-center gap-4 text-sm text-[var(--term-text-dim)] mb-4">
-                <span>{post.date}</span>
+                <time dateTime={post.date}>{post.date}</time>
                 <span>•</span>
                 <span>{post.readTime} read</span>
               </div>
@@ -5026,21 +5110,21 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                 {content.map((line, i) => (
                   <div key={i} className="leading-relaxed">
                     {line.startsWith("# ") ? (
-                      <h1 className="text-xl font-bold text-[var(--term-orange)] mt-6 mb-4">{line.slice(2)}</h1>
+                      <h2 className="text-xl font-bold text-[var(--term-orange)] mt-6 mb-4">{renderInlineMarkdown(line.slice(2))}</h2>
                     ) : line.startsWith("## ") ? (
-                      <h2 className="text-lg font-semibold text-[var(--term-orange)] mt-6 mb-3">{line.slice(3)}</h2>
+                      <h3 className="text-lg font-semibold text-[var(--term-orange)] mt-6 mb-3">{renderInlineMarkdown(line.slice(3))}</h3>
                     ) : line.startsWith("### ") ? (
-                      <h3 className="text-base font-medium text-[var(--term-text)] mt-4 mb-2">{line.slice(4)}</h3>
+                      <h4 className="text-base font-medium text-[var(--term-text)] mt-4 mb-2">{renderInlineMarkdown(line.slice(4))}</h4>
                     ) : line.startsWith("```") ? (
                       <div className="text-[var(--term-text-dim)] text-xs">{line}</div>
                     ) : line.startsWith("- ") || line.startsWith("* ") ? (
-                      <div className="text-[var(--term-text-dim)] pl-4">• {line.slice(2)}</div>
+                      <div className="text-[var(--term-text-dim)] pl-4">• {renderInlineMarkdown(line.slice(2))}</div>
                     ) : line.startsWith("|") ? (
                       <div className="text-[var(--term-text-dim)] font-mono text-xs">{line}</div>
                     ) : line === "" ? (
                       <div className="h-4" />
                     ) : (
-                      <p className="text-[var(--term-text-dim)]">{line}</p>
+                      <p className="text-[var(--term-text-dim)]">{renderInlineMarkdown(line)}</p>
                     )}
                   </div>
                 ))}
@@ -5069,7 +5153,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                         {r.excerpt}
                       </p>
                       <div className="flex items-center gap-2 text-xs text-[var(--term-text-dim)]">
-                        <span>{r.date}</span>
+                        <time dateTime={r.date}>{r.date}</time>
                         <span className="text-[var(--term-border)]">|</span>
                         <span>{r.readTime}</span>
                       </div>

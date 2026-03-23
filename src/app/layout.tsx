@@ -111,13 +111,16 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "https://www.shodh-memory.com",
+    types: {
+      "application/rss+xml": "https://www.shodh-memory.com/blog/feed.xml",
+    },
   },
   category: "technology",
   other: {
     "citation_title":
       "Shodh-Memory: A Cognitive Memory System for Edge-Native AI Agents",
     "citation_author": "Varun Sharma",
-    "citation_date": "2026/02",
+    "citation_publication_date": "2026/02",
     "citation_doi": "10.5281/zenodo.18668709",
     "citation_pdf_url": "https://www.shodh-memory.com/shodh_memory.pdf",
     "citation_abstract":
@@ -182,7 +185,7 @@ export default function RootLayout({
                 "@context": "https://schema.org",
                 "@type": "Organization",
                 name: "Shodh",
-                url: "https://www.shodh-rag.com",
+                url: "https://www.shodh-memory.com",
                 logo: "https://www.shodh-memory.com/logo.png",
                 sameAs: [
                   "https://github.com/varun29ankuS/shodh-memory",
@@ -208,7 +211,15 @@ export default function RootLayout({
                     name: "Does shodh-memory require an internet connection?",
                     acceptedAnswer: {
                       "@type": "Answer",
-                      text: "No. Shodh-memory runs 100% offline. Embeddings, vector index, knowledge graph — everything runs locally in a single ~30MB binary. Perfect for edge devices, air-gapped systems, or anywhere you need data privacy.",
+                      text: "No. Shodh-memory runs 100% offline. The embeddings, vector index, knowledge graph — everything runs locally. Perfect for edge devices, air-gapped systems, or anywhere you need data privacy.",
+                    },
+                  },
+                  {
+                    "@type": "Question",
+                    name: "What's the memory overhead?",
+                    acceptedAnswer: {
+                      "@type": "Answer",
+                      text: "The binary is ~30MB. Models add ~50MB (22MB MiniLM embeddings + 14MB NER model + 14MB ONNX runtime). Each memory entry uses roughly 2-5KB. A system with 10,000 memories uses approximately 50MB of storage.",
                     },
                   },
                   {
@@ -221,10 +232,26 @@ export default function RootLayout({
                   },
                   {
                     "@type": "Question",
+                    name: "How does memory decay work?",
+                    acceptedAnswer: {
+                      "@type": "Answer",
+                      text: "Shodh-memory uses a hybrid model: exponential decay for the first 3 days (consolidation phase), then power-law decay for long-term retention. Memories accessed 10+ times become potentiated and decay 10x slower. Based on Wixted & Ebbesen (1991).",
+                    },
+                  },
+                  {
+                    "@type": "Question",
                     name: "What is Hebbian learning in AI agent memory?",
                     acceptedAnswer: {
                       "@type": "Answer",
-                      text: "Hebbian learning is a neuroscience principle: neurons that fire together wire together. In shodh-memory, when memories are accessed together, their connection strengthens. When memories compete, interference effects occur. This is how biological brains work, applied to AI agent memory.",
+                      text: "Cells that fire together, wire together. When memories are accessed together, their connection strengthens. When memories compete, interference effects occur. It's how biological brains work, now applied to AI agent memory.",
+                    },
+                  },
+                  {
+                    "@type": "Question",
+                    name: "Is there a cloud version?",
+                    acceptedAnswer: {
+                      "@type": "Answer",
+                      text: "No, and that's intentional. Shodh-memory is built for local-first, privacy-preserving AI. Your agent's memories stay on your hardware. If you need multi-device sync, you can replicate the RocksDB storage yourself.",
                     },
                   },
                   {
@@ -233,6 +260,14 @@ export default function RootLayout({
                     acceptedAnswer: {
                       "@type": "Answer",
                       text: "The core is Rust. We provide: an MCP server (for Claude, Cursor, and other AI agents), Python bindings (via PyO3/maturin), and a REST API. The Rust crate can be embedded directly in your application.",
+                    },
+                  },
+                  {
+                    "@type": "Question",
+                    name: "How do I contribute?",
+                    acceptedAnswer: {
+                      "@type": "Answer",
+                      text: "Check out github.com/varun29ankuS/shodh-memory. Open issues, submit PRs, or join discussions. The codebase is well-documented with 688+ tests. All constants have neuroscience citations.",
                     },
                   },
                 ],

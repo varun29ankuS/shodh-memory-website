@@ -12,7 +12,7 @@ const TAGLINES = [
 
 export function TypingTagline() {
   const [taglineIndex, setTaglineIndex] = useState(0);
-  const [displayedText, setDisplayedText] = useState("");
+  const [displayedText, setDisplayedText] = useState(TAGLINES[0]);
   const [isTyping, setIsTyping] = useState(true);
 
   useEffect(() => {

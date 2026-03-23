@@ -414,7 +414,7 @@ export default function Blog() {
                 <div className="terminal-dot terminal-dot-yellow" />
                 <div className="terminal-dot terminal-dot-green" />
                 <span className="ml-2 text-[var(--term-text-dim)] text-sm">{featured.slug}.md</span>
-                <span className="ml-auto text-[var(--term-text-dim)] text-xs">{featured.date}</span>
+                <time dateTime={featured.date} className="ml-auto text-[var(--term-text-dim)] text-xs">{featured.date}</time>
               </div>
               <div className="terminal-body p-6 md:p-8">
                 <h2 className="text-xl md:text-2xl font-semibold text-[var(--term-text)] group-hover:text-[var(--term-orange)] transition-colors mb-3">
@@ -459,7 +459,7 @@ export default function Blog() {
                         {post.excerpt}
                       </p>
                       <div className="flex items-center gap-3 text-xs text-[var(--term-text-dim)]">
-                        <span>{post.date}</span>
+                        <time dateTime={post.date}>{post.date}</time>
                         <span className="text-[var(--term-border)]">|</span>
                         <span>{post.readTime}</span>
                       </div>

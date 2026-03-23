@@ -60,31 +60,45 @@ export function FAQ() {
         </div>
 
         <div className="space-y-4">
-          {FAQS.map((faq, index) => (
-            <div
-              key={index}
-              className="shadow-accordion"
-            >
-              <button
-                onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className="w-full px-5 py-4 text-left flex items-start gap-3 hover:bg-[var(--term-bg-secondary)] transition-colors rounded"
+          {FAQS.map((faq, index) => {
+            const isOpen = openIndex === index;
+            const answerId = `faq-answer-${index}`;
+            return (
+              <div
+                key={index}
+                className="shadow-accordion"
               >
-                <span className="text-[var(--term-orange)] font-mono shrink-0">
-                  {openIndex === index ? "[-]" : "[+]"}
-                </span>
-                <span className="text-[var(--term-text)] font-medium">
-                  {faq.q}
-                </span>
-              </button>
-              {openIndex === index && (
-                <div className="px-5 pb-4 pl-12">
-                  <p className="text-[var(--term-text-dim)] text-sm leading-relaxed">
-                    {faq.a}
-                  </p>
+                <button
+                  onClick={() => setOpenIndex(isOpen ? null : index)}
+                  className="w-full px-5 py-4 text-left flex items-start gap-3 hover:bg-[var(--term-bg-secondary)] transition-colors rounded"
+                  aria-expanded={isOpen}
+                  aria-controls={answerId}
+                >
+                  <span className="text-[var(--term-orange)] font-mono shrink-0">
+                    {isOpen ? "[-]" : "[+]"}
+                  </span>
+                  <span className="text-[var(--term-text)] font-medium">
+                    {faq.q}
+                  </span>
+                </button>
+                <div
+                  id={answerId}
+                  role="region"
+                  className={`grid transition-all duration-200 ease-in-out ${
+                    isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <div className="px-5 pb-4 pl-12">
+                      <p className="text-[var(--term-text-dim)] text-sm leading-relaxed">
+                        {faq.a}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-              )}
-            </div>
-          ))}
+              </div>
+            );
+          })}
         </div>
 
         <div className="mt-8 text-center">
