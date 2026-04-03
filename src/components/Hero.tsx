@@ -56,7 +56,7 @@ export function Hero() {
         </div>
 
         {/* Tagline */}
-        <h1 className="text-xl md:text-2xl text-[var(--term-text)] mb-4 mt-[15mm]">
+        <h1 className="text-xl md:text-2xl text-[var(--term-text)] mb-4 mt-[25mm]">
           Persistent memory for AI agents that actually learns.
         </h1>
 
