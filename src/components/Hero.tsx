@@ -65,7 +65,9 @@ export function Hero() {
           Memories that strengthen with use, decay naturally,
           and wire together — like a real brain.
           <br className="hidden md:inline" />
-          {" "}Runs locally. Single binary. No cloud required.
+          {" "}<span className="text-[var(--term-green)] font-bold">Runs locally</span>.{" "}
+          <span className="text-[var(--term-orange)] font-bold">Single binary</span>.{" "}
+          <span className="text-[var(--term-purple)] font-bold">No cloud required</span>.
         </p>
 
         {/* Stats — server-rendered, visible immediately */}
