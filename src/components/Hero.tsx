@@ -73,10 +73,10 @@ export function Hero() {
 
         {/* Stats — server-rendered, visible immediately */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
-          <StatBox label="Graph Lookup" value="<1μs" href="https://github.com/varun29ankuS/shodh-memory#performance" />
-          <StatBox label="Semantic Search" value="34-58ms" href="https://github.com/varun29ankuS/shodh-memory#benchmarks" />
-          <StatBox label="Binary Size" value="~30MB" href="https://github.com/varun29ankuS/shodh-memory/releases" />
-          <StatBox label="Tests Passing" value="1089" href="https://github.com/varun29ankuS/shodh-memory/actions" />
+          <StatBox label="Your data never leaves" value="100% Private" />
+          <StatBox label="ChatGPT, Claude, Cursor & more" value="Any AI Agent" />
+          <StatBox label="No Docker, no dependencies" value="30MB Binary" />
+          <StatBox label="Battle-tested" value="1089 Tests" href="https://github.com/varun29ankuS/shodh-memory/actions" />
         </div>
 
         {/* CTA Buttons — server-rendered, visible immediately */}
