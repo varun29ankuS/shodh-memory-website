@@ -64,8 +64,9 @@ export function Hero() {
         <p className="text-[var(--term-text-dim)] text-base md:text-lg max-w-2xl mb-8 leading-relaxed">
           Memories that strengthen with use, decay naturally,
           and wire together — like a real brain.
-          <br className="hidden md:inline" />
-          {" "}<span className="text-[var(--term-orange)] font-bold">Runs locally</span>.{" "}
+          <br />
+          <br />
+          <span className="text-[var(--term-orange)] font-bold">Runs locally</span>.{" "}
           <span className="text-[var(--term-orange)] font-bold">Single binary</span>.{" "}
           <span className="text-[var(--term-orange)] font-bold">No cloud required</span>.
         </p>
