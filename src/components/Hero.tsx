@@ -61,7 +61,7 @@ export function Hero() {
         </h1>
 
         {/* Description — server-rendered, visible immediately */}
-        <p className="text-[var(--term-text-dim)] text-base md:text-lg max-w-2xl mb-8 leading-relaxed">
+        <p className="text-[var(--term-text-dim)] text-base md:text-lg max-w-2xl mb-12 leading-relaxed">
           Memories that strengthen with use, decay naturally,
           and wire together — like a real brain.
           <br />
