@@ -74,6 +74,7 @@ export default function PrivacyPolicy() {
             </p>
             <ul className="list-disc list-inside mt-2 space-y-1" style={{ color: "var(--term-text-dim)" }}>
               <li><span style={{ color: "var(--term-text)" }}>Vercel</span> - hosting and analytics</li>
+              <li><span style={{ color: "var(--term-text)" }}>Microsoft Clarity</span> - session replay and heatmaps (anonymized)</li>
               <li><span style={{ color: "var(--term-text)" }}>Groq</span> - AI chat responses</li>
               <li><span style={{ color: "var(--term-text)" }}>Telegram</span> - internal notifications for support</li>
             </ul>

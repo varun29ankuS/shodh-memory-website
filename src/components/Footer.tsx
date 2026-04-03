@@ -76,20 +76,10 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Shodh Ecosystem */}
+          {/* Community & Legal */}
           <div>
-            <h4 className="text-[var(--term-orange)] text-sm font-medium mb-3">Shodh Ecosystem</h4>
+            <h4 className="text-[var(--term-orange)] text-sm font-medium mb-3">Community</h4>
             <ul className="space-y-2 text-sm">
-              <li>
-                <a href="https://www.shodh-rag.com" target="_blank" rel="noopener noreferrer" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
-                  Shodh RAG
-                </a>
-              </li>
-              <li>
-                <a href="https://www.shodh-rag.com/memory" target="_blank" rel="noopener noreferrer" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
-                  Memory Docs
-                </a>
-              </li>
               <li>
                 <a href="https://github.com/varun29ankuS/shodh-memory/issues" target="_blank" rel="noopener noreferrer" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
                   Issues
@@ -100,6 +90,21 @@ export function Footer() {
                   Discussions
                 </a>
               </li>
+              <li>
+                <Link href="/privacy" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/terms" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
+                  Terms of Service
+                </Link>
+              </li>
+              <li>
+                <Link href="/security" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)]">
+                  Security
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
@@ -107,7 +112,7 @@ export function Footer() {
         {/* Bottom */}
         <div className="pt-8 border-t border-[var(--term-border)] flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-[var(--term-text-dim)]">
           <div>
-            Part of the <a href="https://shodh-rag.com" target="_blank" rel="noopener noreferrer" className="text-[var(--term-orange)] hover:underline">Shodh</a> ecosystem
+            <span className="text-[var(--term-orange)]">shodh-memory</span> — open-source, Apache 2.0
           </div>
           <div className="flex items-center gap-1">
             <span>Built with</span>
