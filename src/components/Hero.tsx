@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { TypingTagline } from "./TypingTagline";
 import { GlitchText } from "./GlitchText";
 
 const ELEPHANT = [
@@ -56,22 +55,17 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Typing tagline — only this part is client-rendered */}
-        <div className="h-8 mb-8">
-          <TypingTagline />
-        </div>
-
-        {/* SEO H1 */}
-        <h1 className="sr-only">
-          shodh-memory — Persistent Cognitive Memory for AI Agents
+        {/* Tagline */}
+        <h1 className="text-xl md:text-2xl text-[var(--term-text)] mb-4">
+          Persistent memory for AI agents that actually learns.
         </h1>
 
         {/* Description — server-rendered, visible immediately */}
-        <p className="text-[var(--term-text-dim)] text-base md:text-lg max-w-2xl mb-8">
-          Persistent memory for AI agents — memories strengthen with use,
-          decay naturally over time, and form associative networks.
-          Hebbian learning, knowledge graphs, and three-tier architecture
-          based on Cowan&apos;s model. Runs offline, single binary, no cloud required.
+        <p className="text-[var(--term-text-dim)] text-base md:text-lg max-w-2xl mb-8 leading-relaxed">
+          Memories that strengthen with use, decay naturally,
+          and wire together — like a real brain.
+          <br className="hidden md:inline" />
+          {" "}Runs locally. Single binary. No cloud required.
         </p>
 
         {/* Stats — server-rendered, visible immediately */}
@@ -79,7 +73,7 @@ export function Hero() {
           <StatBox label="Graph Lookup" value="<1μs" href="https://github.com/varun29ankuS/shodh-memory#performance" />
           <StatBox label="Semantic Search" value="34-58ms" href="https://github.com/varun29ankuS/shodh-memory#benchmarks" />
           <StatBox label="Binary Size" value="~30MB" href="https://github.com/varun29ankuS/shodh-memory/releases" />
-          <StatBox label="Tests Passing" value="688" href="https://github.com/varun29ankuS/shodh-memory/actions" />
+          <StatBox label="Tests Passing" value="1089" href="https://github.com/varun29ankuS/shodh-memory/actions" />
         </div>
 
         {/* CTA Buttons — server-rendered, visible immediately */}
