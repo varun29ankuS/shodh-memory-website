@@ -73,7 +73,7 @@ export function Hero() {
 
         {/* Stats — server-rendered, visible immediately */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
-          <StatBox label="Your data never leaves" value="100% Private" />
+          <StatBox label="Your data never leaves your machine" value="100% Private" />
           <StatBox label="ChatGPT, Claude, Cursor & more" value="Any AI Agent" />
           <StatBox label="No Docker, no dependencies" value="30MB Binary" />
           <StatBox label="Battle-tested" value="1089 Tests" href="https://github.com/varun29ankuS/shodh-memory/actions" />
