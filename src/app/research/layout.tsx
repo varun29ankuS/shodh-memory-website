@@ -25,7 +25,7 @@ export const metadata: Metadata = {
       "Current AI agent memory systems depend on cloud infrastructure, imposing latency and connectivity constraints incompatible with edge deployment. We present Shodh-Memory, a single-binary cognitive memory system that composes three established cognitive science models—Hebbian synaptic plasticity, piecewise hybrid decay following Wixted's forgetting model, and Anderson's spreading activation—into a unified architecture for edge-native AI agents.",
     "citation_language": "en",
     "citation_keywords":
-      "AI agent memory, cognitive architecture, Hebbian learning, edge AI, memory decay",
+      "AI agent memory, cognitive architecture, Hebbian learning, edge AI, memory decay, neuromorphic computing, spiking neural networks, synaptic plasticity, spreading activation",
     "citation_technical_report_institution": "Shodh Team",
   },
 };

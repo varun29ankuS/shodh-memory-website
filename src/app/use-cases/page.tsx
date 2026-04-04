@@ -5,11 +5,25 @@ import { Footer } from "@/components/Footer";
 export const metadata: Metadata = {
   title: "Edge & Robotics Use Cases",
   description:
-    "Deploy AI memory on edge devices, robots, and industrial systems. Shodh-memory runs on Raspberry Pi, NVIDIA Jetson, and air-gapped environments with sub-millisecond latency.",
+    "Deploy AI memory on edge devices, robots, and industrial systems. Shodh-memory runs on Raspberry Pi, NVIDIA Jetson, and air-gapped environments with sub-millisecond latency. Neuromorphic-ready architecture for next-gen hardware.",
+  keywords: [
+    "edge AI memory",
+    "robotics memory",
+    "neuromorphic computing",
+    "neuromorphic AI memory",
+    "Intel Loihi memory",
+    "spiking neural network memory",
+    "Raspberry Pi AI",
+    "NVIDIA Jetson memory",
+    "industrial AI",
+    "air-gapped AI",
+    "brain-inspired computing",
+    "edge inference",
+  ],
   openGraph: {
     title: "Edge & Robotics Use Cases | shodh-memory",
     description:
-      "Deploy AI memory on edge devices, robots, and industrial systems. Sub-millisecond latency, zero cloud dependency.",
+      "Deploy AI memory on edge devices, robots, and industrial systems. Sub-millisecond latency, zero cloud dependency. Neuromorphic-ready architecture.",
     url: "https://www.shodh-memory.com/use-cases",
     siteName: "shodh-memory",
   },

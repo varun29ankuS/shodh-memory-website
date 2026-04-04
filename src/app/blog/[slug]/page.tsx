@@ -2673,6 +2673,8 @@ const BLOG_CONTENT: Record<string, string[]> = {
     "",
     "The robots that remember will outperform the robots that don't. Not by a small margin — by a compounding margin that grows with every shift, every cycle, and every exception they learn from.",
     "",
+    "And the hardware is catching up to the software. Neuromorphic chips like Intel's Loihi 2 and IBM's TrueNorth implement Hebbian learning and spreading activation directly in silicon — the same cognitive primitives that shodh-memory runs in software today. A warehouse robot running memory recall on neuromorphic hardware would use under 1 watt instead of 10. When the hardware is ready, the architecture already speaks its language.",
+    "",
     "The memory layer for robotics isn't coming someday. It's available now.",
   ],
   "openai-agents-sdk-cognitive-memory": [
@@ -3562,7 +3564,7 @@ const BLOG_CONTENT: Record<string, string[]> = {
     "",
     "## Conclusion",
     "",
-    "Edge AI memory isn't a future promise—it's available now. The Pi proves that meaningful AI can run on meaningful hardware constraints.",
+    "Edge AI memory isn't a future promise—it's available now. The Pi proves that meaningful AI can run on meaningful hardware constraints. And the ceiling is higher than ARM CPUs — neuromorphic chips like Intel's Loihi 2 run Hebbian learning and memory decay in hardware at under 1 watt. When those chips become accessible, shodh-memory's architecture maps directly onto them. The cognitive primitives are the same; only the substrate changes.",
   ],
   "three-tier-memory-architecture": [
     "# The Three-Tier Memory Architecture",
@@ -5901,7 +5903,7 @@ const BLOG_CONTENT: Record<string, string[]> = {
     "",
     "Hopfield networks were ignored for 35 years and then won a Nobel Prize. Hinton spent his career on backprop and then published an alternative. Transformers turned out to be associative memory in disguise. The neuroscience wasn't wrong — it was early.",
     "",
-    "The gap between current AI architectures and biological neural systems isn't a sign that biology is irrelevant. It's a sign of how much remains unexplored.",
+    "The gap between current AI architectures and biological neural systems isn't a sign that biology is irrelevant. It's a sign of how much remains unexplored. Neuromorphic hardware — Intel Loihi 2, SpiNNaker, BrainScaleS — is one frontier: chips where synaptic weights update locally via spike-timing-dependent plasticity, where membrane potentials decay through physical capacitor discharge, and where spreading activation is literal spike propagation. The neuroscience isn't just inspiring software anymore. It's being etched into silicon.",
     "",
     "For memory systems specifically, the reunion is already happening. The principles that govern how brains remember — Hebbian learning, activation decay, spreading activation, consolidation, interference — are the same principles that practical AI memory systems need. Not as metaphors. As engineering solutions.",
     "",
