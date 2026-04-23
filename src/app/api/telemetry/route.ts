@@ -20,10 +20,13 @@ interface TelemetryPayload {
 }
 
 async function sendToTelegram(message: string) {
-  if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) return;
+  if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
+    console.log("Telegram credentials missing, skipping notification");
+    return;
+  }
 
   try {
-    await fetch(
+    const res = await fetch(
       `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
       {
         method: "POST",
@@ -31,12 +34,15 @@ async function sendToTelegram(message: string) {
         body: JSON.stringify({
           chat_id: TELEGRAM_CHAT_ID,
           text: message,
-          parse_mode: "Markdown",
         }),
       }
     );
-  } catch {
-    // Non-fatal — don't let Telegram failures break telemetry ingestion
+    const data = await res.json();
+    if (!data.ok) {
+      console.error("Telegram API error:", JSON.stringify(data));
+    }
+  } catch (err) {
+    console.error("Telegram send error:", err);
   }
 }
 
@@ -96,14 +102,15 @@ export async function POST(req: NextRequest) {
       })
     );
 
-    // Notify via Telegram (useful for tracking active instances)
-    const msg =
-      `📡 *Shodh Heartbeat*\n` +
-      `Instance: \`${instanceId.slice(0, 8)}…\`\n` +
-      `Version: ${version} (${os}/${arch})\n` +
-      `Uptime: ${formatUptime(uptimeSecs)}\n` +
-      `Users: ${userCount} | Memories: ${totalMemories.toLocaleString()}\n` +
-      `Storage: ${storageMb} MB | Features: ${featureList}`;
+    // Notify via Telegram (plain text — no Markdown to avoid parse failures)
+    const msg = [
+      "Shodh Heartbeat",
+      `Instance: ${instanceId.slice(0, 8)}`,
+      `Version: ${version} (${os}/${arch})`,
+      `Uptime: ${formatUptime(uptimeSecs)}`,
+      `Users: ${userCount} | Memories: ${totalMemories}`,
+      `Storage: ${storageMb} MB | Features: ${featureList}`,
+    ].join("\n");
 
     await sendToTelegram(msg);
 
