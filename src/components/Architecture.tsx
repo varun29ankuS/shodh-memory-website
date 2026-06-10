@@ -79,7 +79,7 @@ export function Architecture() {
             <span className="ml-2 text-[var(--term-text-dim)] text-sm">architecture.rs</span>
           </div>
           <div className="terminal-body overflow-x-auto">
-            <pre className="text-[10px] sm:text-xs md:text-sm leading-snug font-mono text-[var(--term-text-dim)]">{`
+            <pre className="w-fit mx-auto text-[10px] sm:text-xs md:text-sm leading-snug font-mono text-[var(--term-text-dim)]">{`
                     ┌─────────────────────────────────┐
                     │         MCP / API Layer         │
                     │  remember  recall  forget  ...  │

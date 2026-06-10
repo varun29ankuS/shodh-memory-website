@@ -44,6 +44,44 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Substrate: faint dot grid with a slow-drifting warm glow behind all content */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(139, 148, 158, 0.09) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+body::after {
+  content: "";
+  position: fixed;
+  inset: -40% -40% 0 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    700px circle at 30% 25%,
+    rgba(240, 136, 62, 0.06),
+    transparent 65%
+  );
+  animation: substrate-drift 26s ease-in-out infinite alternate;
+  will-change: transform;
+}
+@keyframes substrate-drift {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(28vw, 38vh);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  body::after {
+    animation: none;
+  }
+}
+
 h1, h2, h3, h4 {
   letter-spacing: -0.02em;
   font-weight: 600;

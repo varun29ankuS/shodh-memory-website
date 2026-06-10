@@ -4,6 +4,12 @@ import Link from "next/link";
 
 const DIFFERENTIATORS = [
   {
+    title: "Zero LLM calls in the loop",
+    description:
+      "Storing, consolidating, and recalling never touch an LLM. Learning happens through Hebbian edge updates and decay curves — microseconds on local hardware, $0 per memory operation, and the same input always produces the same memory.",
+    icon: "🧮",
+  },
+  {
     title: "Not another vector database",
     description:
       "Most \"memory\" solutions are just vector search with a wrapper. Shodh-memory has a knowledge graph, temporal indices, and hybrid ranking. Connections between memories strengthen when accessed together—like biological synapses.",
