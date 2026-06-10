@@ -2,9 +2,17 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
-  const clientId = searchParams.get("client") || "shodh-demo";
-  const primaryColor = searchParams.get("color") || "#10b981"; // emerald-500
-  const position = searchParams.get("position") || "right"; // right or left
+
+  // Strict allowlists: these values are interpolated into served JavaScript,
+  // so anything outside the expected shape is script injection
+  const rawClient = searchParams.get("client") || "";
+  const clientId = /^[a-z0-9_-]{1,40}$/i.test(rawClient) ? rawClient : "shodh-demo";
+
+  const rawColor = searchParams.get("color") || "";
+  const primaryColor = /^#[0-9a-f]{6}$/i.test(rawColor) ? rawColor : "#10b981"; // emerald-500
+
+  const rawPosition = searchParams.get("position") || "";
+  const position = rawPosition === "left" ? "left" : "right";
 
   const widgetJS = `
 (function() {

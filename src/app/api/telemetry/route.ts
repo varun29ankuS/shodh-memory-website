@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
+import { rateLimit, getClientIp, sanitizeLine, tooLarge } from "@/lib/ratelimit";
 
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+
+const MAX_BODY_BYTES = 10_000;
 
 interface TelemetryPayload {
   instance_id: string;
@@ -55,6 +58,20 @@ function formatUptime(secs: number): string {
 }
 
 export async function POST(req: NextRequest) {
+  const ip = getClientIp(req.headers);
+
+  if (tooLarge(req.headers, MAX_BODY_BYTES)) {
+    return NextResponse.json({ error: "Request too large" }, { status: 413 });
+  }
+
+  const ipLimit = rateLimit(`telemetry:${ip}`, 60, 3_600_000);
+  if (!ipLimit.allowed) {
+    return NextResponse.json(
+      { error: "Too many requests" },
+      { status: 429, headers: { "Retry-After": String(ipLimit.retryAfterSec) } }
+    );
+  }
+
   try {
     const payload: TelemetryPayload = await req.json();
 
@@ -66,11 +83,12 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Sanitize: cap string lengths to prevent abuse
-    const instanceId = String(payload.instance_id).slice(0, 64);
-    const version = String(payload.version).slice(0, 32);
-    const os = String(payload.os || "unknown").slice(0, 32);
-    const arch = String(payload.arch || "unknown").slice(0, 32);
+    // Sanitize: cap string lengths and strip newlines/control chars so
+    // payload fields can't inject structure into the Telegram message
+    const instanceId = sanitizeLine(payload.instance_id, 64).replace(/[^\w-]/g, "");
+    const version = sanitizeLine(payload.version, 32);
+    const os = sanitizeLine(payload.os || "unknown", 32);
+    const arch = sanitizeLine(payload.arch || "unknown", 32);
     const uptimeSecs = Math.max(0, Number(payload.uptime_secs) || 0);
     const userCount = Math.max(0, Number(payload.user_count) || 0);
     const totalMemories = Math.max(0, Number(payload.total_memories) || 0);
@@ -102,17 +120,22 @@ export async function POST(req: NextRequest) {
       })
     );
 
-    // Notify via Telegram (plain text — no Markdown to avoid parse failures)
-    const msg = [
-      "Shodh Heartbeat",
-      `Instance: ${instanceId.slice(0, 8)}`,
-      `Version: ${version} (${os}/${arch})`,
-      `Uptime: ${formatUptime(uptimeSecs)}`,
-      `Users: ${userCount} | Memories: ${totalMemories}`,
-      `Storage: ${storageMb} MB | Features: ${featureList}`,
-    ].join("\n");
+    // Notify via Telegram (plain text — no Markdown to avoid parse failures).
+    // At most one notification per instance per hour: heartbeats are logged
+    // above regardless, so dedupe only throttles the channel, not the data.
+    const tgLimit = rateLimit(`telemetry:tg:${instanceId}`, 1, 3_600_000);
+    if (tgLimit.allowed) {
+      const msg = [
+        "Shodh Heartbeat",
+        `Instance: ${instanceId.slice(0, 8)}`,
+        `Version: ${version} (${os}/${arch})`,
+        `Uptime: ${formatUptime(uptimeSecs)}`,
+        `Users: ${userCount} | Memories: ${totalMemories}`,
+        `Storage: ${storageMb} MB | Features: ${featureList}`,
+      ].join("\n");
 
-    await sendToTelegram(msg);
+      await sendToTelegram(msg);
+    }
 
     return NextResponse.json({ status: "ok" });
   } catch {
