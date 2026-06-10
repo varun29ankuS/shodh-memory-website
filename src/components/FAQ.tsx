@@ -49,13 +49,13 @@ export function FAQ() {
       <div className="mx-auto max-w-4xl">
         <div className="mb-12">
           <div className="flex items-center gap-3 mb-2">
-            <span className="text-[var(--term-orange)] font-mono text-sm">[06]</span>
+            <span className="text-[var(--term-orange)] font-mono text-sm">[07]</span>
             <h2 className="text-2xl md:text-3xl font-semibold text-[var(--term-text)]">
-              FAQ
+              Questions, answered
             </h2>
           </div>
           <p className="text-[var(--term-text-dim)] pl-12">
-            Frequently asked questions about shodh-memory
+            Everything people ask before they install
           </p>
         </div>
 

@@ -19,12 +19,12 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
-        <Features />
         <Reveal><WhyShodh /></Reveal>
-        <Reveal><Durability /></Reveal>
+        <Features />
         <Reveal><Architecture /></Reveal>
-        <Reveal><Installation /></Reveal>
+        <Reveal><Durability /></Reveal>
         <Reveal><Demo /></Reveal>
+        <Reveal><Installation /></Reveal>
         <Reveal><FAQ /></Reveal>
       </main>
       <Footer />

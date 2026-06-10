@@ -46,9 +46,9 @@ export function Installation() {
     <section id="install" className="py-20 md:py-28 px-6 border-t border-[var(--term-border)] bg-[var(--term-bg-secondary)]">
       <div className="mx-auto max-w-4xl">
         <SectionHeader
-          prefix="04"
-          title="Installation"
-          subtitle="Get started in seconds"
+          prefix="06"
+          title="Install in seconds"
+          subtitle="One command. No Docker, no API keys, no cloud account."
         />
 
         {/* Tab buttons */}

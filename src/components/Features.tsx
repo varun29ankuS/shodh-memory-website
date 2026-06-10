@@ -42,13 +42,13 @@ const FEATURES = [
 
 export function Features() {
   return (
-    <section id="features" className="py-20 md:py-28 px-6 border-t border-[var(--term-border)]">
+    <section id="features" className="py-20 md:py-28 px-6 border-t border-[var(--term-border)] bg-[var(--term-bg-secondary)]">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <SectionHeader
-            prefix="01"
-            title="Features"
-            subtitle="What makes shodh-memory different"
+            prefix="02"
+            title="Memory that learns like a brain"
+            subtitle="Hebbian strengthening, natural decay, spreading activation — implemented as microsecond algorithms, not API calls"
           />
         </Reveal>
 

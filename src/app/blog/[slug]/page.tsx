@@ -8426,7 +8426,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <main className="pt-24 pb-16 px-4">
+      <main className="pt-28 pb-24 px-6 md:pt-36 md:pb-32">
         <div className="mx-auto max-w-3xl">
           <Link href="/blog" className="text-[var(--term-text-dim)] hover:text-[var(--term-orange)] text-sm mb-8 inline-block">
             ← Back to blog

@@ -38,8 +38,8 @@ export function Architecture() {
       <div className="mx-auto max-w-6xl">
         <SectionHeader
           prefix="03"
-          title="Architecture"
-          subtitle="Cowan's working memory model, implemented"
+          title="Under the hood"
+          subtitle="Cowan's three-tier working memory model, implemented in Rust"
         />
 
         {/* 3-Tier Visualization */}

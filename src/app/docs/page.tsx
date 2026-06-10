@@ -62,7 +62,7 @@ export default function DocsPage() {
   return (
     <div className="min-h-screen">
       <Header />
-      <main className="py-16 px-4">
+      <main className="py-24 px-6 md:py-32">
         <div className="mx-auto max-w-4xl">
           {/* Page Header */}
           <div className="mb-12">

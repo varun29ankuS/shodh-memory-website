@@ -559,7 +559,7 @@ export default function ResearchPage() {
   return (
     <div className="min-h-screen">
       <Header />
-      <main className="pt-24 pb-16 px-4">
+      <main className="pt-28 pb-24 px-6 md:pt-36 md:pb-32">
         <div className="mx-auto max-w-4xl">
           {/* Header */}
           <div className="mb-12">

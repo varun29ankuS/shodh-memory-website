@@ -4,12 +4,12 @@ import { InteractiveTerminal } from "./InteractiveTerminal";
 
 export function Demo() {
   return (
-    <section id="demo" className="py-20 md:py-28 px-6 border-t border-[var(--term-border)] bg-[var(--term-bg-secondary)]">
+    <section id="demo" className="py-20 md:py-28 px-6 border-t border-[var(--term-border)]">
       <div className="mx-auto max-w-4xl">
         <SectionHeader
           prefix="05"
-          title="Try It"
-          subtitle="Type commands to interact with a simulated memory system"
+          title="See it think"
+          subtitle="Type commands against a simulated memory system — right here, no install"
         />
 
         <InteractiveTerminal />
