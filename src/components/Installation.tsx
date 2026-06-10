@@ -43,7 +43,7 @@ export function Installation() {
   const [method, setMethod] = useState<InstallMethod>("mcp");
 
   return (
-    <section id="install" className="py-16 px-4 border-t border-[var(--term-border)] bg-[var(--term-bg-secondary)]">
+    <section id="install" className="py-20 md:py-28 px-6 border-t border-[var(--term-border)] bg-[var(--term-bg-secondary)]">
       <div className="mx-auto max-w-4xl">
         <SectionHeader
           prefix="04"

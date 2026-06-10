@@ -49,7 +49,7 @@ const COMPARISON = [
 
 export function WhyShodh() {
   return (
-    <section className="py-16 px-4 border-t border-[var(--term-border)]">
+    <section className="py-20 md:py-28 px-6 border-t border-[var(--term-border)]">
       <div className="mx-auto max-w-6xl">
         <div className="mb-12">
           <div className="flex items-center gap-3 mb-2">

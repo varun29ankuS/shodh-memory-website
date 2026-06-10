@@ -11,8 +11,8 @@ const ELEPHANT = [
 
 export function Hero() {
   return (
-    <section className="pt-28 pb-16 px-4 md:pt-36 md:pb-24">
-      <div className="mx-auto max-w-4xl">
+    <section className="pt-28 pb-20 px-6 md:pt-40 md:pb-28">
+      <div className="mx-auto max-w-6xl">
         {/* Brand mark */}
         <div className="flex items-center gap-4 mb-10 animate-fade-in">
           <div className="hidden md:block">
@@ -36,13 +36,13 @@ export function Hero() {
         </div>
 
         {/* Headline */}
-        <h1 className="text-4xl md:text-6xl leading-[1.1] tracking-tight text-[var(--term-text)] mb-6 max-w-3xl animate-fade-in animate-delay-1">
+        <h1 className="text-4xl md:text-6xl lg:text-7xl leading-[1.08] tracking-tight text-[var(--term-text)] mb-8 max-w-4xl animate-fade-in animate-delay-1">
           Persistent memory for AI agents.{" "}
           <span className="text-[var(--term-orange)]">Zero LLM calls.</span>
         </h1>
 
         {/* Description — server-rendered, visible immediately */}
-        <p className="text-[var(--term-text-dim)] text-base md:text-lg max-w-2xl mb-10 leading-relaxed animate-fade-in animate-delay-2">
+        <p className="text-[var(--term-text-dim)] text-base md:text-lg max-w-2xl mb-14 leading-relaxed animate-fade-in animate-delay-2">
           Other memory systems call an LLM to store, summarize, and manage memories —
           slow, expensive, non-deterministic. shodh-memory learns with Hebbian rules
           and decay curves instead: memories strengthen with use, fade naturally, and
@@ -50,7 +50,7 @@ export function Hero() {
         </p>
 
         {/* Stats — server-rendered, visible immediately */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 animate-fade-in animate-delay-3">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-14 animate-fade-in animate-delay-3">
           <StatBox label="In the memory loop — ever" value="0 LLM Calls" />
           <StatBox label="Your data never leaves your machine" value="100% Private" />
           <StatBox label="No Docker, no dependencies" value="30MB Binary" />
@@ -58,7 +58,7 @@ export function Hero() {
         </div>
 
         {/* CTA Buttons — server-rendered, visible immediately */}
-        <div className="flex flex-wrap gap-5 mb-8 animate-fade-in animate-delay-4">
+        <div className="flex flex-wrap gap-5 mb-12 animate-fade-in animate-delay-4">
           <a
             href="#install"
             className="shadow-btn shadow-btn-primary px-6 py-2 text-sm font-medium"

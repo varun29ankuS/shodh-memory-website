@@ -37,7 +37,7 @@ const DURABILITY_FEATURES = [
 
 export function Durability() {
   return (
-    <section className="py-16 px-4 border-t border-[var(--term-border)] bg-[var(--term-bg-secondary)]">
+    <section className="py-20 md:py-28 px-6 border-t border-[var(--term-border)] bg-[var(--term-bg-secondary)]">
       <div className="mx-auto max-w-6xl">
         <div className="mb-12">
           <div className="flex items-center gap-3 mb-2">

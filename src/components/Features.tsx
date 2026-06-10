@@ -42,7 +42,7 @@ const FEATURES = [
 
 export function Features() {
   return (
-    <section id="features" className="py-16 px-4 border-t border-[var(--term-border)]">
+    <section id="features" className="py-20 md:py-28 px-6 border-t border-[var(--term-border)]">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <SectionHeader

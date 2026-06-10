@@ -34,7 +34,7 @@ const COMPONENTS = [
 
 export function Architecture() {
   return (
-    <section id="architecture" className="py-16 px-4 border-t border-[var(--term-border)]">
+    <section id="architecture" className="py-20 md:py-28 px-6 border-t border-[var(--term-border)]">
       <div className="mx-auto max-w-6xl">
         <SectionHeader
           prefix="03"
@@ -153,46 +153,6 @@ export function Architecture() {
         </div>
       </div>
     </section>
-  );
-}
-
-function DiagramBox({
-  title,
-  sub,
-  accent,
-  center,
-  small,
-}: {
-  title: string;
-  sub: string;
-  accent?: string;
-  center?: boolean;
-  small?: boolean;
-}) {
-  return (
-    <div
-      className={`border rounded px-3 ${small ? "py-2" : "py-3"} bg-[var(--term-bg-secondary)] ${center ? "text-center" : ""}`}
-      style={{ borderColor: accent ?? "var(--term-border)" }}
-    >
-      <div
-        className={`${small ? "text-xs" : "text-xs md:text-sm"} font-semibold mb-1`}
-        style={{ color: accent ?? "var(--term-text)" }}
-      >
-        {title}
-      </div>
-      <div className="text-[10px] md:text-xs text-[var(--term-text-dim)]">{sub}</div>
-    </div>
-  );
-}
-
-function FlowArrow({ label }: { label?: string }) {
-  return (
-    <div className="flex flex-col items-center py-2 text-[var(--term-orange)]" aria-hidden="true">
-      <span className="text-xs leading-none">▼</span>
-      {label && (
-        <span className="text-[10px] text-[var(--term-text-dim)] mt-1">{label}</span>
-      )}
-    </div>
   );
 }
 

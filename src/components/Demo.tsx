@@ -4,7 +4,7 @@ import { InteractiveTerminal } from "./InteractiveTerminal";
 
 export function Demo() {
   return (
-    <section id="demo" className="py-16 px-4 border-t border-[var(--term-border)] bg-[var(--term-bg-secondary)]">
+    <section id="demo" className="py-20 md:py-28 px-6 border-t border-[var(--term-border)] bg-[var(--term-bg-secondary)]">
       <div className="mx-auto max-w-4xl">
         <SectionHeader
           prefix="05"

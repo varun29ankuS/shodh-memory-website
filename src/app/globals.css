@@ -124,47 +124,68 @@ a { color: var(--term-orange); text-decoration: none; transition: all 0.2s ease;
 a:hover { color: var(--term-yellow); text-decoration: underline; }
 
 /* ===========================================
-   DOTTED SHADOW SYSTEM - Multi-layer retro folder aesthetic
-   Uses ::before (outer layer) and ::after (inner layer) for depth
+   ELEVATION SYSTEM - knurled offset shadows (turbopuffer-style):
+   the face keeps a bevel (inset highlight + shade) and the drop shadow is a
+   long offset pseudo-element filled with a halftone dot pattern. Texture
+   reads on dark backgrounds where solid black shadows vanish.
    =========================================== */
+:root {
+  --bevel-light: hsla(0, 0%, 100%, 0.12);
+  --bevel-dark: rgba(0, 0, 0, 0.45);
+  /* Lighter than the page so the knurl pattern is visible on near-black */
+  --shadow-drop: #4a525c;
+}
 
-/* Base shadow button with multi-layer dotted shadow */
+/* Knurl strips: ::before = right edge, ::after = bottom edge. Two strips form
+   the offset "L" without ever sitting under the element's face, so painting
+   order can never bleed the pattern through the surface. */
+.shadow-btn::before,
+.shadow-btn::after,
+.shadow-card::before,
+.shadow-card::after,
+.shadow-box::before,
+.shadow-box::after,
+.shadow-window::before,
+.shadow-window::after,
+.shadow-tab::before,
+.shadow-tab::after,
+.shadow-accordion::before,
+.shadow-accordion::after,
+.shadow-callout::before,
+.shadow-callout::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  background-image: radial-gradient(var(--shadow-drop) 1.1px, transparent 1.1px);
+  background-size: 4px 4px;
+  transition: all 0.15s ease;
+}
+
 .shadow-btn {
   position: relative;
   background: var(--term-bg-secondary);
   border: 1px solid var(--term-border);
+  border-radius: 4px;
   color: var(--term-text);
   padding: 0.5rem 1rem;
   font-family: var(--font-mono);
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease,
+    transform 0.15s ease, box-shadow 0.15s ease;
   transform: translate(0, 0);
-}
-.shadow-btn::before,
-.shadow-btn::after {
-  content: "";
-  position: absolute;
-  pointer-events: none;
-  transition: all 0.15s ease;
+  box-shadow: inset 1px 1px 0 var(--bevel-light), inset -1px -1px 0 var(--bevel-dark);
 }
 .shadow-btn::before {
   top: 6px;
-  left: 6px;
-  right: -6px;
   bottom: -6px;
-  border: 2px dotted var(--term-border);
-  border-top: none;
-  border-left: none;
-  opacity: 0.4;
+  left: 100%;
+  width: 6px;
 }
 .shadow-btn::after {
-  top: 3px;
-  left: 3px;
-  right: -3px;
-  bottom: -3px;
-  border: 2px dotted var(--term-border);
-  border-top: none;
-  border-left: none;
+  left: 6px;
+  right: -6px;
+  top: 100%;
+  height: 6px;
 }
 .shadow-btn:hover {
   border-color: var(--term-orange);
@@ -172,405 +193,249 @@ a:hover { color: var(--term-yellow); text-decoration: underline; }
   transform: translate(-2px, -2px);
 }
 .shadow-btn:hover::before {
-  top: 10px;
-  left: 10px;
-  right: -10px;
-  bottom: -10px;
-  border-color: var(--term-orange);
-  opacity: 0.3;
+  top: 9px;
+  bottom: -9px;
+  width: 9px;
+  background-image: radial-gradient(rgba(240, 136, 62, 0.55) 1.1px, transparent 1.1px);
 }
 .shadow-btn:hover::after {
-  top: 5px;
-  left: 5px;
-  right: -5px;
-  bottom: -5px;
-  border-color: var(--term-orange);
+  left: 9px;
+  right: -9px;
+  height: 9px;
+  background-image: radial-gradient(rgba(240, 136, 62, 0.55) 1.1px, transparent 1.1px);
 }
 .shadow-btn:active {
   transform: translate(2px, 2px);
+  box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 .shadow-btn:active::before {
   top: 2px;
-  left: 2px;
-  right: -2px;
   bottom: -2px;
-  opacity: 0.2;
+  width: 2px;
 }
 .shadow-btn:active::after {
-  top: 1px;
-  left: 1px;
-  right: -1px;
-  bottom: -1px;
+  left: 2px;
+  right: -2px;
+  height: 2px;
 }
 
-/* Primary button - orange with grey dotted shadow */
+/* Primary button - solid orange face, same knurled drop */
 .shadow-btn-primary {
   background: var(--term-orange);
   border-color: var(--term-orange);
   color: var(--term-bg);
-}
-.shadow-btn-primary::before,
-.shadow-btn-primary::after {
-  border-color: var(--term-text-dim);
+  box-shadow: inset 1px 1px 0 hsla(0, 0%, 100%, 0.3), inset -1px -1px 0 rgba(0, 0, 0, 0.25);
 }
 .shadow-btn-primary:hover {
   background: #ffa050;
   border-color: #ffa050;
   color: var(--term-bg);
 }
-.shadow-btn-primary:hover::before,
-.shadow-btn-primary:hover::after {
-  border-color: var(--term-text-dim);
+.shadow-btn-primary:active {
+  box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.35);
 }
 
-/* Shadow card - folder-like containers with lift */
+/* Shadow card - beveled face, long knurled drop, lifts toward cursor */
 .shadow-card {
   position: relative;
   background: var(--term-bg-secondary);
   border: 1px solid var(--term-border);
-  transition: all 0.15s ease;
+  border-radius: 4px;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   transform: translate(0, 0);
-}
-.shadow-card::before,
-.shadow-card::after {
-  content: "";
-  position: absolute;
-  pointer-events: none;
-  transition: all 0.15s ease;
+  box-shadow: inset 1px 1px 0 var(--bevel-light), inset -1px -1px 0 var(--bevel-dark);
 }
 .shadow-card::before {
-  top: 6px;
-  left: 6px;
-  right: -6px;
-  bottom: -6px;
-  border: 2px dotted var(--term-border);
-  border-top: none;
-  border-left: none;
-  opacity: 0.4;
+  top: 8px;
+  bottom: -8px;
+  left: 100%;
+  width: 8px;
 }
 .shadow-card::after {
-  top: 3px;
-  left: 3px;
-  right: -3px;
-  bottom: -3px;
-  border: 2px dotted var(--term-border);
-  border-top: none;
-  border-left: none;
+  left: 8px;
+  right: -8px;
+  top: 100%;
+  height: 8px;
 }
 .shadow-card:hover {
   border-color: var(--term-orange);
   transform: translate(-2px, -2px);
 }
 .shadow-card:hover::before {
-  top: 10px;
-  left: 10px;
-  right: -10px;
-  bottom: -10px;
-  border-color: var(--term-orange);
-  opacity: 0.3;
+  top: 11px;
+  bottom: -11px;
+  width: 11px;
+  background-image: radial-gradient(rgba(240, 136, 62, 0.45) 1.1px, transparent 1.1px);
 }
 .shadow-card:hover::after {
-  top: 5px;
-  left: 5px;
-  right: -5px;
-  bottom: -5px;
-  border-color: var(--term-orange);
+  left: 11px;
+  right: -11px;
+  height: 11px;
+  background-image: radial-gradient(rgba(240, 136, 62, 0.45) 1.1px, transparent 1.1px);
 }
 
-/* Shadow tab - for tab buttons with lift */
+/* Shadow tab - raised key by default, orange knurl when active */
 .shadow-tab {
   position: relative;
   background: var(--term-bg-secondary);
   border: 1px solid var(--term-border);
+  border-radius: 4px;
   padding: 0.5rem 1rem;
   font-family: var(--font-mono);
   cursor: pointer;
-  transition: all 0.15s ease;
-  transform: translate(0, 0);
-}
-.shadow-tab::before,
-.shadow-tab::after {
-  content: "";
-  position: absolute;
-  pointer-events: none;
-  transition: all 0.15s ease;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease,
+    box-shadow 0.15s ease;
+  box-shadow: inset 1px 1px 0 var(--bevel-light), inset -1px -1px 0 var(--bevel-dark);
 }
 .shadow-tab::before {
-  top: 5px;
-  left: 5px;
-  right: -5px;
-  bottom: -5px;
-  border: 2px dotted var(--term-border);
-  border-top: none;
-  border-left: none;
-  opacity: 0.4;
+  top: 4px;
+  bottom: -4px;
+  left: 100%;
+  width: 4px;
 }
 .shadow-tab::after {
-  top: 2px;
-  left: 2px;
-  right: -2px;
-  bottom: -2px;
-  border: 2px dotted var(--term-border);
-  border-top: none;
-  border-left: none;
+  left: 4px;
+  right: -4px;
+  top: 100%;
+  height: 4px;
 }
 .shadow-tab:hover {
-  border-color: var(--term-text-dim);
-  transform: translate(-1px, -1px);
-}
-.shadow-tab:hover::before {
-  top: 7px;
-  left: 7px;
-  right: -7px;
-  bottom: -7px;
-  border-color: var(--term-text-dim);
-}
-.shadow-tab:hover::after {
-  top: 3px;
-  left: 3px;
-  right: -3px;
-  bottom: -3px;
-  border-color: var(--term-text-dim);
+  border-color: #444c56;
+  color: var(--term-text);
 }
 .shadow-tab-active {
   background: var(--term-orange);
   border-color: var(--term-orange);
   color: var(--term-bg);
+  box-shadow: inset 1px 1px 0 hsla(0, 0%, 100%, 0.3), inset -1px -1px 0 rgba(0, 0, 0, 0.25);
 }
 .shadow-tab-active::before,
 .shadow-tab-active::after {
-  border-color: var(--term-text-dim);
+  background-image: radial-gradient(rgba(240, 136, 62, 0.5) 1.1px, transparent 1.1px);
 }
-.shadow-tab-active:hover::before,
-.shadow-tab-active:hover::after {
-  border-color: var(--term-text-dim);
+.shadow-tab-active:hover {
+  border-color: var(--term-orange);
+  color: var(--term-bg);
 }
 
-/* Shadow window - terminal windows with multi-layer shadow and lift */
+/* Shadow window - terminal windows: beveled, long knurled drop, steady */
 .shadow-window {
   position: relative;
   background: var(--term-bg-secondary);
   border: 1px solid var(--term-border);
   border-radius: 6px;
-  overflow: visible;
-  transition: all 0.15s ease;
-  transform: translate(0, 0);
-}
-.shadow-window::before,
-.shadow-window::after {
-  content: "";
-  position: absolute;
-  pointer-events: none;
-  transition: all 0.15s ease;
-  z-index: -1;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: inset 1px 1px 0 var(--bevel-light), inset -1px -1px 0 var(--bevel-dark);
 }
 .shadow-window::before {
-  top: 8px;
-  left: 8px;
-  right: -8px;
-  bottom: -8px;
-  border: 2px dotted var(--term-border);
-  border-top: none;
-  border-left: none;
-  border-radius: 6px;
-  opacity: 0.4;
+  top: 10px;
+  bottom: -10px;
+  left: 100%;
+  width: 10px;
 }
 .shadow-window::after {
-  top: 4px;
-  left: 4px;
-  right: -4px;
-  bottom: -4px;
-  border: 2px dotted var(--term-border);
-  border-top: none;
-  border-left: none;
-  border-radius: 6px;
+  left: 10px;
+  right: -10px;
+  top: 100%;
+  height: 10px;
 }
 .shadow-window:hover {
-  border-color: var(--term-orange);
-  transform: translate(-2px, -2px);
+  border-color: #444c56;
 }
-.shadow-window:hover::before {
-  top: 12px;
-  left: 12px;
-  right: -12px;
-  bottom: -12px;
-  border-color: var(--term-orange);
-  opacity: 0.3;
-}
-.shadow-window:hover::after {
-  top: 6px;
-  left: 6px;
-  right: -6px;
-  bottom: -6px;
-  border-color: var(--term-orange);
+.shadow-window > .terminal-header {
+  border-radius: 5px 5px 0 0;
 }
 
-/* Shadow box - generic container with multi-layer shadow and lift */
+/* Shadow box - generic container, same knurled language as cards */
 .shadow-box {
   position: relative;
   background: var(--term-bg-secondary);
   border: 1px solid var(--term-border);
-  transition: all 0.15s ease;
+  border-radius: 4px;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   transform: translate(0, 0);
-}
-.shadow-box::before,
-.shadow-box::after {
-  content: "";
-  position: absolute;
-  pointer-events: none;
-  transition: all 0.15s ease;
+  box-shadow: inset 1px 1px 0 var(--bevel-light), inset -1px -1px 0 var(--bevel-dark);
 }
 .shadow-box::before {
-  top: 6px;
-  left: 6px;
-  right: -6px;
-  bottom: -6px;
-  border: 2px dotted var(--term-border);
-  border-top: none;
-  border-left: none;
-  opacity: 0.4;
+  top: 8px;
+  bottom: -8px;
+  left: 100%;
+  width: 8px;
 }
 .shadow-box::after {
-  top: 3px;
-  left: 3px;
-  right: -3px;
-  bottom: -3px;
-  border: 2px dotted var(--term-border);
-  border-top: none;
-  border-left: none;
+  left: 8px;
+  right: -8px;
+  top: 100%;
+  height: 8px;
 }
 .shadow-box:hover {
   border-color: var(--term-orange);
   transform: translate(-2px, -2px);
 }
 .shadow-box:hover::before {
-  top: 10px;
-  left: 10px;
-  right: -10px;
-  bottom: -10px;
-  border-color: var(--term-orange);
-  opacity: 0.3;
+  top: 11px;
+  bottom: -11px;
+  width: 11px;
+  background-image: radial-gradient(rgba(240, 136, 62, 0.45) 1.1px, transparent 1.1px);
 }
 .shadow-box:hover::after {
-  top: 5px;
-  left: 5px;
-  right: -5px;
-  bottom: -5px;
-  border-color: var(--term-orange);
+  left: 11px;
+  right: -11px;
+  height: 11px;
+  background-image: radial-gradient(rgba(240, 136, 62, 0.45) 1.1px, transparent 1.1px);
 }
 
-/* FAQ accordion item with multi-layer shadow and lift */
+/* FAQ accordion item - subtle bevel, shorter knurled drop */
 .shadow-accordion {
   position: relative;
   background: var(--term-bg);
   border: 1px solid var(--term-border);
   border-radius: 4px;
-  overflow: visible;
-  transition: all 0.15s ease;
-  transform: translate(0, 0);
-}
-.shadow-accordion::before,
-.shadow-accordion::after {
-  content: "";
-  position: absolute;
-  pointer-events: none;
-  transition: all 0.15s ease;
-  z-index: -1;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: inset 1px 1px 0 var(--bevel-light);
 }
 .shadow-accordion::before {
   top: 5px;
-  left: 5px;
-  right: -5px;
   bottom: -5px;
-  border: 2px dotted var(--term-border);
-  border-top: none;
-  border-left: none;
-  border-radius: 4px;
-  opacity: 0.4;
+  left: 100%;
+  width: 5px;
 }
 .shadow-accordion::after {
-  top: 2px;
-  left: 2px;
-  right: -2px;
-  bottom: -2px;
-  border: 2px dotted var(--term-border);
-  border-top: none;
-  border-left: none;
-  border-radius: 4px;
+  left: 5px;
+  right: -5px;
+  top: 100%;
+  height: 5px;
 }
 .shadow-accordion:hover {
   border-color: var(--term-orange);
-  transform: translate(-2px, -2px);
-}
-.shadow-accordion:hover::before {
-  top: 8px;
-  left: 8px;
-  right: -8px;
-  bottom: -8px;
-  border-color: var(--term-orange);
-  opacity: 0.3;
-}
-.shadow-accordion:hover::after {
-  top: 4px;
-  left: 4px;
-  right: -4px;
-  bottom: -4px;
-  border-color: var(--term-orange);
 }
 
-/* Callout box with multi-layer shadow */
+/* Callout box - green-tinted emphasis surface, green knurl */
 .shadow-callout {
   position: relative;
-  border: 1px solid var(--term-green);
-  background: rgba(63, 185, 80, 0.05);
+  border: 1px solid rgba(63, 185, 80, 0.4);
+  background: linear-gradient(rgba(63, 185, 80, 0.05), rgba(63, 185, 80, 0.05)),
+    var(--term-bg);
   border-radius: 4px;
-  transition: all 0.15s ease;
-  transform: translate(0, 0);
-}
-.shadow-callout::before,
-.shadow-callout::after {
-  content: "";
-  position: absolute;
-  pointer-events: none;
-  transition: all 0.15s ease;
-  z-index: -1;
+  transition: border-color 0.2s ease;
+  box-shadow: inset 1px 1px 0 hsla(0, 0%, 100%, 0.05);
 }
 .shadow-callout::before {
-  top: 6px;
-  left: 6px;
-  right: -6px;
-  bottom: -6px;
-  border: 2px dotted var(--term-green);
-  border-top: none;
-  border-left: none;
-  border-radius: 4px;
-  opacity: 0.3;
+  top: 8px;
+  bottom: -8px;
+  left: 100%;
+  width: 8px;
+  background-image: radial-gradient(rgba(63, 185, 80, 0.4) 1.1px, transparent 1.1px);
 }
 .shadow-callout::after {
-  top: 3px;
-  left: 3px;
-  right: -3px;
-  bottom: -3px;
-  border: 2px dotted var(--term-green);
-  border-top: none;
-  border-left: none;
-  border-radius: 4px;
-  opacity: 0.5;
+  left: 8px;
+  right: -8px;
+  top: 100%;
+  height: 8px;
+  background-image: radial-gradient(rgba(63, 185, 80, 0.4) 1.1px, transparent 1.1px);
 }
 .shadow-callout:hover {
-  transform: translate(-2px, -2px);
-}
-.shadow-callout:hover::before {
-  top: 10px;
-  left: 10px;
-  right: -10px;
-  bottom: -10px;
-}
-.shadow-callout:hover::after {
-  top: 5px;
-  left: 5px;
-  right: -5px;
-  bottom: -5px;
+  border-color: var(--term-green);
 }
 
 @keyframes fade-in-up {
