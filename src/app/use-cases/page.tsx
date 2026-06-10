@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { JsonLd, breadcrumbs } from "@/components/JsonLd";
 import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -154,6 +155,8 @@ export default function UseCases() {
   return (
     <div className="min-h-screen">
       <Header />
+      <JsonLd data={breadcrumbs("Edge & Robotics", "/use-cases")} />
+      <JsonLd data={{"@context":"https://schema.org","@type":"WebPage","name":"Edge & Robotics Use Cases","url":"https://www.shodh-memory.com/use-cases","description":"AI memory for robots, vehicles, and industrial systems: on-device, offline, sub-millisecond."}} />
       <main className="pt-28 pb-24 px-6 md:pt-36 md:pb-32">
         <div className="mx-auto max-w-6xl">
           {/* Act 1 — the hook */}

@@ -1,6 +1,29 @@
 import { MetadataRoute } from "next";
 import { BLOG_POSTS } from "./blog/page";
 
+// Real last-substantive-update dates. new Date() on every build tells
+// crawlers everything changed daily, which muddies freshness signals.
+// Bump the relevant date when a page meaningfully changes.
+const STATIC_ROUTES: {
+  path: string;
+  lastModified: string;
+  changeFrequency: "weekly" | "monthly" | "yearly";
+  priority: number;
+}[] = [
+  { path: "", lastModified: "2026-06-10", changeFrequency: "weekly", priority: 1 },
+  { path: "/docs", lastModified: "2026-04-10", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/blog", lastModified: "2026-04-03", changeFrequency: "weekly", priority: 0.8 },
+  { path: "/use-cases", lastModified: "2026-06-10", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/research", lastModified: "2026-04-10", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/enterprise", lastModified: "2026-04-10", changeFrequency: "monthly", priority: 0.7 },
+  { path: "/compare", lastModified: "2026-04-10", changeFrequency: "monthly", priority: 0.9 },
+  { path: "/integrations", lastModified: "2026-04-10", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/contact", lastModified: "2026-04-10", changeFrequency: "monthly", priority: 0.6 },
+  { path: "/privacy", lastModified: "2026-01-15", changeFrequency: "yearly", priority: 0.3 },
+  { path: "/terms", lastModified: "2026-04-10", changeFrequency: "yearly", priority: 0.3 },
+  { path: "/security", lastModified: "2026-04-10", changeFrequency: "monthly", priority: 0.5 },
+];
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://www.shodh-memory.com";
 
@@ -12,78 +35,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   return [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/docs`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/blog`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/use-cases`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/research`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/enterprise`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/compare`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/integrations`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/contact`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/privacy`,
-      lastModified: new Date(),
-      changeFrequency: "yearly",
-      priority: 0.3,
-    },
-    {
-      url: `${baseUrl}/terms`,
-      lastModified: new Date(),
-      changeFrequency: "yearly",
-      priority: 0.3,
-    },
-    {
-      url: `${baseUrl}/security`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.5,
-    },
+    ...STATIC_ROUTES.map((route) => ({
+      url: `${baseUrl}${route.path}`,
+      lastModified: new Date(route.lastModified),
+      changeFrequency: route.changeFrequency,
+      priority: route.priority,
+    })),
     ...blogPosts,
   ];
 }

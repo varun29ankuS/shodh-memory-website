@@ -8332,6 +8332,7 @@ export async function generateMetadata({
       description: post.excerpt,
       type: "article",
       publishedTime: post.date,
+      authors: ["Shodh"],
       tags: post.tags,
       url: `https://www.shodh-memory.com/blog/${post.slug}`,
       siteName: "shodh-memory",

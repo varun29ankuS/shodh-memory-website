@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { JsonLd, breadcrumbs } from "@/components/JsonLd";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 
@@ -62,6 +63,8 @@ export default function DocsPage() {
   return (
     <div className="min-h-screen">
       <Header />
+      <JsonLd data={breadcrumbs("Documentation", "/docs")} />
+      <JsonLd data={{"@context":"https://schema.org","@type":"TechArticle","headline":"shodh-memory Documentation","url":"https://www.shodh-memory.com/docs","author":{"@type":"Organization","name":"Shodh"},"about":"Installation, configuration, and API reference for shodh-memory."}} />
       <main className="py-24 px-6 md:py-32">
         <div className="mx-auto max-w-4xl">
           {/* Page Header */}
