@@ -1236,7 +1236,7 @@ const BLOG_CONTENT: Record<string, string[]> = {
     "### shodh-memory",
     "- **Language:** Rust core, TypeScript MCP server, Python bindings",
     "- **Architecture:** Local-first, single binary (~30MB), zero external dependencies",
-    "- **Storage:** RocksDB + HNSW/SPANN vector index + knowledge graph",
+    "- **Storage:** RocksDB + Vamana/SPANN vector index + knowledge graph",
     "- **Key differentiator:** Neuroscience-grounded cognitive memory — Hebbian learning, 3-tier architecture, memory decay, spreading activation",
     "- **License:** Apache 2.0",
     "",

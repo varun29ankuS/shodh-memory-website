@@ -354,7 +354,7 @@ export const BLOG_POSTS = [
     date: "2026-02-02",
     readTime: "10 min",
     tags: ["vector-search", "algorithms", "performance"],
-    excerpt: "Cosine similarity is chapter one. Graph-based search (Vamana, DiskANN) is chapter two. How shodh-memory auto-scales from HNSW to SPANN at 100K vectors.",
+    excerpt: "Cosine similarity is chapter one. Graph-based search (Vamana, DiskANN) is chapter two. How shodh-memory auto-scales from Vamana to SPANN at 100K vectors.",
   },
   {
     slug: "cognitive-architecture-ai-systems",

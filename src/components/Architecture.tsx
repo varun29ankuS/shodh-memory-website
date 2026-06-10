@@ -26,7 +26,7 @@ const TIERS = [
 ];
 
 const COMPONENTS = [
-  { name: "Vector Index", desc: "HNSW for semantic similarity" },
+  { name: "Vector Index", desc: "Vamana graph, auto-scales to SPANN at 100K+" },
   { name: "Knowledge Graph", desc: "Entities + relationships + spreading activation" },
   { name: "Temporal Index", desc: "Time-based retrieval and decay" },
   { name: "Episode Manager", desc: "Conversation threading and context" },
@@ -69,7 +69,8 @@ export function Architecture() {
           ))}
         </div>
 
-        {/* ASCII Architecture Blueprint */}
+        {/* ASCII Architecture Blueprint — renders in self-hosted JetBrains Mono,
+            which covers the full box-drawing range (see layout.tsx) */}
         <div className="shadow-window mb-8">
           <div className="terminal-header">
             <div className="terminal-dot terminal-dot-red" />
@@ -90,10 +91,10 @@ export function Architecture() {
 │                                                                   │
 │  ┌─────────────┐   ┌─────────────┐   ┌─────────────────────────┐  │
 │  │   SENSORY   │   │   WORKING   │   │       LONG-TERM         │  │
-│  │   BUFFER    │─▶│   MEMORY    │──▶│        MEMORY           │  │
+│  │   BUFFER    │──▶│   MEMORY    │──▶│        MEMORY           │  │
 │  │   ~7 items  │   │  ~4 chunks  │   │      unlimited          │  │
 │  │  decay:<1s  │   │  decay:mins │   │    decay:power-law      │  │
-│  └─────────────┘   └─────────────┘   └─────────────────────────┘  │ 
+│  └─────────────┘   └─────────────┘   └─────────────────────────┘  │
 │         │                 │                      │                │
 │         └────attention────┴────consolidation─────┘                │
 │                                  │                                │
@@ -102,7 +103,7 @@ export function Architecture() {
 │  │                    RETRIEVAL SUBSYSTEM                     │   │
 │  │                                                            │   │
 │  │   VECTOR INDEX      KNOWLEDGE GRAPH      TEMPORAL INDEX    │   │
-│  │      (HNSW)          (Hebbian)            (decay)          │   │
+│  │     (Vamana)         (Hebbian)            (decay)          │   │
 │  │                                                            │   │
 │  │        │                  │                   │            │   │
 │  │        └──────────────────┼───────────────────┘            │   │
@@ -122,7 +123,7 @@ export function Architecture() {
               ┌─────────────────────┴─────────────────────┐
               ▼                                           ▼
 ┌──────────────────────────┐            ┌───────────────────────────┐
-│  HEBBIAN CONSOLIDATION   │◀────────▶ │   INTERFERENCE ENGINE     │
+│  HEBBIAN CONSOLIDATION   │◀──────────▶│   INTERFERENCE ENGINE     │
 │                          │            │                           │
 │co-activation strengthens │            │  similar memories compete │
 │  edge.weight += η·Δw     │            │  old decays when new fits │
@@ -152,6 +153,46 @@ export function Architecture() {
         </div>
       </div>
     </section>
+  );
+}
+
+function DiagramBox({
+  title,
+  sub,
+  accent,
+  center,
+  small,
+}: {
+  title: string;
+  sub: string;
+  accent?: string;
+  center?: boolean;
+  small?: boolean;
+}) {
+  return (
+    <div
+      className={`border rounded px-3 ${small ? "py-2" : "py-3"} bg-[var(--term-bg-secondary)] ${center ? "text-center" : ""}`}
+      style={{ borderColor: accent ?? "var(--term-border)" }}
+    >
+      <div
+        className={`${small ? "text-xs" : "text-xs md:text-sm"} font-semibold mb-1`}
+        style={{ color: accent ?? "var(--term-text)" }}
+      >
+        {title}
+      </div>
+      <div className="text-[10px] md:text-xs text-[var(--term-text-dim)]">{sub}</div>
+    </div>
+  );
+}
+
+function FlowArrow({ label }: { label?: string }) {
+  return (
+    <div className="flex flex-col items-center py-2 text-[var(--term-orange)]" aria-hidden="true">
+      <span className="text-xs leading-none">▼</span>
+      {label && (
+        <span className="text-[10px] text-[var(--term-text-dim)] mt-1">{label}</span>
+      )}
+    </div>
   );
 }
 

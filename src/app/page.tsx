@@ -4,6 +4,7 @@ import { Hero } from "@/components/Hero";
 import { Features } from "@/components/Features";
 import { Architecture } from "@/components/Architecture";
 import { Footer } from "@/components/Footer";
+import { Reveal } from "@/components/Reveal";
 
 // Below-fold client components — defer JS hydration, still SSR the HTML
 const WhyShodh = dynamic(() => import("@/components/WhyShodh").then(m => ({ default: m.WhyShodh })), { ssr: true });
@@ -19,12 +20,12 @@ export default function Home() {
       <main>
         <Hero />
         <Features />
-        <WhyShodh />
-        <Durability />
-        <Architecture />
-        <Installation />
-        <Demo />
-        <FAQ />
+        <Reveal><WhyShodh /></Reveal>
+        <Reveal><Durability /></Reveal>
+        <Reveal><Architecture /></Reveal>
+        <Reveal><Installation /></Reveal>
+        <Reveal><Demo /></Reveal>
+        <Reveal><FAQ /></Reveal>
       </main>
       <Footer />
     </div>

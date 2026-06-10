@@ -26,7 +26,10 @@
   --color-term-red: var(--term-red);
   --color-term-purple: var(--term-purple);
   --color-term-orange: var(--term-orange);
-  --font-mono: "JetBrains Mono", "Fira Code", "SF Mono", Consolas, monospace;
+  --font-sans: var(--font-inter), system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* Self-hosted full JetBrains Mono (see layout.tsx) — covers box-drawing and
+     braille glyphs so ASCII diagrams render in a single font and stay aligned */
+  --font-mono: var(--font-jetbrains), "Cascadia Code", Consolas, monospace;
 }
 
 * { box-sizing: border-box; }
@@ -35,10 +38,19 @@ html { scroll-behavior: smooth; }
 body {
   background: var(--term-bg);
   color: var(--term-text);
-  font-family: "JetBrains Mono", "Fira Code", "SF Mono", Consolas, monospace;
-  font-size: 14px;
+  font-family: var(--font-sans);
+  font-size: 15px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+
+code, kbd, samp {
+  font-family: var(--font-mono);
 }
 
 ::selection {
@@ -62,185 +74,6 @@ body {
   50% { text-shadow: 0 0 10px var(--term-orange), 0 0 20px var(--term-orange), 0 0 30px var(--term-orange); }
 }
 .glow { animation: glow 2s ease-in-out infinite; }
-
-/* CRT TV Effects */
-
-/* Static horizontal scanlines across entire screen */
-.scanline::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.15),
-    rgba(0, 0, 0, 0.15) 1px,
-    transparent 1px,
-    transparent 2px
-  );
-  pointer-events: none;
-  z-index: 999;
-}
-
-/* Moving scanline beam */
-@keyframes scanline {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100vh); }
-}
-.scanline::after {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 8px;
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    rgba(200, 200, 200, 0.03),
-    rgba(255, 255, 255, 0.05),
-    rgba(200, 200, 200, 0.03),
-    transparent
-  );
-  animation: scanline 6s linear infinite;
-  pointer-events: none;
-  z-index: 1000;
-}
-
-/* CRT screen vignette - darker edges like old TVs */
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(
-    ellipse at center,
-    transparent 0%,
-    transparent 60%,
-    rgba(0, 0, 0, 0.3) 100%
-  );
-  pointer-events: none;
-  z-index: 998;
-}
-
-/* Subtle screen flicker */
-@keyframes flicker {
-  0%, 100% { opacity: 1; }
-  92% { opacity: 1; }
-  93% { opacity: 0.98; }
-  94% { opacity: 1; }
-  97% { opacity: 0.97; }
-  98% { opacity: 1; }
-}
-.scanline {
-  animation: flicker 5s infinite;
-}
-
-/* Phosphor glow effect for headings and important text */
-.phosphor-glow {
-  text-shadow:
-    0 0 2px currentColor,
-    0 0 4px currentColor,
-    0 0 8px currentColor;
-}
-
-/* Subtle noise/static grain overlay - enhanced for visibility */
-@keyframes noise {
-  0%, 100% { background-position: 0 0; }
-  10% { background-position: -5% -10%; }
-  20% { background-position: -15% 5%; }
-  30% { background-position: 7% -25%; }
-  40% { background-position: 20% 25%; }
-  50% { background-position: -25% 10%; }
-  60% { background-position: 15% 5%; }
-  70% { background-position: 0% 15%; }
-  80% { background-position: 25% 35%; }
-  90% { background-position: -10% 10%; }
-}
-
-/* Primary static layer - visible grain overlay */
-body::after {
-  content: "";
-  position: fixed;
-  top: -50%;
-  left: -50%;
-  right: -50%;
-  bottom: -50%;
-  width: 200%;
-  height: 200%;
-  background: transparent url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  opacity: 0.28;
-  pointer-events: none;
-  z-index: 997;
-  animation: noise 2s steps(4) infinite;
-  will-change: transform;
-}
-
-/* Rolling interference bands - classic B&W TV signal noise */
-@keyframes interference-roll {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100vh); }
-}
-
-.scanline .interference-bands {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 200vh;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent 0px,
-    transparent 80px,
-    rgba(0, 0, 0, 0.03) 80px,
-    rgba(0, 0, 0, 0.06) 85px,
-    rgba(255, 255, 255, 0.02) 90px,
-    rgba(0, 0, 0, 0.04) 95px,
-    transparent 100px,
-    transparent 300px
-  );
-  pointer-events: none;
-  z-index: 996;
-  animation: interference-roll 12s linear infinite;
-}
-
-/* Horizontal noise bands - thicker interference lines */
-.tv-interference {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent 0px,
-    transparent 3px,
-    rgba(255, 255, 255, 0.008) 3px,
-    rgba(255, 255, 255, 0.008) 4px
-  );
-  pointer-events: none;
-  z-index: 995;
-}
-
-/* Static overlay class for terminal windows - adds extra grain */
-.static-overlay {
-  position: relative;
-}
-.static-overlay .terminal-body::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='static'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23static)'/%3E%3C/svg%3E");
-  opacity: 0.03;
-  pointer-events: none;
-  animation: noise 2s steps(4) infinite;
-  will-change: transform;
-  z-index: 1;
-}
 
 .terminal-window {
   background: var(--term-bg-secondary);
@@ -267,7 +100,7 @@ body::after {
 
 /* ASCII art rendering */
 pre {
-  font-family: "JetBrains Mono", "Fira Code", "SF Mono", "Cascadia Code", Consolas, "DejaVu Sans Mono", monospace;
+  font-family: var(--font-mono);
   white-space: pre;
   overflow-x: auto;
   overflow-y: hidden;
@@ -302,7 +135,7 @@ a:hover { color: var(--term-yellow); text-decoration: underline; }
   border: 1px solid var(--term-border);
   color: var(--term-text);
   padding: 0.5rem 1rem;
-  font-family: inherit;
+  font-family: var(--font-mono);
   cursor: pointer;
   transition: all 0.15s ease;
   transform: translate(0, 0);
@@ -450,7 +283,7 @@ a:hover { color: var(--term-yellow); text-decoration: underline; }
   background: var(--term-bg-secondary);
   border: 1px solid var(--term-border);
   padding: 0.5rem 1rem;
-  font-family: inherit;
+  font-family: var(--font-mono);
   cursor: pointer;
   transition: all 0.15s ease;
   transform: translate(0, 0);
@@ -740,59 +573,32 @@ a:hover { color: var(--term-yellow); text-decoration: underline; }
   bottom: -5px;
 }
 
-/* Glitch chromatic aberration on hover — pair with GlitchText component */
-@keyframes glitch-clip {
-  0% { clip-path: inset(40% 0 61% 0); transform: translate(-2px, 1px); }
-  20% { clip-path: inset(92% 0 1% 0); transform: translate(1px, -1px); }
-  40% { clip-path: inset(43% 0 1% 0); transform: translate(-1px, 2px); }
-  60% { clip-path: inset(25% 0 58% 0); transform: translate(2px, 1px); }
-  80% { clip-path: inset(54% 0 7% 0); transform: translate(-1px, -1px); }
-  100% { clip-path: inset(58% 0 43% 0); transform: translate(0); }
-}
-
-.glitch-hover {
-  position: relative;
-}
-.glitch-hover::before,
-.glitch-hover::after {
-  content: attr(data-text);
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  pointer-events: none;
-}
-.glitch-hover:hover::before {
-  opacity: 0.8;
-  color: var(--term-cyan);
-  animation: glitch-clip 0.3s linear;
-  z-index: -1;
-}
-.glitch-hover:hover::after {
-  opacity: 0.8;
-  color: var(--term-red);
-  animation: glitch-clip 0.3s linear reverse;
-  z-index: -1;
-}
-
-/* Boot sequence line reveal — pure CSS, no JS re-renders */
-@keyframes boot-line-in {
-  from { opacity: 0; transform: translateX(-4px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
 @keyframes fade-in-up {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
-.animate-fade-in { animation: fade-in-up 0.6s ease-out forwards; }
-.animate-delay-1 { animation-delay: 0.1s; opacity: 0; }
-.animate-delay-2 { animation-delay: 0.2s; opacity: 0; }
-.animate-delay-3 { animation-delay: 0.3s; opacity: 0; }
-.animate-delay-4 { animation-delay: 0.4s; opacity: 0; }
-.animate-delay-5 { animation-delay: 0.5s; opacity: 0; }
+.animate-fade-in { animation: fade-in-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-delay-1 { animation-delay: 0.08s; opacity: 0; }
+.animate-delay-2 { animation-delay: 0.16s; opacity: 0; }
+.animate-delay-3 { animation-delay: 0.24s; opacity: 0; }
+.animate-delay-4 { animation-delay: 0.32s; opacity: 0; }
+.animate-delay-5 { animation-delay: 0.4s; opacity: 0; }
+
+/* Scroll reveal — the hidden state only applies when JS is present (html.js),
+   so content stays visible for crawlers and no-JS visitors */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
 
 table { width: 100%; border-collapse: collapse; }
 th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--term-border); }
@@ -950,5 +756,22 @@ body:has(.announcement-bar) header {
   }
   .download-number {
     font-size: 2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+  .js .reveal {
+    opacity: 1;
+    transform: none;
   }
 }

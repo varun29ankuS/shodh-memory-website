@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { GlitchText } from "./GlitchText";
 
 const ELEPHANT = [
   "⠀⠀⠀⠀⠀⠀⠀⠀⣠⣤⣤⣤⣤⣄⠀⠀⠀⠀⠀⠀",
@@ -10,77 +9,56 @@ const ELEPHANT = [
   "⠀⠀⠐⠛⠛⠛⠀⠀⠀⠀⠛⠛⠃⠀⠀⠀⠀⠀⠀⠀",
 ];
 
-const SHODH_TEXT = [
-  "███████╗██╗  ██╗ ██████╗ ██████╗ ██╗  ██╗",
-  "██╔════╝██║  ██║██╔═══██╗██╔══██╗██║  ██║",
-  "███████╗███████║██║   ██║██║  ██║███████║",
-  "╚════██║██╔══██║██║   ██║██║  ██║██╔══██║",
-  "███████║██║  ██║╚██████╔╝██████╔╝██║  ██║",
-  "╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝",
-];
-
 export function Hero() {
   return (
-    <section className="pt-24 pb-16 px-4 md:pt-32 md:pb-24">
+    <section className="pt-28 pb-16 px-4 md:pt-36 md:pb-24">
       <div className="mx-auto max-w-4xl">
-        {/* Logo + ASCII Art — renders immediately on server */}
-        <div className="flex flex-col md:flex-row items-center gap-6 mb-8">
-          {/* Elephant braille art */}
+        {/* Brand mark */}
+        <div className="flex items-center gap-4 mb-10 animate-fade-in">
           <div className="hidden md:block">
-            <pre className="text-[var(--term-orange)] text-sm leading-tight">
+            <pre className="text-[var(--term-orange)] text-[9px] leading-tight" aria-hidden="true">
               {ELEPHANT.join("\n")}
             </pre>
           </div>
-
-          {/* Logo image on mobile */}
           <div className="md:hidden">
             <Image
               src="/logo.png"
               alt="Shodh Logo"
-              width={80}
-              height={80}
+              width={56}
+              height={56}
               className="opacity-90"
               priority
             />
           </div>
-
-          {/* SHODH text */}
-          <div>
-            <pre className="text-[var(--term-orange)] text-[8px] sm:text-[10px] md:text-xs leading-tight font-bold">
-              {SHODH_TEXT.join("\n")}
-            </pre>
-            <div className="text-[var(--term-text-dim)] text-xs tracking-[0.3em] mt-2 text-center md:text-left">
-              M E M O R Y
-            </div>
+          <div className="font-mono text-[var(--term-text-dim)] text-sm tracking-[0.3em]">
+            SHODH · MEMORY
           </div>
         </div>
 
-        {/* Tagline */}
-        <h1 className="text-xl md:text-2xl text-[var(--term-text)] mb-4 mt-[25mm]">
-          Persistent memory for AI agents that actually learns.
+        {/* Headline */}
+        <h1 className="text-4xl md:text-6xl leading-[1.1] tracking-tight text-[var(--term-text)] mb-6 max-w-3xl animate-fade-in animate-delay-1">
+          Persistent memory for AI agents.{" "}
+          <span className="text-[var(--term-orange)]">Zero LLM calls.</span>
         </h1>
 
         {/* Description — server-rendered, visible immediately */}
-        <p className="text-[var(--term-text-dim)] text-base md:text-lg max-w-2xl mb-12 leading-relaxed">
-          Memories that strengthen with use, decay naturally,
-          and wire together — like a real brain.
-          <br />
-          <br />
-          <span className="text-[var(--term-orange)] font-bold">Runs locally</span>.{" "}
-          <span className="text-[var(--term-orange)] font-bold">Single binary</span>.{" "}
-          <span className="text-[var(--term-orange)] font-bold">No cloud required</span>.
+        <p className="text-[var(--term-text-dim)] text-base md:text-lg max-w-2xl mb-10 leading-relaxed animate-fade-in animate-delay-2">
+          Other memory systems call an LLM to store, summarize, and manage memories —
+          slow, expensive, non-deterministic. shodh-memory learns with Hebbian rules
+          and decay curves instead: memories strengthen with use, fade naturally, and
+          wire together. Microseconds, offline, free.
         </p>
 
         {/* Stats — server-rendered, visible immediately */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 animate-fade-in animate-delay-3">
+          <StatBox label="In the memory loop — ever" value="0 LLM Calls" />
           <StatBox label="Your data never leaves your machine" value="100% Private" />
-          <StatBox label="ChatGPT, Claude, Cursor & more" value="Any AI Agent" />
           <StatBox label="No Docker, no dependencies" value="30MB Binary" />
           <StatBox label="Battle-tested" value="1089 Tests" href="https://github.com/varun29ankuS/shodh-memory/actions" />
         </div>
 
         {/* CTA Buttons — server-rendered, visible immediately */}
-        <div className="flex flex-wrap gap-5">
+        <div className="flex flex-wrap gap-5 mb-8 animate-fade-in animate-delay-4">
           <a
             href="#install"
             className="shadow-btn shadow-btn-primary px-6 py-2 text-sm font-medium"
@@ -91,14 +69,9 @@ export function Hero() {
             href="https://github.com/varun29ankuS/shodh-memory"
             target="_blank"
             rel="noopener noreferrer"
-            className="shadow-btn px-6 py-2 text-sm flex items-center gap-2"
+            className="shadow-btn px-6 py-2 text-sm"
           >
-            <span>GitHub</span>
-            <img
-              src="https://img.shields.io/github/stars/varun29ankuS/shodh-memory?style=flat&color=f0883e&labelColor=161b22"
-              alt="GitHub stars"
-              className="h-5"
-            />
+            GitHub →
           </a>
           <a
             href="#demo"
@@ -110,9 +83,50 @@ export function Hero() {
             href="/shodh_memory.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="shadow-btn px-6 py-2 text-sm font-medium flex items-center gap-2"
+            className="shadow-btn px-6 py-2 text-sm font-medium"
           >
-            <span>&#128196;</span> Read the Paper
+            Read the Paper
+          </a>
+        </div>
+
+        {/* Trust line */}
+        <div className="font-mono text-xs text-[var(--term-text-dim)] flex flex-wrap items-center gap-x-3 gap-y-1 animate-fade-in animate-delay-5">
+          <span>Apache 2.0</span>
+          <span aria-hidden="true">·</span>
+          <a
+            href="https://doi.org/10.5281/zenodo.18668709"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-[var(--term-orange)]"
+          >
+            Published research
+          </a>
+          <span aria-hidden="true">·</span>
+          <a
+            href="https://crates.io/crates/shodh-memory"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-[var(--term-orange)]"
+          >
+            crates.io
+          </a>
+          <span aria-hidden="true">·</span>
+          <a
+            href="https://www.npmjs.com/package/@shodh/memory-mcp"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-[var(--term-orange)]"
+          >
+            npm
+          </a>
+          <span aria-hidden="true">·</span>
+          <a
+            href="https://pypi.org/project/shodh-memory/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-[var(--term-orange)]"
+          >
+            PyPI
           </a>
         </div>
       </div>
@@ -123,11 +137,11 @@ export function Hero() {
 function StatBox({ label, value, href }: { label: string; value: string; href?: string }) {
   const content = (
     <>
-      <div className="text-[var(--term-orange)] text-xl md:text-2xl font-semibold">
-        <GlitchText intensity="medium">{value}</GlitchText>
+      <div className="font-mono text-[var(--term-orange)] text-xl md:text-2xl font-semibold">
+        {value}
       </div>
       <div className="text-[var(--term-text-dim)] text-sm">
-        <GlitchText intensity="subtle">{label}</GlitchText>
+        {label}
       </div>
     </>
   );
