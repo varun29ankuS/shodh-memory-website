@@ -1,54 +1,182 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { VERSION } from "@/lib/version";
 
+type MenuId = "product" | "resources" | null;
+
+type NavCard = {
+  href: string;
+  title: string;
+  desc: string;
+  img: string;
+};
+
+const PRODUCT_ITEMS: NavCard[] = [
+  {
+    href: "/use-cases",
+    title: "Edge & Robotics",
+    desc: "Persistent memory for robots — ROS2/Zenoh, fully offline",
+    img: "/nav/dashboard.jpg",
+  },
+  {
+    href: "/integrations",
+    title: "Integrations",
+    desc: "Claude Code, Cursor, LangChain, LlamaIndex, OpenAI SDK",
+    img: "/nav/projects-todos.jpg",
+  },
+  {
+    href: "/compare",
+    title: "Compare",
+    desc: "How Shodh stacks up — no LLM in the loop",
+    img: "/nav/graph-map.jpg",
+  },
+  {
+    href: "/security",
+    title: "Security",
+    desc: "Local-first by design — data never leaves the machine",
+    img: "/nav/splash.jpg",
+  },
+];
+
+const RESOURCE_ITEMS: NavCard[] = [
+  {
+    href: "/docs",
+    title: "Docs",
+    desc: "Install, REST API, 37 MCP tools",
+    img: "/nav/recall.png",
+  },
+  {
+    href: "/research",
+    title: "Research",
+    desc: "The cognitive architecture, benchmarks, and the paper",
+    img: "/nav/graph-map.jpg",
+  },
+  {
+    href: "/blog",
+    title: "Blog",
+    desc: "Engineering notes on memory, recall, and robotics",
+    img: "/nav/splash.jpg",
+  },
+];
+
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState<MenuId>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const headerRef = useRef<HTMLElement>(null);
+
+  const openNow = useCallback((id: MenuId) => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setOpenMenu(id);
+  }, []);
+
+  const closeSoon = useCallback(() => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(() => setOpenMenu(null), 160);
+  }, []);
+
+  const closeAll = useCallback(() => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setOpenMenu(null);
+    setMenuOpen(false);
+  }, []);
+
+  // Escape closes; click outside closes.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeAll();
+    };
+    const onClick = (e: MouseEvent) => {
+      if (headerRef.current && !headerRef.current.contains(e.target as Node)) {
+        closeAll();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("mousedown", onClick);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("mousedown", onClick);
+    };
+  }, [closeAll]);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 border-b border-[var(--term-border)] bg-[var(--term-bg)]/95 backdrop-blur-sm">
+    <header
+      ref={headerRef}
+      className="fixed top-0 left-0 right-0 z-50 border-b border-[var(--term-border)] bg-[var(--term-bg)]/95 backdrop-blur-sm"
+    >
       <nav className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 hover:no-underline">
+        <Link href="/" className="flex items-center gap-2 hover:no-underline" onClick={closeAll}>
           <Image src="/logo.png" alt="Shodh" width={32} height={32} className="opacity-90" priority />
           <span className="text-[var(--term-text)] font-semibold">shodh-memory</span>
           <span className="text-[var(--term-text-dim)] text-sm hidden sm:inline">v{VERSION}</span>
         </Link>
 
         {/* Desktop nav */}
-        <div className="hidden md:flex items-center gap-6">
-          <NavLink href="/use-cases">Edge & Robotics</NavLink>
-          <NavLink href="/research">Research</NavLink>
-          <NavLink href="/blog">Blog</NavLink>
-          <NavLink href="/enterprise">Enterprise</NavLink>
-          <NavLink href="/docs">Docs</NavLink>
+        <div className="hidden md:flex items-center gap-1">
+          <Dropdown
+            id="product"
+            label="Product"
+            open={openMenu === "product"}
+            onEnter={() => openNow("product")}
+            onLeave={closeSoon}
+            onToggle={() => setOpenMenu(openMenu === "product" ? null : "product")}
+          >
+            <div className="grid grid-cols-2 gap-2 w-[560px] p-3">
+              {PRODUCT_ITEMS.map((item) => (
+                <NavCardLink key={item.href} item={item} onClick={closeAll} />
+              ))}
+            </div>
+          </Dropdown>
 
-          <Link
-            href="/contact"
-            className="shadow-btn flex items-center gap-2 px-3 py-1.5 text-sm border-[var(--term-orange)] text-[var(--term-orange)] hover:bg-[var(--term-orange)] hover:text-[var(--term-bg)] transition-colors"
+          <Dropdown
+            id="resources"
+            label="Resources"
+            open={openMenu === "resources"}
+            onEnter={() => openNow("resources")}
+            onLeave={closeSoon}
+            onToggle={() => setOpenMenu(openMenu === "resources" ? null : "resources")}
           >
-            Contact
-          </Link>
-          <a
-            href="https://discord.gg/HrpzXqTtEp"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="shadow-btn flex items-center gap-2 px-3 py-1.5 text-sm"
-          >
-            <DiscordIcon />
-            <span>Discord</span>
-          </a>
-          <a
-            href="https://github.com/varun29ankuS/shodh-memory"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="shadow-btn flex items-center gap-2 px-3 py-1.5 text-sm"
-          >
-            <GithubIcon />
-            <span>GitHub</span>
-          </a>
+            <div className="flex flex-col gap-2 w-[380px] p-3">
+              {RESOURCE_ITEMS.map((item) => (
+                <NavCardLink key={item.href} item={item} compact onClick={closeAll} />
+              ))}
+            </div>
+          </Dropdown>
+
+          <TopLink href="/enterprise" onClick={closeAll}>
+            Enterprise
+          </TopLink>
+
+          <div className="flex items-center gap-2 ml-4">
+            <Link
+              href="/contact"
+              onClick={closeAll}
+              className="shadow-btn flex items-center gap-2 px-3 py-1.5 text-sm border-[var(--term-orange)] text-[var(--term-orange)] hover:bg-[var(--term-orange)] hover:text-[var(--term-bg)] transition-colors"
+            >
+              Contact
+            </Link>
+            <a
+              href="https://discord.gg/HrpzXqTtEp"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Discord"
+              className="shadow-btn flex items-center px-2.5 py-1.5 text-sm"
+            >
+              <DiscordIcon />
+            </a>
+            <a
+              href="https://github.com/varun29ankuS/shodh-memory"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+              className="shadow-btn flex items-center px-2.5 py-1.5 text-sm"
+            >
+              <GithubIcon />
+            </a>
+          </div>
         </div>
 
         {/* Mobile menu button */}
@@ -56,6 +184,7 @@ export function Header() {
           className="md:hidden p-2 text-[var(--term-text-dim)] hover:text-[var(--term-text)]"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
+          aria-expanded={menuOpen}
         >
           {menuOpen ? "×" : "≡"}
         </button>
@@ -63,40 +192,167 @@ export function Header() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden border-t border-[var(--term-border)] bg-[var(--term-bg)] px-4 py-4 space-y-4">
-          <NavLink href="/use-cases" onClick={() => setMenuOpen(false)}>Edge & Robotics</NavLink>
-          <NavLink href="/research" onClick={() => setMenuOpen(false)}>Research</NavLink>
-          <NavLink href="/blog" onClick={() => setMenuOpen(false)}>Blog</NavLink>
-          <NavLink href="/enterprise" onClick={() => setMenuOpen(false)}>Enterprise</NavLink>
-          <NavLink href="/docs" onClick={() => setMenuOpen(false)}>Docs</NavLink>
-          <NavLink href="/contact" onClick={() => setMenuOpen(false)}>Contact</NavLink>
-          <a
-            href="https://discord.gg/HrpzXqTtEp"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 text-[var(--term-text-dim)] hover:text-[var(--term-orange)]"
-            onClick={() => setMenuOpen(false)}
-          >
-            <DiscordIcon />
-            <span>Discord</span>
-          </a>
-          <a
-            href="https://github.com/varun29ankuS/shodh-memory"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 text-[var(--term-text-dim)] hover:text-[var(--term-orange)]"
-            onClick={() => setMenuOpen(false)}
-          >
-            <GithubIcon />
-            <span>GitHub</span>
-          </a>
+        <div className="md:hidden border-t border-[var(--term-border)] bg-[var(--term-bg)] px-4 py-4 space-y-5 max-h-[calc(100vh-60px)] overflow-y-auto">
+          <MobileSection label="Product">
+            {PRODUCT_ITEMS.map((item) => (
+              <NavCardLink key={item.href} item={item} compact onClick={closeAll} />
+            ))}
+          </MobileSection>
+          <MobileSection label="Resources">
+            {RESOURCE_ITEMS.map((item) => (
+              <NavCardLink key={item.href} item={item} compact onClick={closeAll} />
+            ))}
+          </MobileSection>
+          <div className="space-y-3 pt-1 border-t border-[var(--term-border)]">
+            <MobileLink href="/enterprise" onClick={closeAll}>Enterprise</MobileLink>
+            <MobileLink href="/contact" onClick={closeAll}>Contact</MobileLink>
+            <a
+              href="https://discord.gg/HrpzXqTtEp"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-[var(--term-text-dim)] hover:text-[var(--term-orange)]"
+              onClick={closeAll}
+            >
+              <DiscordIcon />
+              <span>Discord</span>
+            </a>
+            <a
+              href="https://github.com/varun29ankuS/shodh-memory"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-[var(--term-text-dim)] hover:text-[var(--term-orange)]"
+              onClick={closeAll}
+            >
+              <GithubIcon />
+              <span>GitHub</span>
+            </a>
+          </div>
         </div>
       )}
     </header>
   );
 }
 
-function NavLink({ href, children, onClick }: { href: string; children: string; onClick?: () => void }) {
+function Dropdown({
+  id,
+  label,
+  open,
+  onEnter,
+  onLeave,
+  onToggle,
+  children,
+}: {
+  id: string;
+  label: string;
+  open: boolean;
+  onEnter: () => void;
+  onLeave: () => void;
+  onToggle: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="relative" onMouseEnter={onEnter} onMouseLeave={onLeave}>
+      <button
+        className={`flex items-center gap-1.5 px-3 py-2 text-sm transition-colors ${
+          open ? "text-[var(--term-orange)]" : "text-[var(--term-text-dim)] hover:text-[var(--term-text)]"
+        }`}
+        aria-expanded={open}
+        aria-controls={`nav-panel-${id}`}
+        onClick={onToggle}
+      >
+        {label}
+        <Chevron open={open} />
+      </button>
+      <div
+        id={`nav-panel-${id}`}
+        className={`absolute left-1/2 -translate-x-1/2 top-full pt-2 transition-all duration-150 origin-top ${
+          open ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-95 pointer-events-none"
+        }`}
+      >
+        <div className="border border-[var(--term-border)] bg-[var(--term-bg-secondary)] rounded-md shadow-2xl shadow-black/50">
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function NavCardLink({
+  item,
+  compact = false,
+  onClick,
+}: {
+  item: NavCard;
+  compact?: boolean;
+  onClick?: () => void;
+}) {
+  return (
+    <Link
+      href={item.href}
+      onClick={onClick}
+      className="group flex items-center gap-3 p-2 rounded-md border border-transparent hover:border-[var(--term-border)] hover:bg-[var(--term-bg)] transition-colors hover:no-underline"
+    >
+      <div
+        className={`relative shrink-0 overflow-hidden rounded border border-[var(--term-border)] ${
+          compact ? "w-[72px] h-[44px]" : "w-[104px] h-[64px]"
+        }`}
+      >
+        <Image
+          src={item.img}
+          alt={item.title}
+          fill
+          sizes={compact ? "72px" : "104px"}
+          className="object-cover object-top opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-200"
+        />
+      </div>
+      <div className="min-w-0">
+        <div className="text-sm font-medium text-[var(--term-text)] group-hover:text-[var(--term-orange)] transition-colors">
+          {item.title}
+        </div>
+        <div className="text-xs text-[var(--term-text-dim)] leading-snug mt-0.5">{item.desc}</div>
+      </div>
+    </Link>
+  );
+}
+
+function TopLink({
+  href,
+  children,
+  onClick,
+}: {
+  href: string;
+  children: React.ReactNode;
+  onClick?: () => void;
+}) {
+  return (
+    <Link
+      href={href}
+      onClick={onClick}
+      className="px-3 py-2 text-sm text-[var(--term-text-dim)] hover:text-[var(--term-text)] transition-colors hover:no-underline"
+    >
+      {children}
+    </Link>
+  );
+}
+
+function MobileSection({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <div className="text-xs uppercase tracking-widest text-[var(--term-text-dim)] mb-2">{label}</div>
+      <div className="space-y-1">{children}</div>
+    </div>
+  );
+}
+
+function MobileLink({
+  href,
+  children,
+  onClick,
+}: {
+  href: string;
+  children: React.ReactNode;
+  onClick?: () => void;
+}) {
   return (
     <Link
       href={href}
@@ -105,6 +361,20 @@ function NavLink({ href, children, onClick }: { href: string; children: string; 
     >
       {children}
     </Link>
+  );
+}
+
+function Chevron({ open }: { open: boolean }) {
+  return (
+    <svg
+      width="10"
+      height="10"
+      viewBox="0 0 10 10"
+      fill="none"
+      className={`transition-transform duration-150 ${open ? "rotate-180" : ""}`}
+    >
+      <path d="M1 3l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   );
 }
 
