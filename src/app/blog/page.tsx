@@ -21,6 +21,14 @@ export const metadata: Metadata = {
 
 export const BLOG_POSTS = [
   {
+    slug: "causal-retrieval-ai-memory",
+    title: "Causal Retrieval: The Memory Problem Vector Search Can't Solve",
+    date: "2026-06-13",
+    readTime: "11 min",
+    tags: ["knowledge-graph", "architecture", "neuroscience"],
+    excerpt: "Semantic search answers “what looks like this?” It cannot answer “what caused this?” Recent surveys of agent memory call hybrid causal retrieval one of the field’s largely-unexplored frontiers — because flat vector search is structurally incapable of it. Here is why “why did I decide X?” needs a graph you can walk backward, not a list of nearest neighbors, and how a causal-origin walk reconstructs the chain of reasoning behind any memory.",
+  },
+  {
     slug: "sovereign-ai-memory-no-cloud-dependency",
     title: "Sovereign AI Memory: Running Agent Memory With No Foreign Cloud Dependency",
     date: "2026-06-13",
