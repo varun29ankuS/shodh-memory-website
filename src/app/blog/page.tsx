@@ -21,6 +21,14 @@ export const metadata: Metadata = {
 
 export const BLOG_POSTS = [
   {
+    slug: "sovereign-ai-memory-no-cloud-dependency",
+    title: "Sovereign AI Memory: Running Agent Memory With No Foreign Cloud Dependency",
+    date: "2026-06-13",
+    readTime: "12 min",
+    tags: ["sovereignty", "privacy", "edge-ai", "self-hosted"],
+    excerpt: "Most AI memory products ship every one of your memories to a foreign cloud model to be summarized and re-ranked. For regulated industries, data-localization regimes, and regions where US LLM APIs are restricted or expensive, that is disqualifying at any price. Here is how to run a full agent memory — extraction, structuring, recall — entirely on your own infrastructure, with no large language model and no foreign endpoint anywhere in the loop.",
+  },
+  {
     slug: "internet-of-things-examples-memory",
     title: "Internet of Things Examples: What Changes When IoT Devices Get Memory",
     date: "2026-06-13",
