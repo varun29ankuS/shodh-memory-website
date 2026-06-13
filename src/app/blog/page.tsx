@@ -21,6 +21,22 @@ export const metadata: Metadata = {
 
 export const BLOG_POSTS = [
   {
+    slug: "internet-of-things-examples-memory",
+    title: "Internet of Things Examples: What Changes When IoT Devices Get Memory",
+    date: "2026-06-13",
+    readTime: "11 min",
+    tags: ["edge-ai", "iot", "robotics"],
+    excerpt: "From smart thermostats to factory sensors to delivery robots — the classic IoT examples all share one blind spot: the device senses oceans of data and remembers none of it. Here's what each example looks like when the device can accumulate, recall, and reason over what it has sensed, on-device, with no cloud round-trip.",
+  },
+  {
+    slug: "language-models-few-shot-learners-amnesiacs",
+    title: "Language Models Are Few-Shot Learners — But They're Amnesiacs",
+    date: "2026-06-13",
+    readTime: "12 min",
+    tags: ["agentic-ai", "architecture", "neuroscience"],
+    excerpt: "GPT-3 proved a model can learn a task from a handful of in-context examples. But that learning evaporates the moment the context window scrolls. Few-shot learning without memory is Groundhog Day. The next frontier isn't a bigger few-shot learner — it's a memory that makes few-shot learning persist, with no LLM in the loop.",
+  },
+  {
     slug: "mcp-memory-server-guide",
     title: "MCP Memory Server: The Complete Guide to Adding Persistent Memory to Any AI Agent",
     date: "2026-04-03",
