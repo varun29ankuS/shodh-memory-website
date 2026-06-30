@@ -16,6 +16,12 @@ type NavCard = {
 
 const PRODUCT_ITEMS: NavCard[] = [
   {
+    href: "/llm-free-memory",
+    title: "LLM-Free Memory",
+    desc: "Zero LLM in the loop — deterministic, auditable, on-device",
+    Icon: NoLlmIcon,
+  },
+  {
     href: "/use-cases",
     title: "Edge & Robotics",
     desc: "Persistent memory for robots — ROS2/Zenoh, fully offline",
@@ -465,6 +471,15 @@ function PenIcon() {
     <NavIcon>
       <path d="M4 16l.9-3.2L12.5 5.1l2.4 2.4-7.6 7.6z" />
       <path d="M11.3 6.3l2.4 2.4" />
+    </NavIcon>
+  );
+}
+
+function NoLlmIcon() {
+  return (
+    <NavIcon>
+      <circle cx="10" cy="10" r="7" />
+      <path d="M5.5 5.5l9 9" />
     </NavIcon>
   );
 }
