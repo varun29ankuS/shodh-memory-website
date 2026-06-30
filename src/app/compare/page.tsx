@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { JsonLd, breadcrumbs } from "@/components/JsonLd";
 import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -234,7 +235,9 @@ export default function Compare() {
   return (
     <div className="min-h-screen">
       <Header />
-      <main className="pt-24 pb-16 px-4">
+      <JsonLd data={breadcrumbs("Compare", "/compare")} />
+      <JsonLd data={{"@context":"https://schema.org","@type":"WebPage","name":"How shodh-memory compares","url":"https://www.shodh-memory.com/compare","description":"Feature-by-feature comparison of shodh-memory against mem0, Zep, Cognee, and Letta."}} />
+      <main className="pt-28 pb-24 px-6 md:pt-36 md:pb-32">
         <div className="mx-auto max-w-6xl">
           {/* Hero */}
           <div className="mb-16">

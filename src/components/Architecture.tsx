@@ -26,7 +26,7 @@ const TIERS = [
 ];
 
 const COMPONENTS = [
-  { name: "Vector Index", desc: "HNSW for semantic similarity" },
+  { name: "Vector Index", desc: "Vamana graph, auto-scales to SPANN at 100K+" },
   { name: "Knowledge Graph", desc: "Entities + relationships + spreading activation" },
   { name: "Temporal Index", desc: "Time-based retrieval and decay" },
   { name: "Episode Manager", desc: "Conversation threading and context" },
@@ -34,12 +34,12 @@ const COMPONENTS = [
 
 export function Architecture() {
   return (
-    <section id="architecture" className="py-16 px-4 border-t border-[var(--term-border)]">
+    <section id="architecture" className="py-20 md:py-28 px-6 border-t border-[var(--term-border)]">
       <div className="mx-auto max-w-6xl">
         <SectionHeader
           prefix="03"
-          title="Architecture"
-          subtitle="Cowan's working memory model, implemented"
+          title="Under the hood"
+          subtitle="Cowan's three-tier working memory model, implemented in Rust"
         />
 
         {/* 3-Tier Visualization */}
@@ -69,7 +69,8 @@ export function Architecture() {
           ))}
         </div>
 
-        {/* ASCII Architecture Blueprint */}
+        {/* ASCII Architecture Blueprint — renders in self-hosted JetBrains Mono,
+            which covers the full box-drawing range (see layout.tsx) */}
         <div className="shadow-window mb-8">
           <div className="terminal-header">
             <div className="terminal-dot terminal-dot-red" />
@@ -78,7 +79,7 @@ export function Architecture() {
             <span className="ml-2 text-[var(--term-text-dim)] text-sm">architecture.rs</span>
           </div>
           <div className="terminal-body overflow-x-auto">
-            <pre className="text-[10px] sm:text-xs md:text-sm leading-snug font-mono text-[var(--term-text-dim)]">{`
+            <pre className="w-fit mx-auto text-[10px] sm:text-xs md:text-sm leading-snug font-mono text-[var(--term-text-dim)]">{`
                     ┌─────────────────────────────────┐
                     │         MCP / API Layer         │
                     │  remember  recall  forget  ...  │
@@ -90,10 +91,10 @@ export function Architecture() {
 │                                                                   │
 │  ┌─────────────┐   ┌─────────────┐   ┌─────────────────────────┐  │
 │  │   SENSORY   │   │   WORKING   │   │       LONG-TERM         │  │
-│  │   BUFFER    │─▶│   MEMORY    │──▶│        MEMORY           │  │
+│  │   BUFFER    │──▶│   MEMORY    │──▶│        MEMORY           │  │
 │  │   ~7 items  │   │  ~4 chunks  │   │      unlimited          │  │
 │  │  decay:<1s  │   │  decay:mins │   │    decay:power-law      │  │
-│  └─────────────┘   └─────────────┘   └─────────────────────────┘  │ 
+│  └─────────────┘   └─────────────┘   └─────────────────────────┘  │
 │         │                 │                      │                │
 │         └────attention────┴────consolidation─────┘                │
 │                                  │                                │
@@ -102,7 +103,7 @@ export function Architecture() {
 │  │                    RETRIEVAL SUBSYSTEM                     │   │
 │  │                                                            │   │
 │  │   VECTOR INDEX      KNOWLEDGE GRAPH      TEMPORAL INDEX    │   │
-│  │      (HNSW)          (Hebbian)            (decay)          │   │
+│  │     (Vamana)         (Hebbian)            (decay)          │   │
 │  │                                                            │   │
 │  │        │                  │                   │            │   │
 │  │        └──────────────────┼───────────────────┘            │   │
@@ -122,7 +123,7 @@ export function Architecture() {
               ┌─────────────────────┴─────────────────────┐
               ▼                                           ▼
 ┌──────────────────────────┐            ┌───────────────────────────┐
-│  HEBBIAN CONSOLIDATION   │◀────────▶ │   INTERFERENCE ENGINE     │
+│  HEBBIAN CONSOLIDATION   │◀──────────▶│   INTERFERENCE ENGINE     │
 │                          │            │                           │
 │co-activation strengthens │            │  similar memories compete │
 │  edge.weight += η·Δw     │            │  old decays when new fits │

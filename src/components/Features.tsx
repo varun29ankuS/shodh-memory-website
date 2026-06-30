@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Reveal } from "./Reveal";
 
 const FEATURES = [
   {
@@ -41,17 +42,21 @@ const FEATURES = [
 
 export function Features() {
   return (
-    <section id="features" className="py-16 px-4 border-t border-[var(--term-border)]">
+    <section id="features" className="py-20 md:py-28 px-6 border-t border-[var(--term-border)] bg-[var(--term-bg-secondary)]">
       <div className="mx-auto max-w-6xl">
-        <SectionHeader
-          prefix="01"
-          title="Features"
-          subtitle="What makes shodh-memory different"
-        />
+        <Reveal>
+          <SectionHeader
+            prefix="02"
+            title="Memory that learns like a brain"
+            subtitle="Hebbian strengthening, natural decay, spreading activation — implemented as microsecond algorithms, not API calls"
+          />
+        </Reveal>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {FEATURES.map((feature, i) => (
-            <FeatureCard key={i} {...feature} index={i} />
+            <Reveal key={i} delay={i * 80} className="h-full">
+              <FeatureCard {...feature} />
+            </Reveal>
           ))}
         </div>
 
@@ -87,20 +92,14 @@ function FeatureCard({
   title,
   description,
   color,
-  index
 }: {
   icon: string;
   title: string;
   description: string;
   color: string;
-  index: number;
 }) {
-  const delay = index * 0.1;
   return (
-    <div
-      className="shadow-window group"
-      style={{ animationDelay: delay + "s" }}
-    >
+    <div className="shadow-window group h-full">
       <div className="terminal-header">
         <div className="terminal-dot terminal-dot-red" />
         <div className="terminal-dot terminal-dot-yellow" />

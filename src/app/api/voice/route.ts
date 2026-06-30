@@ -1,11 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import Groq from "groq-sdk";
+import { rateLimit, getClientIp, tooLarge } from "@/lib/ratelimit";
 
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
 });
 
 const DEEPGRAM_API_KEY = process.env.DEEPGRAM_API_KEY;
+
+// ~5MB of audio as base64 (~6.7M chars); voice requests fan out to up to
+// three paid API calls (STT -> LLM -> TTS), so caps are tight
+const MAX_BODY_BYTES = 8_000_000;
+const MAX_AUDIO_BASE64_CHARS = 6_700_000;
+const MAX_TTS_CHARS = 600;
+const MAX_HISTORY_MESSAGES = 12;
+const MAX_HISTORY_CONTENT_CHARS = 2_000;
 
 interface VoiceRequest {
   audio?: string; // base64 audio for speech-to-text
@@ -94,9 +103,59 @@ export async function POST(request: NextRequest) {
     "Access-Control-Allow-Headers": "Content-Type",
   };
 
+  const ip = getClientIp(request.headers);
+
+  if (tooLarge(request.headers, MAX_BODY_BYTES)) {
+    return NextResponse.json(
+      { error: "Request too large" },
+      { status: 413, headers: corsHeaders }
+    );
+  }
+
+  const burst = rateLimit(`voice:b:${ip}`, 6, 60_000);
+  const hourly = rateLimit(`voice:h:${ip}`, 30, 3_600_000);
+  if (!burst.allowed || !hourly.allowed) {
+    const retryAfterSec = Math.max(burst.retryAfterSec, hourly.retryAfterSec);
+    return NextResponse.json(
+      { error: "Too many requests" },
+      { status: 429, headers: { ...corsHeaders, "Retry-After": String(retryAfterSec) } }
+    );
+  }
+
   try {
     const body: VoiceRequest = await request.json();
-    const { audio, text, action, history = [] } = body;
+    const { audio, text, action } = body;
+
+    if (action !== "stt" && action !== "tts" && action !== "chat") {
+      return NextResponse.json(
+        { error: "Invalid action" },
+        { status: 400, headers: corsHeaders }
+      );
+    }
+    if (audio && (typeof audio !== "string" || audio.length > MAX_AUDIO_BASE64_CHARS)) {
+      return NextResponse.json(
+        { error: "Audio too large" },
+        { status: 400, headers: corsHeaders }
+      );
+    }
+    if (text && (typeof text !== "string" || text.length > MAX_TTS_CHARS)) {
+      return NextResponse.json(
+        { error: `Text too long (max ${MAX_TTS_CHARS} characters)` },
+        { status: 400, headers: corsHeaders }
+      );
+    }
+    const history = Array.isArray(body.history)
+      ? body.history
+          .filter(
+            (m) =>
+              !!m &&
+              typeof m === "object" &&
+              (m.role === "user" || m.role === "assistant") &&
+              typeof m.content === "string"
+          )
+          .slice(-MAX_HISTORY_MESSAGES)
+          .map((m) => ({ role: m.role, content: m.content.slice(0, MAX_HISTORY_CONTENT_CHARS) }))
+      : [];
 
     // Speech to Text only
     if (action === "stt" && audio) {
