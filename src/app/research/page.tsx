@@ -1,9 +1,7 @@
-"use client";
-
-import { useState } from "react";
 import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { CopyButton, DownloadBibButton } from "./CitationButtons";
 
 interface Paper {
   authors: string;
@@ -512,49 +510,9 @@ const SHODH_APA = `Sharma, V. (2026). shodh-memory: Cognitive memory for AI agen
 
 const SHODH_IEEE = `V. Sharma, "shodh-memory: Cognitive memory for AI agents," version 0.1.90, 2026. doi: 10.5281/zenodo.18668709`;
 
-function CopyButton({ text, label }: { text: string; label: string }) {
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  return (
-    <button
-      onClick={handleCopy}
-      className="text-xs px-2 py-1 border border-[var(--term-border)] text-[var(--term-text-dim)] hover:text-[var(--term-orange)] hover:border-[var(--term-orange)] transition-colors rounded"
-    >
-      {copied ? "Copied!" : label}
-    </button>
-  );
-}
-
-function DownloadBibButton() {
-  const handleDownload = () => {
-    const content = `% shodh-memory: Research Citations\n% Generated from https://www.shodh-memory.com/research\n\n${SHODH_BIBTEX}\n\n${allBibtex()}`;
-    const blob = new Blob([content], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "shodh-memory-citations.bib";
-    a.click();
-    URL.revokeObjectURL(url);
-  };
-
-  return (
-    <button
-      onClick={handleDownload}
-      className="text-sm px-4 py-2 border border-[var(--term-orange)] text-[var(--term-orange)] hover:bg-[var(--term-orange)] hover:text-[var(--term-bg)] transition-colors rounded"
-    >
-      Download all citations (.bib)
-    </button>
-  );
-}
-
 export default function ResearchPage() {
   const totalPapers = RESEARCH_CATEGORIES.reduce((sum, cat) => sum + cat.papers.length, 0);
+  const bibContent = `% shodh-memory: Research Citations\n% Generated from https://www.shodh-memory.com/research\n\n${SHODH_BIBTEX}\n\n${allBibtex()}`;
 
   return (
     <div className="min-h-screen">
@@ -646,7 +604,7 @@ export default function ResearchPage() {
             </div>
 
             <div className="flex gap-4 items-center flex-wrap">
-              <DownloadBibButton />
+              <DownloadBibButton content={bibContent} />
               <a
                 href="https://doi.org/10.5281/zenodo.18668709"
                 target="_blank"
