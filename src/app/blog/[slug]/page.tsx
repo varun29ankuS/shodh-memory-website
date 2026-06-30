@@ -137,7 +137,7 @@ const BLOG_CONTENT: Record<string, string[]> = {
     "",
     "\"What looks like this?\" and \"what caused this?\" are different questions that need different machinery. The first is a similarity search; the second is a backward walk through a directed, typed graph. Most AI memory systems only have the first, which is why \"why did we decide X?\" so often returns a plausible-looking near-miss. Causal retrieval is the missing half — and building it does not take a bigger model, it takes a graph with causality in it and a walk that knows which way the arrows point.",
     "",
-    "*Related reading: [Knowledge Graphs and Spreading Activation](/blog/knowledge-graph-spreading-activation) · [RAG Is Not Memory](/blog/rag-is-not-memory) · [Why Not Just Vector Search?](/blog/why-not-just-vector-search).*",
+    "*Related reading: [Knowledge Graphs and Spreading Activation](/blog/knowledge-graph-spreading-activation) · [RAG Is Not Memory](/blog/rag-is-not-memory) · [Why Not Just Vector Search?](/blog/why-not-just-vector-search) · [LLM-Free Memory](/llm-free-memory).*",
   ],
   "sovereign-ai-memory-no-cloud-dependency": [
     "# Sovereign AI Memory: Running Agent Memory With No Foreign Cloud Dependency",
@@ -187,7 +187,7 @@ const BLOG_CONTENT: Record<string, string[]> = {
     "",
     "The AI industry's default architecture quietly assumes your data can go to a foreign cloud model. For a great deal of the world — by law, by access, or by choice — that assumption is wrong. Sovereign AI memory inverts it: the data stays with you, the processing stays with you, and the only thing you give up is a dependency you never wanted. If your memory layer has to honor a border, satisfy a regulator, run without foreign infrastructure, or simply never leak your institutional knowledge to someone else's model, the requirement is the same — no LLM in the loop — and it is the requirement shodh-memory was built to meet.",
     "",
-    "*Related reading: [Why AI Memory Should Be Local](/blog/why-ai-memory-should-be-local) · [Internet of Things Examples: What Changes When IoT Devices Get Memory](/blog/internet-of-things-examples-memory) · [Running AI Memory on a Raspberry Pi](/blog/edge-ai-memory-raspberry-pi).*",
+    "*Related reading: [Why AI Memory Should Be Local](/blog/why-ai-memory-should-be-local) · [Internet of Things Examples: What Changes When IoT Devices Get Memory](/blog/internet-of-things-examples-memory) · [Running AI Memory on a Raspberry Pi](/blog/edge-ai-memory-raspberry-pi) · [LLM-Free Memory](/llm-free-memory).*",
   ],
   "internet-of-things-examples-memory": [
     "# Internet of Things Examples: What Changes When IoT Devices Get Memory",
@@ -246,7 +246,7 @@ const BLOG_CONTENT: Record<string, string[]> = {
     "",
     "The classic internet-of-things examples are not wrong — they are unfinished. A thermostat, a vibration sensor, a robot, a field monitor: each is a device that senses and forgets. Give it a small, local, LLM-free memory and it becomes a device that *learns its environment and remembers it*. That is the difference between telemetry and intelligence, and it is the difference shodh-memory is built to make at the edge.",
     "",
-    "*Related reading: [Running AI Memory on a Raspberry Pi](/blog/edge-ai-memory-raspberry-pi) · [Why Robotics Needs Memory](/blog/robotics-needs-memory) · [Why AI Memory Should Be Local](/blog/why-ai-memory-should-be-local).*",
+    "*Related reading: [Running AI Memory on a Raspberry Pi](/blog/edge-ai-memory-raspberry-pi) · [Why Robotics Needs Memory](/blog/robotics-needs-memory) · [Why AI Memory Should Be Local](/blog/why-ai-memory-should-be-local) · [LLM-Free Memory](/llm-free-memory).*",
   ],
   "language-models-few-shot-learners-amnesiacs": [
     "# Language Models Are Few-Shot Learners — But They're Amnesiacs",
@@ -287,7 +287,7 @@ const BLOG_CONTENT: Record<string, string[]> = {
     "",
     "Language models are few-shot learners. That sentence is true and it is famous for good reason. But the missing half — that the learning evaporates without memory — is where the next frontier actually is. The agents that compound will not be the ones with the biggest few-shot learner; they will be the ones with the best memory feeding it. And the best memory is small, local, learning, and has no language model anywhere in its loop.",
     "",
-    "*Related reading: [Why Your AI Agent's Memory Is Broken](/blog/why-your-ai-agents-memory-is-broken) · [Hebbian Learning for AI Agents](/blog/hebbian-learning-ai-agents) · [RAG Is Not Memory](/blog/rag-is-not-memory).*",
+    "*Related reading: [Why Your AI Agent's Memory Is Broken](/blog/why-your-ai-agents-memory-is-broken) · [Hebbian Learning for AI Agents](/blog/hebbian-learning-ai-agents) · [RAG Is Not Memory](/blog/rag-is-not-memory) · [LLM-Free Memory](/llm-free-memory).*",
   ],
   "ai-model-pricing-guide-2026": [
     "# AI Model Pricing Guide 2026: Claude, GPT-4.1, Grok, Gemini, DeepSeek Compared",
