@@ -14,6 +14,7 @@ const STATIC_ROUTES: {
   { path: "/docs", lastModified: "2026-04-10", changeFrequency: "weekly", priority: 0.9 },
   { path: "/blog", lastModified: "2026-04-03", changeFrequency: "weekly", priority: 0.8 },
   { path: "/use-cases", lastModified: "2026-06-10", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/llm-free-memory", lastModified: "2026-06-30", changeFrequency: "monthly", priority: 0.9 },
   { path: "/research", lastModified: "2026-04-10", changeFrequency: "monthly", priority: 0.8 },
   { path: "/enterprise", lastModified: "2026-04-10", changeFrequency: "monthly", priority: 0.7 },
   { path: "/compare", lastModified: "2026-04-10", changeFrequency: "monthly", priority: 0.9 },
