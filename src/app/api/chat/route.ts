@@ -1,9 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import Groq from "groq-sdk";
+import { rateLimit, getClientIp, isValidIp, sanitizeLine, tooLarge } from "@/lib/ratelimit";
 
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
 });
+
+const MAX_BODY_BYTES = 200_000;
+const MAX_MESSAGE_CHARS = 2_000;
+const MAX_HISTORY_MESSAGES = 12;
+const MAX_HISTORY_CONTENT_CHARS = 4_000;
 
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
@@ -193,18 +199,45 @@ interface ChatRequest {
   behavior?: BehaviorData;
 }
 
-// Get location from IP
+// Get location from IP — validated input, cached per instance so repeated
+// requests can't be used to exhaust ipapi.co quota
+const locationCache = new Map<string, { value: string; expiresAt: number }>();
+const LOCATION_TTL_MS = 24 * 60 * 60 * 1000;
+
 async function getLocationFromIP(ip: string): Promise<string> {
+  if (!isValidIp(ip)) return "Unknown";
+
+  const cached = locationCache.get(ip);
+  if (cached && cached.expiresAt > Date.now()) return cached.value;
+
   try {
-    const res = await fetch(`https://ipapi.co/${ip}/json/`);
+    const res = await fetch(`https://ipapi.co/${encodeURIComponent(ip)}/json/`);
     const data = await res.json();
-    if (data.city && data.country_name) {
-      return `${data.city}, ${data.country_name}`;
-    }
-    return data.country_name || "Unknown";
+    const value =
+      data.city && data.country_name
+        ? `${data.city}, ${data.country_name}`
+        : data.country_name || "Unknown";
+    if (locationCache.size > 5_000) locationCache.clear();
+    locationCache.set(ip, { value, expiresAt: Date.now() + LOCATION_TTL_MS });
+    return value;
   } catch {
     return "Unknown";
   }
+}
+
+// Keep only well-formed user/assistant turns with bounded content
+function validateHistory(history: unknown): ChatMessage[] {
+  if (!Array.isArray(history)) return [];
+  return history
+    .filter(
+      (m): m is ChatMessage =>
+        !!m &&
+        typeof m === "object" &&
+        ((m as ChatMessage).role === "user" || (m as ChatMessage).role === "assistant") &&
+        typeof (m as ChatMessage).content === "string"
+    )
+    .slice(-MAX_HISTORY_MESSAGES)
+    .map((m) => ({ role: m.role, content: m.content.slice(0, MAX_HISTORY_CONTENT_CHARS) }));
 }
 
 export async function POST(request: NextRequest) {
@@ -215,22 +248,52 @@ export async function POST(request: NextRequest) {
     "Access-Control-Allow-Headers": "Content-Type",
   };
 
-  // Get IP address
-  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
-    || request.headers.get("x-real-ip")
-    || "Unknown";
+  const ip = getClientIp(request.headers);
+
+  if (tooLarge(request.headers, MAX_BODY_BYTES)) {
+    return NextResponse.json(
+      { error: "Request too large" },
+      { status: 413, headers: corsHeaders }
+    );
+  }
+
+  // Per-IP limits: burst + hourly. Each request costs a Groq call.
+  const burst = rateLimit(`chat:b:${ip}`, 8, 60_000);
+  const hourly = rateLimit(`chat:h:${ip}`, 60, 3_600_000);
+  if (!burst.allowed || !hourly.allowed) {
+    const retryAfterSec = Math.max(burst.retryAfterSec, hourly.retryAfterSec);
+    return NextResponse.json(
+      { error: "Too many requests" },
+      {
+        status: 429,
+        headers: { ...corsHeaders, "Retry-After": String(retryAfterSec) },
+      }
+    );
+  }
 
   try {
     const body: ChatRequest = await request.json();
-    const { message, clientId = "shodh-demo", history = [], leadInfo, sessionEnd, behavior } = body;
+    const { message, leadInfo, sessionEnd, behavior } = body;
+    const rawClientId = typeof body.clientId === "string" ? body.clientId : "shodh-demo";
+    const clientId = /^[a-z0-9_-]{1,40}$/i.test(rawClientId) ? rawClientId : "shodh-demo";
+    const history = validateHistory(body.history);
 
     // Handle session end - send summary to Telegram
     if (sessionEnd && history.length > 0) {
-      console.log("Session end received:", { behavior, leadInfo, historyLength: history.length });
-      const location = ip !== "Unknown" ? await getLocationFromIP(ip) : "Unknown";
+      // Telegram messages are the scarce resource here — tighter cap
+      const sessionLimit = rateLimit(`chat:s:${ip}`, 4, 3_600_000);
+      if (!sessionLimit.allowed) {
+        return NextResponse.json({ success: true }, { headers: corsHeaders });
+      }
 
-      const leadStr = leadInfo?.name && leadInfo.name !== "Anonymous"
-        ? `\n\n👤 Lead:\nName: ${leadInfo.name}\nEmail: ${leadInfo.email}${leadInfo.company ? `\nCompany: ${leadInfo.company}` : ""}`
+      console.log("Session end received:", { historyLength: history.length });
+      const location = await getLocationFromIP(ip);
+
+      const safeName = sanitizeLine(leadInfo?.name, 100);
+      const safeEmail = sanitizeLine(leadInfo?.email, 254);
+      const safeCompany = sanitizeLine(leadInfo?.company, 100);
+      const leadStr = safeName && safeName !== "Anonymous"
+        ? `\n\n👤 Lead:\nName: ${safeName}\nEmail: ${safeEmail}${safeCompany ? `\nCompany: ${safeCompany}` : ""}`
         : "\n\n👤 Anonymous user";
 
       // Format behavior data
@@ -242,23 +305,35 @@ export async function POST(request: NextRequest) {
       };
 
       const device = behavior?.userAgent?.includes("Mobile") ? "📱 Mobile" : "💻 Desktop";
-      const locationStr = `\n🌍 Location: ${location}${ip !== "Unknown" ? ` (${ip})` : ""}`;
+      const locationStr = `\n🌍 Location: ${location}${ip !== "unknown" ? ` (${ip})` : ""}`;
+      const safeTimestamp = sanitizeLine(behavior?.timestamp, 40);
+      const safePage = sanitizeLine(behavior?.page, 200);
+      const safeReferrer = sanitizeLine(behavior?.referrer, 300);
       const behaviorStr = behavior
-        ? `\n\n📊 Behavior:\n⏰ ${behavior.timestamp}${locationStr}\n📍 Page: ${behavior.page}\n⏱️ Time on page: ${formatTime(behavior.timeOnPageSec)}\n💬 Time in chat: ${formatTime(behavior.timeInChatSec)}\n📝 Messages: ${behavior.messageCount}\n📋 Filled form: ${behavior.filledForm ? "Yes" : "No"}\n${device}${behavior.referrer ? `\n🔗 Referrer: ${behavior.referrer}` : ""}`
+        ? `\n\n📊 Behavior:\n⏰ ${safeTimestamp}${locationStr}\n📍 Page: ${safePage}\n⏱️ Time on page: ${formatTime(Math.max(0, Number(behavior.timeOnPageSec) || 0))}\n💬 Time in chat: ${formatTime(Math.max(0, Number(behavior.timeInChatSec) || 0))}\n📝 Messages: ${Math.max(0, Number(behavior.messageCount) || 0)}\n📋 Filled form: ${behavior.filledForm ? "Yes" : "No"}\n${device}${safeReferrer ? `\n🔗 Referrer: ${safeReferrer}` : ""}`
         : `\n\n📊 Info:${locationStr}`;
 
-      const convoStr = history.map(m => `${m.role}: ${m.content}`).join("\n");
+      const convoStr = history
+        .map((m) => `${m.role}: ${sanitizeLine(m.content, 500)}`)
+        .join("\n");
       const summary = await summarizeConversation(history);
 
-      const fullMessage = `🗨️ Chat Session Ended${leadStr}${behaviorStr}\n\n📋 Summary:\n${summary || "Could not generate summary"}\n\n--- Conversation ---\n${convoStr}`;
+      // Telegram hard limit is 4096 chars per message
+      const fullMessage = `🗨️ Chat Session Ended${leadStr}${behaviorStr}\n\n📋 Summary:\n${summary || "Could not generate summary"}\n\n--- Conversation ---\n${convoStr}`.slice(0, 4000);
       await sendToTelegram(fullMessage);
 
       return NextResponse.json({ success: true }, { headers: corsHeaders });
     }
 
-    if (!message || typeof message !== "string") {
+    if (!message || typeof message !== "string" || !message.trim()) {
       return NextResponse.json(
         { error: "Message is required" },
+        { status: 400, headers: corsHeaders }
+      );
+    }
+    if (message.length > MAX_MESSAGE_CHARS) {
+      return NextResponse.json(
+        { error: `Message too long (max ${MAX_MESSAGE_CHARS} characters)` },
         { status: 400, headers: corsHeaders }
       );
     }
