@@ -4,6 +4,12 @@ import Link from "next/link";
 
 const DIFFERENTIATORS = [
   {
+    title: "Zero LLM calls in the loop",
+    description:
+      "Storing, consolidating, and recalling never touch an LLM. Learning happens through Hebbian edge updates and decay curves — microseconds on local hardware, $0 per memory operation, and the same input always produces the same memory.",
+    icon: "🧮",
+  },
+  {
     title: "Not another vector database",
     description:
       "Most \"memory\" solutions are just vector search with a wrapper. Shodh-memory has a knowledge graph, temporal indices, and hybrid ranking. Connections between memories strengthen when accessed together—like biological synapses.",
@@ -49,17 +55,19 @@ const COMPARISON = [
 
 export function WhyShodh() {
   return (
-    <section className="py-16 px-4 border-t border-[var(--term-border)]">
+    <section className="py-20 md:py-28 px-6 border-t border-[var(--term-border)]">
       <div className="mx-auto max-w-6xl">
         <div className="mb-12">
           <div className="flex items-center gap-3 mb-2">
-            <span className="text-[var(--term-orange)] font-mono text-sm">[02]</span>
+            <span className="text-[var(--term-orange)] font-mono text-sm">[01]</span>
             <h2 className="text-2xl md:text-3xl font-semibold text-[var(--term-text)]">
-              Why shodh-memory?
+              Agents forget. The usual fix makes it worse.
             </h2>
           </div>
-          <p className="text-[var(--term-text-dim)] pl-12">
-            What makes this different from mem0, zep, cognee, and other memory solutions
+          <p className="text-[var(--term-text-dim)] pl-12 max-w-3xl">
+            mem0, Zep, and cognee call an LLM every time they store or manage a memory —
+            slow, expensive, non-deterministic. shodh-memory borrows the brain&apos;s
+            blueprint instead: local learning rules that run in microseconds.
           </p>
         </div>
 

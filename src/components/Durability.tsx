@@ -37,17 +37,18 @@ const DURABILITY_FEATURES = [
 
 export function Durability() {
   return (
-    <section className="py-16 px-4 border-t border-[var(--term-border)] bg-[var(--term-bg-secondary)]">
+    <section className="py-20 md:py-28 px-6 border-t border-[var(--term-border)] bg-[var(--term-bg-secondary)]">
       <div className="mx-auto max-w-6xl">
         <div className="mb-12">
           <div className="flex items-center gap-3 mb-2">
-            <span className="text-[var(--term-orange)] font-mono text-sm">[03]</span>
+            <span className="text-[var(--term-orange)] font-mono text-sm">[04]</span>
             <h2 className="text-2xl md:text-3xl font-semibold text-[var(--term-text)]">
-              Context Durability
+              How long does a memory live?
             </h2>
           </div>
           <p className="text-[var(--term-text-dim)] pl-12">
-            How long do memories actually last? Here&apos;s the science.
+            Exponential decay while fresh, power-law forever after — the same curves
+            cognitive science measured in humans.
           </p>
         </div>
 
@@ -62,7 +63,7 @@ export function Durability() {
             </div>
             <div className="terminal-body">
               <div className="text-[var(--term-text-dim)] text-xs mb-4 font-mono">
-                // Power-law decay: memories never truly hit zero
+                {"// Power-law decay: memories never truly hit zero"}
               </div>
               <table className="w-full text-sm">
                 <thead>

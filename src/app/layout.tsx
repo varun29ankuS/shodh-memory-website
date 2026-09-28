@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/react";
 import { ClientWrapper } from "@/components/ClientWrapper";
@@ -8,10 +9,28 @@ import { ChatWidget } from "@/components/ChatWidget";
 import { VERSION } from "@/lib/version";
 import "./globals.css";
 
-const jetbrainsMono = JetBrains_Mono({
+const inter = Inter({
   subsets: ["latin"],
   display: "swap",
   preload: true,
+  variable: "--font-inter",
+});
+
+// Self-hosted full JetBrains Mono: the Google Fonts latin subset strips
+// box-drawing and braille glyphs, which breaks the ASCII architecture
+// diagrams. The official release covers them, so diagrams render in a
+// single font and stay aligned.
+const jetbrainsMono = localFont({
+  src: [
+    { path: "../fonts/JetBrainsMono-Regular.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/JetBrainsMono-Medium.woff2", weight: "500", style: "normal" },
+    { path: "../fonts/JetBrainsMono-SemiBold.woff2", weight: "600", style: "normal" },
+    { path: "../fonts/JetBrainsMono-Bold.woff2", weight: "700", style: "normal" },
+  ],
+  display: "swap",
+  preload: true,
+  variable: "--font-jetbrains",
+  fallback: ["Cascadia Code", "Consolas", "Menlo", "monospace"],
   adjustFontFallback: false,
 });
 
@@ -172,8 +191,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `document.documentElement.classList.add("js");`,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -310,9 +334,8 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${jetbrainsMono.className} scanline`}>
+      <body>
         <AnnouncementBar />
-        <div className="interference-bands" aria-hidden="true" />
         <ClientWrapper>
           {children}
         </ClientWrapper>

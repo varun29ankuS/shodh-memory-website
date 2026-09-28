@@ -21,6 +21,38 @@ export const metadata: Metadata = {
 
 export const BLOG_POSTS = [
   {
+    slug: "causal-retrieval-ai-memory",
+    title: "Causal Retrieval: The Memory Problem Vector Search Can't Solve",
+    date: "2026-06-13",
+    readTime: "11 min",
+    tags: ["knowledge-graph", "architecture", "neuroscience"],
+    excerpt: "Semantic search answers “what looks like this?” It cannot answer “what caused this?” Recent surveys of agent memory call hybrid causal retrieval one of the field’s largely-unexplored frontiers — because flat vector search is structurally incapable of it. Here is why “why did I decide X?” needs a graph you can walk backward, not a list of nearest neighbors, and how a causal-origin walk reconstructs the chain of reasoning behind any memory.",
+  },
+  {
+    slug: "sovereign-ai-memory-no-cloud-dependency",
+    title: "Sovereign AI Memory: Running Agent Memory With No Foreign Cloud Dependency",
+    date: "2026-06-13",
+    readTime: "12 min",
+    tags: ["sovereignty", "privacy", "edge-ai", "self-hosted"],
+    excerpt: "Most AI memory products ship every one of your memories to a foreign cloud model to be summarized and re-ranked. For regulated industries, data-localization regimes, and regions where US LLM APIs are restricted or expensive, that is disqualifying at any price. Here is how to run a full agent memory — extraction, structuring, recall — entirely on your own infrastructure, with no large language model and no foreign endpoint anywhere in the loop.",
+  },
+  {
+    slug: "internet-of-things-examples-memory",
+    title: "Internet of Things Examples: What Changes When IoT Devices Get Memory",
+    date: "2026-06-13",
+    readTime: "11 min",
+    tags: ["edge-ai", "iot", "robotics"],
+    excerpt: "From smart thermostats to factory sensors to delivery robots — the classic IoT examples all share one blind spot: the device senses oceans of data and remembers none of it. Here's what each example looks like when the device can accumulate, recall, and reason over what it has sensed, on-device, with no cloud round-trip.",
+  },
+  {
+    slug: "language-models-few-shot-learners-amnesiacs",
+    title: "Language Models Are Few-Shot Learners — But They're Amnesiacs",
+    date: "2026-06-13",
+    readTime: "12 min",
+    tags: ["agentic-ai", "architecture", "neuroscience"],
+    excerpt: "GPT-3 proved a model can learn a task from a handful of in-context examples. But that learning evaporates the moment the context window scrolls. Few-shot learning without memory is Groundhog Day. The next frontier isn't a bigger few-shot learner — it's a memory that makes few-shot learning persist, with no LLM in the loop.",
+  },
+  {
     slug: "mcp-memory-server-guide",
     title: "MCP Memory Server: The Complete Guide to Adding Persistent Memory to Any AI Agent",
     date: "2026-04-03",
@@ -354,7 +386,7 @@ export const BLOG_POSTS = [
     date: "2026-02-02",
     readTime: "10 min",
     tags: ["vector-search", "algorithms", "performance"],
-    excerpt: "Cosine similarity is chapter one. Graph-based search (Vamana, DiskANN) is chapter two. How shodh-memory auto-scales from HNSW to SPANN at 100K vectors.",
+    excerpt: "Cosine similarity is chapter one. Graph-based search (Vamana, DiskANN) is chapter two. How shodh-memory auto-scales from Vamana to SPANN at 100K vectors.",
   },
   {
     slug: "cognitive-architecture-ai-systems",
@@ -459,7 +491,7 @@ export default function Blog() {
   return (
     <div className="min-h-screen">
       <Header />
-      <main className="pt-24 pb-16 px-4">
+      <main className="pt-28 pb-24 px-6 md:pt-36 md:pb-32">
         <div className="mx-auto max-w-5xl">
           {/* Hero */}
           <div className="mb-16">

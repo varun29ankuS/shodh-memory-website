@@ -1,4 +1,5 @@
 import { Header } from "@/components/Header";
+import { JsonLd, breadcrumbs } from "@/components/JsonLd";
 import { Footer } from "@/components/Footer";
 import { Metadata } from "next";
 
@@ -105,7 +106,9 @@ export default function Enterprise() {
   return (
     <div className="min-h-screen">
       <Header />
-      <main className="pt-24 pb-16 px-4">
+      <JsonLd data={breadcrumbs("Enterprise", "/enterprise")} />
+      <JsonLd data={{"@context":"https://schema.org","@type":"Service","name":"shodh-memory Enterprise","url":"https://www.shodh-memory.com/enterprise","provider":{"@type":"Organization","name":"Shodh","url":"https://www.shodh-memory.com"},"serviceType":"AI agent memory deployment and support"}} />
+      <main className="pt-28 pb-24 px-6 md:pt-36 md:pb-32">
         <div className="mx-auto max-w-6xl">
           {/* Hero */}
           <div className="mb-20 text-center">
